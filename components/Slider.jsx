@@ -1,7 +1,16 @@
 import "../css/Slider.css";
 import { useState } from "react";
+import formatInteger from "../js/utils.js";
+import { DiscountTag, OutStockTag } from "./Tag.jsx";
 
-const Slider = ({ imageUrls }) => {
+const Slider = ({
+  id,
+  permalink,
+  isOutStock,
+  price,
+  promotionalPrice,
+  imageUrls,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const handleSubImageClick = (index) => {
     setCurrentIndex(index);
@@ -17,18 +26,43 @@ const Slider = ({ imageUrls }) => {
     );
   };
 
+  const percentDiscount = Math.round(
+    ((price - promotionalPrice) / price) * 100
+  );
+  const formattedPrice = formatInteger(price);
+  const formattedPromotionalPrice = formatInteger(promotionalPrice);
+
   return (
     <div className="slider">
       <div className="main-image-section">
         <img
           src={imageUrls[currentIndex]}
-          className="main-image"
+          className={isOutStock ? "main-image image-disabled" : "main-image"}
           alt="Main view"
         />
-        <button className="left-btn" onClick={handlePrevClick}>
+        {isOutStock ? (
+          <OutStockTag />
+        ) : percentDiscount > 0 ? (
+          <DiscountTag percentDiscount={percentDiscount} />
+        ) : null}
+        <button
+          className="left-btn"
+          onClick={() => {
+            {
+              isOutStock ? null : handlePrevClick();
+            }
+          }}
+        >
           <i className="fa-solid fa-chevron-left"></i>
         </button>
-        <button className="right-btn" onClick={handleNextClick}>
+        <button
+          className="right-btn"
+          onClick={() => {
+            {
+              isOutStock ? null : handleNextClick();
+            }
+          }}
+        >
           <i className="fa-solid fa-chevron-right"></i>
         </button>
       </div>
@@ -37,10 +71,14 @@ const Slider = ({ imageUrls }) => {
           currentIndex === index ? null : (
             <img
               src={imageUrl}
-              className="sub-image"
+              className={isOutStock ? "sub-image image-disabled" : "sub-image"}
               key={index}
               alt="Sub view"
-              onClick={() => handleSubImageClick(index)}
+              onClick={() => {
+                {
+                  isOutStock ? null : handleSubImageClick(index);
+                }
+              }}
             />
           )
         )}

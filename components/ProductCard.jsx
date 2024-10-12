@@ -1,8 +1,11 @@
 import "../css/ProductCard.css";
 import Rating from "./Rating.jsx";
+import formatInteger from "../js/utils.js";
+import { DiscountTag } from "./Tag.jsx";
 
 const ProductCard = ({
   id,
+  permalink,
   name,
   description,
   price,
@@ -14,15 +17,15 @@ const ProductCard = ({
     ((price - promotionalPrice) / price) * 100
   );
 
-  const formattedPrice = price.toLocaleString();
-  const formattedPromotionalPrice = promotionalPrice.toLocaleString();
+  const formattedPrice = formatInteger(price);
+  const formattedPromotionalPrice = formatInteger(promotionalPrice);
 
   return (
     <div className="product-card">
       <div className="product-card-image">
         <img src={imageUrls[0]} alt={name} />
         {percentDiscount > 0 && (
-          <p className="product-card-discount-tag">-{percentDiscount}%</p>
+          <DiscountTag percentDiscount={percentDiscount} />
         )}
       </div>
       <div className="product-card-info">
