@@ -1,0 +1,33 @@
+@import url("Template.css");
+
+.rating {
+  display: flex;
+  align-items: flex-start;
+}
+
+.star-full {
+  color: var(--Project-Sandbox-Primary-Red-700);
+}
+
+.star-half {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.star-half i:first-child {
+  color: var(--Project-Sandbox-Primary-Red-700);
+  left: 0;
+  width: 50%;
+  position: absolute;
+}
+
+.star-half i:last-child {
+  left: 50%;
+  color: var(--Project-Sandbox-Secondary-Black-300);
+  transform: rotateY(180deg);
+}
+
+.star-none {
+  color: var(--Project-Sandbox-Secondary-Black-300);
+}
