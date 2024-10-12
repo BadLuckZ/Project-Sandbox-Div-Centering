@@ -1,1 +1,8 @@
 @import url("Template.css");
+
+.container {
+  display: flex;
+  height: 600px;
+  padding: 16px;
+  gap: 16px;
+}

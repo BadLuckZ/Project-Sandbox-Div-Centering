@@ -1,0 +1,82 @@
+@import url("./Template.css");
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.info-info,
+.info-option {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-info-data {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-id {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.info-name {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 72px;
+}
+
+.info-description {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.info-normal-price {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.info-discount {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-after-price {
+  width: fit-content;
+  background-color: var(--Project-Sandbox-Danger);
+  color: var(--Project-Sandbox-White);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.info-before-price {
+  display: flex;
+  gap: 4px;
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.info-before-price p {
+  text-decoration: line-through;
+}

@@ -1,12 +1,10 @@
 @import url("./Template.css");
 
-.slider {
-  padding: 16px;
+.slider-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 600px;
-  height: 600px;
 }
 
 .main-image-section {

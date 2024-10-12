@@ -1,6 +1,6 @@
 import "../css/ProductCard.css";
 import Rating from "./Rating.jsx";
-import formatInteger from "../js/utils.js";
+import { formatInteger } from "../js/utils.js";
 import { DiscountTag } from "./Tag.jsx";
 
 const ProductCard = ({
@@ -17,8 +17,8 @@ const ProductCard = ({
     ((price - promotionalPrice) / price) * 100
   );
 
-  const formattedPrice = formatInteger(price);
-  const formattedPromotionalPrice = formatInteger(promotionalPrice);
+  const formattedPrice = formatInteger(price, 2);
+  const formattedPromotionalPrice = formatInteger(promotionalPrice, 2);
 
   return (
     <div className="product-card">

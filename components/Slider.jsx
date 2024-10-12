@@ -1,6 +1,6 @@
 import "../css/Slider.css";
 import { useState } from "react";
-import formatInteger from "../js/utils.js";
+import { formatInteger } from "../js/utils.js";
 import { DiscountTag, OutStockTag } from "./Tag.jsx";
 
 const Slider = ({
@@ -29,11 +29,9 @@ const Slider = ({
   const percentDiscount = Math.round(
     ((price - promotionalPrice) / price) * 100
   );
-  const formattedPrice = formatInteger(price);
-  const formattedPromotionalPrice = formatInteger(promotionalPrice);
 
   return (
-    <div className="slider">
+    <div className="slider-container">
       <div className="main-image-section">
         <img
           src={imageUrls[currentIndex]}
