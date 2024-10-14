@@ -1,6 +1,5 @@
 import "../css/Info.css";
-import { formatInteger } from "../js/utils";
-import Rating from "./Rating.jsx";
+import { formatInteger } from "../js/utils.js";
 
 const Info = ({
   id,
@@ -38,7 +37,27 @@ const Info = ({
         ) : (
           <h1 className="info-normal-price">THB {formattedPrice}</h1>
         )}
-        <Rating ratings={ratings} />
+        <div className="info-rating">
+          {Array.from({ length: 5 }, (v, i) => {
+            const starRating = i + 1;
+            if (ratings >= starRating) {
+              return (
+                <i key={i} className="fa-solid fa-star info-star-full"></i>
+              );
+            } else if (Math.ceil(ratings) == starRating) {
+              return (
+                <i key={i} className="info-star-half">
+                  <i className="fa-solid fa-star-half"></i>
+                  <i className="fa-solid fa-star-half"></i>
+                </i>
+              );
+            } else {
+              return (
+                <i key={i} className="fa-solid fa-star info-star-none"></i>
+              );
+            }
+          })}
+        </div>
       </div>
       <div className="info-option">
         <h1>Hello!</h1>

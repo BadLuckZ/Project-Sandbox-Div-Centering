@@ -1,6 +1,6 @@
-@import url("Template.css");
+@import url("./Template.css");
 
-.container {
+.itempage-container {
   display: flex;
   height: 600px;
   padding: 16px;

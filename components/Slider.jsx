@@ -1,6 +1,5 @@
 import "../css/Slider.css";
 import { useState } from "react";
-import { formatInteger } from "../js/utils.js";
 import { DiscountTag, OutStockTag } from "./Tag.jsx";
 
 const Slider = ({
