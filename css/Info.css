@@ -3,7 +3,8 @@
 .info-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 32px;
 }
 
 .info-info,
@@ -116,4 +117,122 @@
 
 .info-star-none {
   color: var(--Project-Sandbox-Secondary-Black-300);
+}
+
+.info-color > p,
+.info-size > p,
+.info-qty > p {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.info-color,
+.info-size,
+.info-qty {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-color > div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.info-color-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 16px;
+}
+
+.info-color-btn:hover {
+  border-color: var(--Project-Sandbox-Secondary-Black-700);
+}
+
+.info-color-area {
+  width: 52px;
+  height: 52px;
+}
+
+.info-color-text {
+  text-align: center;
+}
+
+.info-size > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-size-btn {
+  border: 1px solid var(--Project-Sandbox-Secondary-Black-300);
+  background: var(--Project-Sandbox-White);
+  display: flex;
+  width: 100px;
+  height: 52px;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.info-size-btn:hover {
+  border-color: var(--Project-Sandbox-Secondary-Black-700);
+  background-color: var(--Project-Sandbox-Secondary-Black-300);
+}
+
+.info-size-btn > p {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.info-size-btn.selected {
+  background-color: var(--Project-Sandbox-Primary-Red-700);
+}
+
+.info-size-btn.disabled {
+  background-color: var(--Project-Sandbox-Secondary-Black-300);
+  border-color: var(--Project-Sandbox-Secondary-Black-300);
+  cursor: default;
+}
+
+.info-size-btn.disabled > p {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+}
+
+.add-to-cart-btn {
+  background-color: var(--Project-Sandbox-Secondary-Black-900);
+  display: flex;
+  height: 52px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #000;
+}
+
+.add-to-cart-btn > p {
+  color: var(--Project-Sandbox-White);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.add-to-cart-btn.disabled {
+  background-color: var(--Project-Sandbox-Secondary-Black-700);
+  cursor: default;
 }

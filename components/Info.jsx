@@ -1,5 +1,7 @@
+import { useState } from "react";
 import "../css/Info.css";
-import { formatInteger } from "../js/utils.js";
+import { formatInteger, getAllColors } from "../js/utils.js";
+import { Select, MenuItem } from "@mui/material";
 
 const Info = ({
   id,
@@ -9,12 +11,19 @@ const Info = ({
   price,
   promotionalPrice,
   ratings,
+  variants,
 }) => {
+  const [amount, setAmount] = useState(1);
+  const [size, setSize] = useState("");
+  const [color, setColor] = useState("");
   const percentDiscount = Math.round(
     ((price - promotionalPrice) / price) * 100
   );
   const formattedPrice = formatInteger(price, 2);
   const formattedPromotionalPrice = formatInteger(promotionalPrice, 2);
+
+  const allSizes = ["XS", "S", "M", "L", "XL", "2XL"];
+  const allColors = getAllColors(variants);
 
   return (
     <div className="info-container">
@@ -44,7 +53,7 @@ const Info = ({
               return (
                 <i key={i} className="fa-solid fa-star info-star-full"></i>
               );
-            } else if (Math.ceil(ratings) == starRating) {
+            } else if (Math.ceil(ratings) === starRating) {
               return (
                 <i key={i} className="info-star-half">
                   <i className="fa-solid fa-star-half"></i>
@@ -60,7 +69,60 @@ const Info = ({
         </div>
       </div>
       <div className="info-option">
-        <h1>Hello!</h1>
+        <div className="info-color">
+          <p>Color</p>
+          <div>
+            {allColors.map((currentColor, idx) => {
+              return (
+                <div
+                  key={`${id} + ${currentColor} + ${idx}`}
+                  className="info-color-btn"
+                >
+                  <div
+                    className="info-color-area"
+                    style={{ backgroundColor: currentColor }}
+                  ></div>
+                  <p className="info-color-text">{currentColor}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="info-size">
+          <p>Size</p>
+          <div>
+            {allSizes.map((currentSize, idx) => {
+              return (
+                <button
+                  key={`${id} + ${currentSize} + ${idx}`}
+                  value={currentSize}
+                  className={`info-size-btn ${
+                    size === currentSize ? "selected" : ""
+                  }`}
+                  onClick={() => setSize(currentSize)}
+                >
+                  <p>{currentSize}</p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="info-qty">
+          <p>Qty.</p>
+          <Select
+            value={amount}
+            onChange={(event) => {
+              setAmount(event.target.value);
+            }}
+          >
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+          </Select>
+        </div>
+        <div className="add-to-cart-btn">
+          <p>Add to cart</p>
+        </div>
       </div>
     </div>
   );

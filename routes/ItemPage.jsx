@@ -52,6 +52,64 @@ const ItemPage = () => {
         price={1990}
         promotionalPrice={1990}
         ratings={4.1}
+        variants={[
+          {
+            skuCode: "C010013",
+            colorName: "Blue",
+            color: "#6cd4f7",
+            size: "L",
+            remains: 100,
+          },
+          {
+            skuCode: "C010011",
+            colorName: "Blue",
+            color: "#6cd4f7",
+            size: "S",
+            remains: 100,
+          },
+          {
+            skuCode: "C010026",
+            colorName: "Green",
+            color: "#6ff417",
+            size: "L",
+            remains: 50,
+          },
+          {
+            skuCode: "C010027",
+            colorName: "Green",
+            color: "#6ff417",
+            size: "XL",
+            remains: 125,
+          },
+          {
+            skuCode: "C010024",
+            colorName: "Green",
+            color: "#6ff417",
+            size: "S",
+            remains: 0,
+          },
+          {
+            skuCode: "C010012",
+            colorName: "Blue",
+            color: "#6cd4f7",
+            size: "M",
+            remains: 100,
+          },
+          {
+            skuCode: "C010025",
+            colorName: "Green",
+            color: "#6ff417",
+            size: "M",
+            remains: 250,
+          },
+          {
+            skuCode: "C010010",
+            colorName: "Blue",
+            color: "#6cd4f7",
+            size: "XS",
+            remains: 100,
+          },
+        ]}
       />
     </div>
   );
