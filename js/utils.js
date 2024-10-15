@@ -6,6 +6,6 @@ export const formatInteger = (number, decimalPoints = 0) => {
 };
 
 export const getAllColors = (variants) => {
-  const colors = [...new Set(variants.map((variant) => variant.colorName))];
+  const colors = [...new Set(variants.map((variant) => variant.color))];
   return colors.sort();
 };

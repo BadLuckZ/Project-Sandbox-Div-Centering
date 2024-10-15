@@ -2,14 +2,7 @@ import "../css/Slider.css";
 import { useState } from "react";
 import { DiscountTag, OutStockTag } from "./Tag.jsx";
 
-const Slider = ({
-  id,
-  permalink,
-  isOutStock,
-  price,
-  promotionalPrice,
-  imageUrls,
-}) => {
+const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const handleSubImageClick = (index) => {
     setCurrentIndex(index);
@@ -34,20 +27,21 @@ const Slider = ({
       <div className="main-image-section">
         <img
           src={imageUrls[currentIndex]}
-          className={isOutStock ? "main-image image-disabled" : "main-image"}
+          className="main-image"
           alt="Main view"
         />
-        {isOutStock ? (
+        {/* {isOutStock ? (
           <OutStockTag />
         ) : percentDiscount > 0 ? (
           <DiscountTag percentDiscount={percentDiscount} />
-        ) : null}
+        ) : null} */}
         <button
           className="left-btn"
           onClick={() => {
-            {
-              isOutStock ? null : handlePrevClick();
-            }
+            handlePrevClick();
+            // {
+            //   isOutStock ? null : handlePrevClick();
+            // }
           }}
         >
           <i className="fa-solid fa-chevron-left"></i>
@@ -55,9 +49,10 @@ const Slider = ({
         <button
           className="right-btn"
           onClick={() => {
-            {
-              isOutStock ? null : handleNextClick();
-            }
+            handleNextClick();
+            // {
+            //   isOutStock ? null : handleNextClick();
+            // }
           }}
         >
           <i className="fa-solid fa-chevron-right"></i>
@@ -68,13 +63,14 @@ const Slider = ({
           currentIndex === index ? null : (
             <img
               src={imageUrl}
-              className={isOutStock ? "sub-image image-disabled" : "sub-image"}
+              className="sub-image"
               key={index}
               alt="Sub view"
               onClick={() => {
-                {
-                  isOutStock ? null : handleSubImageClick(index);
-                }
+                handleSubImageClick(index);
+                // {
+                //   isOutStock ? null : handleSubImageClick(index);
+                // }
               }}
             />
           )

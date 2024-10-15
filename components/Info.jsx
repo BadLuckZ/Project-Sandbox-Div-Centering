@@ -7,7 +7,6 @@ const Info = ({
   id,
   name,
   description,
-  isOutStock,
   price,
   promotionalPrice,
   ratings,
@@ -16,6 +15,7 @@ const Info = ({
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
+  const [cartItem, setCartItem] = useState(null);
   const percentDiscount = Math.round(
     ((price - promotionalPrice) / price) * 100
   );
@@ -76,7 +76,12 @@ const Info = ({
               return (
                 <div
                   key={`${id} + ${currentColor} + ${idx}`}
-                  className="info-color-btn"
+                  className={`info-color-btn ${
+                    color === currentColor ? "selected" : ""
+                  }`}
+                  onClick={() => {
+                    setColor(currentColor);
+                  }}
                 >
                   <div
                     className="info-color-area"
@@ -120,7 +125,22 @@ const Info = ({
             <MenuItem value={3}>3</MenuItem>
           </Select>
         </div>
-        <div className="add-to-cart-btn">
+        <div
+          className="add-to-cart-btn"
+          onClick={() => {
+            if (color && size) {
+              const item = {
+                color: color,
+                size: size,
+                amount: amount,
+              };
+              setCartItem(item);
+              console.log(item);
+            } else {
+              console.log("Error!");
+            }
+          }}
+        >
           <p>Add to cart</p>
         </div>
       </div>

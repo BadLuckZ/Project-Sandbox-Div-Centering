@@ -7,109 +7,53 @@ import Info from "../components/Info.jsx";
 const ItemPage = () => {
   const { itemPermalink } = useParams();
   const [item, setItem] = useState(null);
-  // useEffect(() => {
-  //   async function fetchItem() {
-  //     const url =
-  //       "https://api.storefront.wdb.skooldio.dev/products/" + itemPermalink;
-  //     fetch(url)
-  //       .then((res) => {
-  //         if (res.ok) {
-  //           return res.json();
-  //         }
-  //         throw Error("Fail to Fetch");
-  //       })
-  //       .then((data) => {
-  //         console.log(data);
-  //         setItem(data);
-  //       });
-  //   }
-  //   if (!item) {
-  //     fetchItem();
-  //   }
-  // }, [item]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchItem() {
+      const url = `https://api.storefront.wdb.skooldio.dev/products/${itemPermalink}`;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+        const data = await res.json();
+        setItem(data);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setLoading(false);
+      }
+    }
+    fetchItem();
+  }, [itemPermalink]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!item) {
+    return <h1>Item not found</h1>;
+  }
 
   return (
     <div className="itempage-container">
       <Slider
-        id="dBt7jOQ9qnKvs8aWrxb5"
-        permalink="accessories-abstratct-printed-scarf"
-        isOutStock={false}
-        price={1990}
-        promotionalPrice={1990}
-        imageUrls={[
-          "https://firebasestorage.googleapis.com/v0/b/wdb-storefront-project-api.appspot.com/o/products%2FdBt7jOQ9qnKvs8aWrxb5%2F_images%2FtrWAP3Q0eBJTUjhmP683-Gemini%20Generated%20(8).jpeg?alt=media&token=cf7b47de-a656-4608-98a7-96a6b0cc7a2c",
-          "https://firebasestorage.googleapis.com/v0/b/wdb-storefront-project-api.appspot.com/o/products%2FdBt7jOQ9qnKvs8aWrxb5%2F_images%2FgoquKCU3fvbDahQPM3Zw-Gemini%20Generated%20Image%20(5).jpeg?alt=media&token=04c0b4fb-e504-4eb5-bc58-b8f9378cf038",
-          "https://firebasestorage.googleapis.com/v0/b/wdb-storefront-project-api.appspot.com/o/products%2FdBt7jOQ9qnKvs8aWrxb5%2F_images%2FCDm0y5YKJNIYhEEqqrQ4-Gemini%20Generated%20Image%20(4).jpeg?alt=media&token=ae33d771-6728-410a-8477-076edb15d8eb",
-          "https://firebasestorage.googleapis.com/v0/b/wdb-storefront-project-api.appspot.com/o/products%2FdBt7jOQ9qnKvs8aWrxb5%2F_images%2Fflx7yN8mj5Pc0LumhBzV-Gemini%20(1).jpeg?alt=media&token=c88231a0-346c-46fe-8eb0-52e61f0e15d1",
-          "https://firebasestorage.googleapis.com/v0/b/wdb-storefront-project-api.appspot.com/o/products%2FdBt7jOQ9qnKvs8aWrxb5%2F_images%2FWcplN7199exEqvwtmBjv-Gemini%20Generated%20Image%20(6).jpeg?alt=media&token=6f070a53-587a-4c9e-a212-9319074274c7",
-        ]}
+        id={item.skuCode}
+        permalink={item.permaLink}
+        price={item.price}
+        promotionalPrice={item.promotionalPrice}
+        imageUrls={item.imageUrls}
       />
       <Info
-        id="dBt7jOQ9qnKvs8aWrxb5"
-        name="Abstratct Printed Scarf"
-        description="Soft fabric, vibrant prints, versatile styling options."
-        isOutStock={false}
-        price={1990}
-        promotionalPrice={1990}
-        ratings={4.1}
-        variants={[
-          {
-            skuCode: "C010013",
-            colorName: "Blue",
-            color: "#6cd4f7",
-            size: "L",
-            remains: 100,
-          },
-          {
-            skuCode: "C010011",
-            colorName: "Blue",
-            color: "#6cd4f7",
-            size: "S",
-            remains: 100,
-          },
-          {
-            skuCode: "C010026",
-            colorName: "Green",
-            color: "#6ff417",
-            size: "L",
-            remains: 50,
-          },
-          {
-            skuCode: "C010027",
-            colorName: "Green",
-            color: "#6ff417",
-            size: "XL",
-            remains: 125,
-          },
-          {
-            skuCode: "C010024",
-            colorName: "Green",
-            color: "#6ff417",
-            size: "S",
-            remains: 0,
-          },
-          {
-            skuCode: "C010012",
-            colorName: "Blue",
-            color: "#6cd4f7",
-            size: "M",
-            remains: 100,
-          },
-          {
-            skuCode: "C010025",
-            colorName: "Green",
-            color: "#6ff417",
-            size: "M",
-            remains: 250,
-          },
-          {
-            skuCode: "C010010",
-            colorName: "Blue",
-            color: "#6cd4f7",
-            size: "XS",
-            remains: 100,
-          },
-        ]}
+        id={item.skuCode}
+        name={item.name}
+        description={item.description}
+        isOutStock={item.isOutStock}
+        price={item.price}
+        promotionalPrice={item.promotionalPrice}
+        ratings={item.ratings}
+        variants={item.variants}
       />
     </div>
   );
