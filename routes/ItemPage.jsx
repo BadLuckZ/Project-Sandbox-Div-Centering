@@ -38,23 +38,25 @@ const ItemPage = () => {
 
   return (
     <div className="itempage-container">
-      <Slider
-        id={item.skuCode}
-        permalink={item.permaLink}
-        price={item.price}
-        promotionalPrice={item.promotionalPrice}
-        imageUrls={item.imageUrls}
-      />
-      <Info
-        id={item.skuCode}
-        name={item.name}
-        description={item.description}
-        isOutStock={item.isOutStock}
-        price={item.price}
-        promotionalPrice={item.promotionalPrice}
-        ratings={item.ratings}
-        variants={item.variants}
-      />
+      <div className="itempage-content">
+        <Slider
+          id={item.skuCode}
+          permalink={item.permaLink}
+          price={item.price}
+          promotionalPrice={item.promotionalPrice}
+          imageUrls={item.imageUrls}
+        />
+        <Info
+          id={item.skuCode}
+          name={item.name}
+          description={item.description}
+          isOutStock={item.isOutStock}
+          price={item.price}
+          promotionalPrice={item.promotionalPrice}
+          ratings={item.ratings}
+          variants={item.variants}
+        />
+      </div>
     </div>
   );
 };

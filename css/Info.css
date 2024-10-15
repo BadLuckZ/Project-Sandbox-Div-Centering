@@ -150,6 +150,7 @@
   margin: 0 16px;
   transition: 0.3s;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .info-color-btn:hover {

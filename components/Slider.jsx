@@ -30,18 +30,10 @@ const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
           className="main-image"
           alt="Main view"
         />
-        {/* {isOutStock ? (
-          <OutStockTag />
-        ) : percentDiscount > 0 ? (
-          <DiscountTag percentDiscount={percentDiscount} />
-        ) : null} */}
         <button
           className="left-btn"
           onClick={() => {
             handlePrevClick();
-            // {
-            //   isOutStock ? null : handlePrevClick();
-            // }
           }}
         >
           <i className="fa-solid fa-chevron-left"></i>
@@ -50,9 +42,6 @@ const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
           className="right-btn"
           onClick={() => {
             handleNextClick();
-            // {
-            //   isOutStock ? null : handleNextClick();
-            // }
           }}
         >
           <i className="fa-solid fa-chevron-right"></i>
@@ -68,9 +57,6 @@ const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
               alt="Sub view"
               onClick={() => {
                 handleSubImageClick(index);
-                // {
-                //   isOutStock ? null : handleSubImageClick(index);
-                // }
               }}
             />
           )

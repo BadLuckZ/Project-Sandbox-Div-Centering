@@ -1,8 +1,10 @@
 @import url("./Template.css");
 
 .itempage-container {
-  display: flex;
-  height: 600px;
   padding: 16px;
+}
+
+.itempage-content {
+  display: flex;
   gap: 16px;
 }
