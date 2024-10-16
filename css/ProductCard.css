@@ -1,0 +1,132 @@
+@import url("Template.css");
+
+.product-card {
+  display: flex;
+  width: 267px;
+  height: 425px;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-card-image {
+  position: relative;
+  width: 267px;
+  height: 267px;
+}
+
+.product-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.product-card-discount-tag {
+  background-color: var(--Project-Sandbox-Danger);
+  color: var(--Project-Sandbox-White);
+  position: absolute;
+  right: 0px;
+  top: 24px;
+  display: flex;
+  height: 34px;
+  padding: 4px 10px;
+  align-items: center;
+}
+
+.product-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-card-name {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-card-description {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-card-price {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 16px;
+}
+
+.product-card-normal-price {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--Project-Sandbox-Secondary-Black-900);
+}
+
+.product-card-before-price {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  text-decoration: line-through;
+  color: var(--Project-Sandbox-Secondary-Black-700);
+}
+
+.product-card-after-price {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  text-align: end;
+  color: var(--Project-Sandbox-Danger);
+}
+
+.product-card-rating {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.product-card-rating > i {
+  font-size: 24px;
+}
+
+.product-card-star-full {
+  color: var(--Project-Sandbox-Primary-Red-700);
+}
+
+.product-card-star-half {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card-star-half i:first-child {
+  color: var(--Project-Sandbox-Primary-Red-700);
+  left: 0;
+  width: 50%;
+  position: absolute;
+}
+
+.product-card-star-half i:last-child {
+  left: 50%;
+  color: var(--Project-Sandbox-Secondary-Black-300);
+  transform: rotateY(180deg);
+}
+
+.product-card-star-none {
+  color: var(--Project-Sandbox-Secondary-Black-300);
+}
