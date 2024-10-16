@@ -9,8 +9,7 @@
 
 .itempage-content {
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 40px;
 }
 
 .itempage-more {
@@ -30,5 +29,5 @@
 
 .itempage-more-content {
   display: flex;
-  justify-content: space-between;
+  gap: 40px;
 }

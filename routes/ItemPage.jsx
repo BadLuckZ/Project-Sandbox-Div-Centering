@@ -18,6 +18,9 @@ const ItemPage = () => {
 
   useEffect(() => {
     async function fetchItem() {
+      setItem(null);
+      setRelatedItems(null);
+      setLoading(true);
       const url = `https://api.storefront.wdb.skooldio.dev/products/${itemPermalink}`;
       try {
         const res = await fetch(url);
