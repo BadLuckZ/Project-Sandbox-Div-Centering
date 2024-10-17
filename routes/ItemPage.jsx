@@ -60,7 +60,7 @@ const ItemPage = () => {
         <Slider
           className="itempage-slider"
           id={item.skuCode}
-          permalink={item.permaLink}
+          permalink={item.permalink}
           price={item.price}
           promotionalPrice={item.promotionalPrice}
           imageUrls={item.imageUrls}
@@ -68,9 +68,9 @@ const ItemPage = () => {
         <Info
           className="itempage-info"
           id={item.skuCode}
+          permalink={item.permalink}
           name={item.name}
           description={item.description}
-          isOutStock={item.isOutStock}
           price={item.price}
           promotionalPrice={item.promotionalPrice}
           ratings={item.ratings}

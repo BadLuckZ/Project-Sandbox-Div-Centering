@@ -29,9 +29,6 @@ const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
           className="main-image"
           alt="Main view"
         />
-        {percentDiscount > 0 && (
-          <p className="slider-discount-tag">-{percentDiscount}%</p>
-        )}
         <button
           className="left-btn"
           onClick={() => {
@@ -48,6 +45,9 @@ const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
         >
           <i className="fa-solid fa-chevron-right"></i>
         </button>
+        {percentDiscount > 0 && (
+          <p className="slider-tag slider-discount-tag">-{percentDiscount}%</p>
+        )}
       </div>
       <div className="sub-image-section">
         {imageUrls.map((imageUrl, index) =>

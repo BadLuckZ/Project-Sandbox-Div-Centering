@@ -43,7 +43,7 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.slider-discount-tag {
+.slider-tag {
   position: absolute;
   background-color: var(--Project-Sandbox-Danger);
   color: var(--Project-Sandbox-White);
@@ -60,6 +60,14 @@
   font-style: normal;
   font-weight: 400;
   line-height: 33.529px;
+}
+
+.slider-discount-tag {
+  background-color: var(--Project-Sandbox-Danger);
+}
+
+.slider-outstock-tag {
+  background-color: var(--Project-Sandbox-Secondary-Black-900);
 }
 
 .left-btn {

@@ -5,6 +5,15 @@ export const formatInteger = (number, decimalPoints) => {
   });
 };
 
+export const getAllSizes = (variants) => {
+  const sizes = [
+    ...new Set(
+      variants.filter((variant) => variant.size).map((variant) => variant.size)
+    ),
+  ];
+  return sizes.sort();
+};
+
 export const getAllColors = (variants) => {
   const colors = [...new Set(variants.map((variant) => variant.color))];
   return colors.sort();
