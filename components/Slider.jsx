@@ -1,6 +1,5 @@
 import "../css/Slider.css";
 import { useState } from "react";
-import { DiscountTag, OutStockTag } from "./Tag.jsx";
 
 const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,6 +29,9 @@ const Slider = ({ id, permalink, price, promotionalPrice, imageUrls }) => {
           className="main-image"
           alt="Main view"
         />
+        {percentDiscount > 0 && (
+          <p className="slider-discount-tag">-{percentDiscount}%</p>
+        )}
         <button
           className="left-btn"
           onClick={() => {

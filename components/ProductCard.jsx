@@ -1,6 +1,5 @@
 import "../css/ProductCard.css";
 import { formatInteger } from "../js/utils.js";
-import { DiscountTag } from "./Tag.jsx";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({
@@ -32,7 +31,7 @@ const ProductCard = ({
       <div className="product-card-image">
         <img src={imageUrls[0]} alt={name} />
         {percentDiscount > 0 && (
-          <DiscountTag percentDiscount={percentDiscount} />
+          <p className="product-card-discount-tag">-{percentDiscount}%</p>
         )}
       </div>
       <div className="product-card-info">

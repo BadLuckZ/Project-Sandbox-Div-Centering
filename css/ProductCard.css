@@ -6,11 +6,17 @@
   height: 425px;
   flex-direction: column;
   gap: 16px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
 }
 
 .product-card-image {
   position: relative;
-  width: 267px;
+  max-width: 267px;
   height: 267px;
 }
 
@@ -22,6 +28,7 @@
 }
 
 .product-card-discount-tag {
+  position: absolute;
   background-color: var(--Project-Sandbox-Danger);
   color: var(--Project-Sandbox-White);
   position: absolute;
@@ -101,7 +108,9 @@
 }
 
 .product-card-rating > i {
-  font-size: 24px;
+  width: 16.715px;
+  height: 16.022px;
+  flex-shrink: 0;
 }
 
 .product-card-star-full {

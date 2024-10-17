@@ -4,15 +4,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 576px;
   position: relative;
 }
 
 .main-image-section {
   position: relative;
-  width: 100%;
-  max-width: 576px;
-  height: auto;
-  max-height: 597px;
+  width: 576px;
+  height: 597px;
   overflow: hidden;
 }
 
@@ -42,6 +41,25 @@
 
 .main-image-section button:hover {
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.slider-discount-tag {
+  position: absolute;
+  background-color: var(--Project-Sandbox-Danger);
+  color: var(--Project-Sandbox-White);
+  position: absolute;
+  right: 0px;
+  top: 89.5px;
+  width: 86px;
+  height: 47px;
+  display: flex;
+  padding: 6.706px 16.765px;
+  justify-content: center;
+  align-items: center;
+  font-size: 26.824px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 33.529px;
 }
 
 .left-btn {
