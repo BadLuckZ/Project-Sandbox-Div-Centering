@@ -2,6 +2,7 @@
 
 .itempage-container {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 48px;
   padding: 64px 124px;
@@ -13,9 +14,186 @@
 }
 
 /* ============================================================= */
+/* ====================== CSS for Popup ======================== */
+.itempage-popup-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.itempage-popup-container {
+  border-radius: 16px;
+  background: var(--Project-Sandbox-White);
+  z-index: 1000;
+  display: flex;
+  width: 900px;
+  height: fit-content;
+  padding: 24px;
+  flex-direction: column;
+}
+
+.itempage-popup-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+}
+
+.itempage-popup-header > p {
+  justify-self: flex-start;
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.itempage-popup-header > i {
+  display: flex;
+  font-size: 20px;
+  padding: 12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.itempage-popup-header > i:hover {
+  background: var(--Project-Sandbox-Secondary-Black-300);
+}
+
+.itempage-popup-content {
+  display: flex;
+  padding: 24px 0px;
+  align-items: center;
+  gap: 40px;
+}
+
+.itempage-popup-content > img {
+  width: 160px;
+  height: 160px;
+}
+
+.itempage-popup-info {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itempage-popup-info > div {
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itempage-popup-name {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.itempage-popup-info > div > div {
+  display: flex;
+  gap: 16px;
+}
+
+.itempage-popup-price {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.itempage-popup-color,
+.itempage-popup-size,
+.itempage-popup-qty {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.itempage-popup-price {
+  align-self: flex-start;
+}
+
+.itempage-popup-buttons {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.itempage-popup-viewcart-btn {
+  display: flex;
+  height: 54px;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex: 1 0 0;
+
+  background: var(--Project-Sandbox-Secondary-Black-900);
+  color: var(--Project-Sandbox-White);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.itempage-popup-viewcart-btn:hover {
+  background: var(--Project-Sandbox-Secondary-Black-700);
+}
+
+.itempage-popup-continue-btn {
+  display: flex;
+  height: 54px;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex: 1 0 0;
+
+  border: 1px solid var(--Project-Sandbox-Secondary-Black-300);
+  background: var(--Project-Sandbox-White);
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.itempage-popup-continue-btn:hover {
+  background: var(--Project-Sandbox-Secondary-Black-300);
+}
+
+/* ============================================================= */
+/* ============================================================= */
+
+/* ============================================================= */
 /* ====================== CSS for Slider ======================= */
 
-.slider-container {
+.itempage-slider-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,20 +201,20 @@
   position: relative;
 }
 
-.main-image-section {
+.itempage-main-image-section {
   position: relative;
   width: 576px;
   height: 597px;
   overflow: hidden;
 }
 
-.main-image-section img {
+.itempage-main-image-section img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.main-image-section button {
+.itempage-main-image-section button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -54,11 +232,11 @@
   transition: 0.3s;
 }
 
-.main-image-section button:hover {
+.itempage-main-image-section button:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.slider-discount-tag {
+.itempage-slider-discount-tag {
   position: absolute;
   background-color: var(--Project-Sandbox-Danger);
   color: var(--Project-Sandbox-White);
@@ -77,7 +255,7 @@
   line-height: 33.529px;
 }
 
-.slider-outstock-tag {
+.itempage-slider-outstock-tag {
   position: absolute;
   background-color: var(--Project-Sandbox-Secondary-Black-900);
   color: var(--Project-Sandbox-White, var(--Base-White, #fff));
@@ -95,15 +273,15 @@
   line-height: 33.529px;
 }
 
-.left-btn {
+.itempage-left-btn {
   left: 15px;
 }
 
-.right-btn {
+.itempage-right-btn {
   right: 15px;
 }
 
-.sub-image-section {
+.itempage-sub-image-section {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -111,7 +289,7 @@
   overflow-x: hidden;
 }
 
-.sub-image-section img {
+.itempage-sub-image-section img {
   width: 135px;
   height: 162px;
   object-fit: cover;
@@ -121,16 +299,26 @@
   height: auto;
 }
 
-.image-disabled {
+.itempage-main-image.disabled,
+.itempage-sub-image.disabled {
   filter: brightness(50%);
 }
+
+.itempage-main-image-section button.disabled {
+  cursor: default;
+}
+
+.itempage-main-image-section button.disabled:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
 /* ============================================================= */
 /* ============================================================= */
 
 /* ============================================================= */
 /* ====================== CSS for Info ========================= */
 
-.info-container {
+.itempage-info-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -138,20 +326,20 @@
   gap: 32px;
 }
 
-.info-info,
-.info-option {
+.itempage-info-info,
+.itempage-info-option {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.info-info-data {
+.itempage-info-info-data {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.info-id {
+.itempage-info-id {
   color: var(--Project-Sandbox-Secondary-Black-900);
   font-size: 24px;
   font-style: normal;
@@ -159,7 +347,7 @@
   line-height: 32px;
 }
 
-.info-name {
+.itempage-info-name {
   color: var(--Project-Sandbox-Secondary-Black-900);
   font-size: 48px;
   font-style: normal;
@@ -167,7 +355,7 @@
   line-height: 72px;
 }
 
-.info-description {
+.itempage-info-description {
   color: var(--Project-Sandbox-Secondary-Black-700);
   font-size: 24px;
   font-style: normal;
@@ -175,7 +363,7 @@
   line-height: 32px;
 }
 
-.info-normal-price {
+.itempage-info-normal-price {
   color: var(--Project-Sandbox-Secondary-Black-900);
   font-size: 40px;
   font-style: normal;
@@ -183,13 +371,13 @@
   line-height: 60px;
 }
 
-.info-discount {
+.itempage-info-discount {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.info-after-price {
+.itempage-info-after-price {
   width: fit-content;
   background-color: var(--Project-Sandbox-Danger);
   color: var(--Project-Sandbox-White);
@@ -199,7 +387,7 @@
   line-height: 60px;
 }
 
-.info-before-price {
+.itempage-info-before-price {
   display: flex;
   gap: 4px;
   color: var(--Project-Sandbox-Secondary-Black-900);
@@ -209,50 +397,58 @@
   line-height: 24px;
 }
 
-.info-before-price p {
+.itempage-info-before-price p {
   text-decoration: line-through;
 }
 
-.info-rating {
+.itempage-info-outstock-tag {
+  color: var(--Project-Sandbox-Danger);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.itempage-info-rating {
   display: flex;
   align-items: flex-start;
   gap: 8px;
 }
 
-.info-rating > i {
+.itempage-info-rating > i {
   font-size: 24px;
 }
 
-.info-star-full {
+.itempage-info-star-full {
   color: var(--Project-Sandbox-Primary-Red-700);
 }
 
-.info-star-half {
+.itempage-info-star-half {
   display: flex;
   position: relative;
   overflow: hidden;
 }
 
-.info-star-half i:first-child {
+.itempage-info-star-half i:first-child {
   color: var(--Project-Sandbox-Primary-Red-700);
   left: 0;
   width: 50%;
   position: absolute;
 }
 
-.info-star-half i:last-child {
+.itempage-info-star-half i:last-child {
   left: 50%;
   color: var(--Project-Sandbox-Secondary-Black-300);
   transform: rotateY(180deg);
 }
 
-.info-star-none {
+.itempage-info-star-none {
   color: var(--Project-Sandbox-Secondary-Black-300);
 }
 
-.info-color > p,
-.info-size > p,
-.info-qty > p {
+.itempage-info-color > p,
+.itempage-info-size > p,
+.itempage-info-qty > p {
   color: var(--Project-Sandbox-Secondary-Black-700);
   font-size: 16px;
   font-style: normal;
@@ -260,20 +456,20 @@
   line-height: 20px;
 }
 
-.info-color,
-.info-size,
-.info-qty {
+.itempage-info-color,
+.itempage-info-size,
+.itempage-info-qty {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.info-color > div {
+.itempage-info-color > div {
   display: flex;
   flex-wrap: wrap;
 }
 
-.info-color-btn {
+.itempage-info-color-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -284,32 +480,32 @@
   cursor: pointer;
 }
 
-.info-color-btn:hover {
+.itempage-info-color-btn:hover {
   border-color: var(--Project-Sandbox-Secondary-Black-700);
   transform: scale(1.05);
 }
 
-.info-color-btn.selected > div {
+.itempage-info-color-btn.selected > div {
   border: 4px solid var(--Project-Sandbox-Primary-Red-700);
 }
 
-.info-color-area {
+.itempage-info-color-area {
   width: 52px;
   height: 52px;
   box-sizing: border-box;
 }
 
-.info-color-text {
+.itempage-info-color-text {
   text-align: center;
 }
 
-.info-size > div {
+.itempage-info-size > div {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.info-size-btn {
+.itempage-info-size-btn {
   border: 1px solid var(--Project-Sandbox-Secondary-Black-300);
   background: var(--Project-Sandbox-White);
   display: flex;
@@ -323,12 +519,12 @@
   transition: 0.3s;
 }
 
-.info-size-btn:hover {
+.itempage-info-size-btn:hover {
   border-color: var(--Project-Sandbox-Secondary-Black-700);
   background-color: var(--Project-Sandbox-Secondary-Black-300);
 }
 
-.info-size-btn > p {
+.itempage-info-size-btn > p {
   color: var(--Project-Sandbox-Secondary-Black-900);
   font-size: 16px;
   font-style: normal;
@@ -336,21 +532,21 @@
   line-height: 20px;
 }
 
-.info-size-btn.selected {
+.itempage-info-size-btn.selected {
   background-color: var(--Project-Sandbox-Primary-Red-700);
 }
 
-.info-size-btn.disabled {
+.itempage-info-size-btn.disabled {
   background-color: var(--Project-Sandbox-Secondary-Black-300);
   border-color: var(--Project-Sandbox-Secondary-Black-300);
   cursor: default;
 }
 
-.info-size-btn.disabled > p {
+.itempage-info-size-btn.disabled > p {
   color: var(--Project-Sandbox-Secondary-Black-700);
 }
 
-.add-to-cart-btn {
+.itempage-add-to-cart-btn {
   background-color: var(--Project-Sandbox-Secondary-Black-900);
   display: flex;
   height: 52px;
@@ -361,11 +557,11 @@
   transition: 0.3s;
 }
 
-.add-to-cart-btn:hover {
+.itempage-add-to-cart-btn:hover {
   background-color: #000;
 }
 
-.add-to-cart-btn > p {
+.itempage-add-to-cart-btn > p {
   color: var(--Project-Sandbox-White);
   font-size: 16px;
   font-style: normal;
@@ -373,7 +569,7 @@
   line-height: 20px;
 }
 
-.add-to-cart-btn.disabled {
+.itempage-add-to-cart-btn.disabled {
   background-color: var(--Project-Sandbox-Secondary-Black-700);
   cursor: default;
 }

@@ -17,6 +17,7 @@ const ItemPage = () => {
   const [currentItem, setCurrentItem] = useState(null); // item from current permalink
   const [relatedItems, setRelatedItems] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPopUp, setShowPopUp] = useState(false);
 
   const [amount, setAmount] = useState("");
   const [size, setSize] = useState("");
@@ -37,6 +38,7 @@ const ItemPage = () => {
       setCartItem(null);
       setHaveStock(false);
       setLoading(true);
+      setShowPopUp(false);
       const url = `https://api.storefront.wdb.skooldio.dev/products/${itemPermalink}`;
       try {
         const res = await fetch(url);
@@ -121,57 +123,153 @@ const ItemPage = () => {
 
   return (
     <div className="itempage-container">
+      {/* Popup Content */}
+      {showPopUp && (
+        <div className="itempage-popup-overlay">
+          <div className="itempage-popup-container">
+            <div className="itempage-popup-header">
+              <p>Item added to your cart!</p>
+              <i
+                className="fa-solid fa-x"
+                onClick={() => {
+                  setShowPopUp(false);
+                }}
+              ></i>
+            </div>
+            <div className="itempage-popup-content">
+              <img src={currentItem.imageUrls[0]}></img>
+              <div className="itempage-popup-info">
+                <div>
+                  <h3 className="itempage-popup-name">{currentItem.name}</h3>
+                  <div>
+                    {color ? (
+                      <p className="itempage-popup-color">Color : {color}</p>
+                    ) : null}
+                    {size ? (
+                      <p className="itempage-popup-size">Size : {size}</p>
+                    ) : null}
+                    <p className="itempage-popup-qty">QTY : {amount}</p>
+                  </div>
+                </div>
+                <h3 className="itempage-popup-price">
+                  THB {formattedPromotionalPrice}
+                </h3>
+              </div>
+            </div>
+            <div className="itempage-popup-buttons">
+              <button
+                className="itempage-popup-viewcart-btn"
+                onClick={() => {
+                  setShowPopUp(false);
+                }}
+              >
+                View cart
+              </button>
+              <button
+                className="itempage-popup-continue-btn"
+                onClick={() => {
+                  setShowPopUp(false);
+                }}
+              >
+                Continue shopping
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="itempage-content">
         {/* Slider Content */}
-        <div className="slider-container">
-          <div className="main-image-section">
+        <div className="itempage-slider-container">
+          <div className="itempage-main-image-section">
             <img
               src={currentItem.imageUrls[currentImageIndex]}
-              className="main-image"
-              alt="Main view"
+              className={`itempage-main-image ${
+                (!allColors.length || color) && (!allSizes.length || size)
+                  ? haveStock
+                    ? ""
+                    : " disabled"
+                  : ""
+              }`}
             />
             <button
-              className="left-btn"
-              onClick={() => {
-                handlePrevClick();
-              }}
+              className={`itempage-left-btn ${
+                (!allColors.length || color) && (!allSizes.length || size)
+                  ? haveStock
+                    ? ""
+                    : " disabled"
+                  : ""
+              }`}
+              onClick={handlePrevClick}
+              disabled={
+                !(
+                  (!allColors.length || color) &&
+                  (!allSizes.length || size) &&
+                  haveStock
+                )
+              }
             >
               <i className="fa-solid fa-chevron-left"></i>
             </button>
+
             <button
-              className="right-btn"
-              onClick={() => {
-                handleNextClick();
-              }}
+              className={`itempage-right-btn ${
+                (!allColors.length || color) && (!allSizes.length || size)
+                  ? haveStock
+                    ? ""
+                    : " disabled"
+                  : ""
+              }`}
+              onClick={handleNextClick}
+              disabled={
+                !(
+                  (!allColors.length || color) &&
+                  (!allSizes.length || size) &&
+                  haveStock
+                )
+              }
             >
               <i className="fa-solid fa-chevron-right"></i>
             </button>
-            {(allColors.size > 0 && color) || (allSizes.length > 0 && size) ? (
+            {(!allColors.length || color) && (!allSizes.length || size) ? (
               haveStock ? (
                 percentDiscount > 0 && (
-                  <p className="slider-discount-tag">-{percentDiscount}%</p>
+                  <p className="itempage-slider-discount-tag">
+                    -{percentDiscount}%
+                  </p>
                 )
               ) : (
-                <p className="slider-outstock-tag">Out of stock</p>
+                <p className="itempage-slider-outstock-tag">Out of stock</p>
               )
             ) : (
               percentDiscount > 0 && (
-                <p className="slider-tag slider-discount-tag">
+                <p className="itempage-slider-discount-tag">
                   -{percentDiscount}%
                 </p>
               )
             )}
           </div>
-          <div className="sub-image-section">
+          <div className="itempage-sub-image-section">
             {currentItem.imageUrls.map((imageUrl, index) =>
               currentImageIndex === index ? null : (
                 <img
                   src={imageUrl}
-                  className="sub-image"
+                  className={`itempage-sub-image ${
+                    (!allColors.length || color) && (!allSizes.length || size)
+                      ? haveStock
+                        ? ""
+                        : " disabled"
+                      : ""
+                  }`}
                   key={index}
-                  alt="Sub view"
                   onClick={() => {
-                    handleSubImageClick(index);
+                    if (
+                      (!allColors.length || color) &&
+                      (!allSizes.length || size) &&
+                      haveStock
+                    ) {
+                      handleSubImageClick(index);
+                    }
                   }}
                 />
               )
@@ -180,50 +278,65 @@ const ItemPage = () => {
         </div>
 
         {/* Info Content */}
-        <div className="info-container">
-          <div className="info-info">
-            <div className="info-info-data">
-              <h2 className="info-id">ID: {currentItem.id}</h2>
-              <h1 className="info-name">{currentItem.name}</h1>
-              <h2 className="info-description">{currentItem.description}</h2>
+        <div className="itempage-info-container">
+          <div className="itempage-info-info">
+            <div className="itempage-info-info-data">
+              <h2 className="itempage-info-id">ID: {currentItem.skuCode}</h2>
+              <h1 className="itempage-info-name">{currentItem.name}</h1>
+              <h2 className="itempage-info-description">
+                {currentItem.description}
+              </h2>
             </div>
             {percentDiscount ? (
-              <div className="info-discount">
-                <h1 className="info-after-price">
+              <div className="itempage-info-discount">
+                <h1 className="itempage-info-after-price">
                   THB {formattedPromotionalPrice}
                 </h1>
-                <h3 className="info-before-price">
+                <h3 className="itempage-info-before-price">
                   From <p>THB {formattedPrice}</p>
                 </h3>
+                {(!allColors.length || color) && (!allSizes.length || size) ? (
+                  haveStock ? null : (
+                    <p className="itempage-info-outstock-tag">Out of stock</p>
+                  )
+                ) : null}
               </div>
             ) : (
-              <h1 className="info-normal-price">THB {formattedPrice}</h1>
+              <h1 className="itempage-info-normal-price">
+                THB {formattedPrice}
+              </h1>
             )}
-            <div className="info-rating">
+            <div className="itempage-info-rating">
               {Array.from({ length: 5 }, (v, i) => {
                 const starRating = i + 1;
                 if (currentItem.ratings >= starRating) {
                   return (
-                    <i key={i} className="fa-solid fa-star info-star-full"></i>
+                    <i
+                      key={i}
+                      className="fa-solid fa-star itempage-info-star-full"
+                    ></i>
                   );
                 } else if (Math.ceil(currentItem.ratings) === starRating) {
                   return (
-                    <i key={i} className="info-star-half">
+                    <i key={i} className="itempage-info-star-half">
                       <i className="fa-solid fa-star-half"></i>
                       <i className="fa-solid fa-star-half"></i>
                     </i>
                   );
                 } else {
                   return (
-                    <i key={i} className="fa-solid fa-star info-star-none"></i>
+                    <i
+                      key={i}
+                      className="fa-solid fa-star itempage-info-star-none"
+                    ></i>
                   );
                 }
               })}
             </div>
           </div>
-          <div className="info-option">
+          <div className="itempage-info-option">
             <div
-              className="info-color"
+              className="itempage-info-color"
               style={{ display: allColors.length > 0 ? "flex" : "none" }}
             >
               <p>Color</p>
@@ -231,7 +344,7 @@ const ItemPage = () => {
                 {allColors.map((currentColor, idx) => (
                   <div
                     key={`${currentItem.id}-${currentColor}-${idx}`}
-                    className={`info-color-btn ${
+                    className={`itempage-info-color-btn ${
                       color === currentColor ? "selected" : ""
                     }`}
                     onClick={() => {
@@ -241,16 +354,16 @@ const ItemPage = () => {
                     }}
                   >
                     <div
-                      className="info-color-area"
+                      className="itempage-info-color-area"
                       style={{ backgroundColor: currentColor }}
                     ></div>
-                    <p className="info-color-text">{currentColor}</p>
+                    <p className="itempage-info-color-text">{currentColor}</p>
                   </div>
                 ))}
               </div>
             </div>
             <div
-              className="info-size"
+              className="itempage-info-size"
               style={{ display: allSizes.length > 0 ? "flex" : "none" }}
             >
               <p>Size</p>
@@ -258,7 +371,7 @@ const ItemPage = () => {
                 {allSizes.map((currentSize, idx) => (
                   <button
                     key={`${currentItem.id}-${currentSize}-${idx}`}
-                    className={`info-size-btn ${
+                    className={`itempage-info-size-btn ${
                       size === currentSize ? "selected" : ""
                     }`}
                     onClick={() => {
@@ -272,7 +385,7 @@ const ItemPage = () => {
                 ))}
               </div>
             </div>
-            <div className="info-qty">
+            <div className="itempage-info-qty">
               <p>Qty.</p>
               <Select
                 value={amount}
@@ -305,7 +418,7 @@ const ItemPage = () => {
               </Select>
             </div>
             <div
-              className={`add-to-cart-btn ${
+              className={`itempage-add-to-cart-btn ${
                 haveStock && amount > 0 ? "" : " disabled"
               }`}
               onClick={() => {
@@ -319,6 +432,7 @@ const ItemPage = () => {
                   size: size || null,
                 };
                 setCartItem(item);
+                setShowPopUp(true);
               }}
             >
               <p>Add to cart</p>
@@ -326,6 +440,7 @@ const ItemPage = () => {
           </div>
         </div>
       </div>
+
       <div className="itempage-more">
         <h2 className="itempage-more-header">People also like these</h2>
         <div className="itempage-more-content">
