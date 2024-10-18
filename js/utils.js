@@ -69,3 +69,25 @@ export function randomlyPickItems(arr, number, target) {
 
   return result;
 }
+
+export async function addItemToNewCart(item) {
+  const url = "https://api.storefront.wdb.skooldio.dev/carts";
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    });
+    if (!res.ok) {
+      throw Error("Fail to post data");
+    }
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+  return null;
+}

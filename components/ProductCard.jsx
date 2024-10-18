@@ -18,8 +18,8 @@ const ProductCard = ({
     ((price - promotionalPrice) / price) * 100
   );
 
-  const formattedPrice = formatInteger(price, 2);
-  const formattedPromotionalPrice = formatInteger(promotionalPrice, 2);
+  const formattedPrice = formatInteger(price, 0);
+  const formattedPromotionalPrice = formatInteger(promotionalPrice, 0);
 
   return (
     <div
@@ -67,7 +67,7 @@ const ProductCard = ({
         <div className="product-card-price">
           {percentDiscount > 0 ? (
             <>
-              <h1 className="product-card-before-price">THB{formattedPrice}</h1>
+              <h1 className="product-card-before-price">{formattedPrice}</h1>
               <h1 className="product-card-after-price">
                 THB{formattedPromotionalPrice}
               </h1>

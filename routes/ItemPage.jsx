@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/ItemPage.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard.jsx";
 import {
   fetchAllItemsInCategories,
@@ -9,11 +9,13 @@ import {
   formatInteger,
   getAllSizes,
   getAllColors,
+  addItemToNewCart,
 } from "../js/utils.js";
 import { Select, MenuItem } from "@mui/material";
 
 const ItemPage = () => {
   const { itemPermalink } = useParams();
+  const navigate = useNavigate();
   const [currentItem, setCurrentItem] = useState(null); // item from current permalink
   const [relatedItems, setRelatedItems] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -161,6 +163,8 @@ const ItemPage = () => {
                 className="itempage-popup-viewcart-btn"
                 onClick={() => {
                   setShowPopUp(false);
+                  addItemToNewCart(cartItem);
+                  navigate("/cart");
                 }}
               >
                 View cart
@@ -281,7 +285,16 @@ const ItemPage = () => {
         <div className="itempage-info-container">
           <div className="itempage-info-info">
             <div className="itempage-info-info-data">
-              <h2 className="itempage-info-id">ID: {currentItem.skuCode}</h2>
+              <div>
+                <h2 className="itempage-info-id">ID: {currentItem.skuCode}</h2>
+                <i
+                  className="itempage-info-favorite fa-regular fa-heart"
+                  onClick={(event) => {
+                    event.target.classList.toggle("fa-regular");
+                    event.target.classList.toggle("fa-solid");
+                  }}
+                ></i>
+              </div>
               <h1 className="itempage-info-name">{currentItem.name}</h1>
               <h2 className="itempage-info-description">
                 {currentItem.description}

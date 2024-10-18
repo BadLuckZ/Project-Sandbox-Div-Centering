@@ -13,6 +13,18 @@
   gap: 40px;
 }
 
+@media screen and (max-width: 425px) {
+  .itempage-container {
+    padding: 24px 16px;
+    gap: 40px;
+  }
+
+  .itempage-content {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
 /* ============================================================= */
 /* ====================== CSS for Popup ======================== */
 .itempage-popup-overlay {
@@ -196,7 +208,6 @@
 .itempage-slider-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 576px;
   position: relative;
 }
@@ -206,6 +217,18 @@
   width: 576px;
   height: 597px;
   overflow: hidden;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-slider-container {
+    width: 100%;
+    max-width: 576px;
+  }
+
+  .itempage-main-image-section {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .itempage-main-image-section img {
@@ -221,6 +244,7 @@
   border-radius: 50%;
   width: 59px;
   height: 58px;
+  flex-shrink: 0;
   border: none;
   background-color: rgba(255, 255, 255, 0.3);
   color: var(--Project-Sandbox-Secondary-Black-900);
@@ -232,21 +256,27 @@
   transition: 0.3s;
 }
 
+@media screen and (max-width: 425px) {
+  .itempage-main-image-section button {
+    width: 30.782px;
+    height: 30.782px;
+  }
+}
+
 .itempage-main-image-section button:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
 .itempage-slider-discount-tag {
-  position: absolute;
   background-color: var(--Project-Sandbox-Danger);
   color: var(--Project-Sandbox-White);
   position: absolute;
   right: 0px;
   top: 89.5px;
-  width: 86px;
+  width: fit-content;
   height: 47px;
-  display: flex;
   padding: 6.706px 16.765px;
+  display: flex;
   justify-content: center;
   align-items: center;
   font-size: 26.824px;
@@ -261,7 +291,7 @@
   color: var(--Project-Sandbox-White, var(--Base-White, #fff));
   right: 0px;
   top: 83px;
-  width: 175px;
+  width: fit-content;
   height: 47px;
   display: flex;
   padding: 6.706px 16.765px;
@@ -273,12 +303,44 @@
   line-height: 33.529px;
 }
 
+@media screen and (max-width: 425px) {
+  .itempage-slider-discount-tag {
+    height: 25.065px;
+    padding: 2.949px 7.372px;
+    top: 14.07px;
+    font-size: 11.795px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14.744px;
+  }
+
+  .itempage-slider-outstock-tag {
+    height: 25.065px;
+    padding: 2.949px 7.372px;
+    top: 30.07px;
+    font-size: 11.795px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14.744px;
+  }
+}
+
 .itempage-left-btn {
   left: 15px;
 }
 
 .itempage-right-btn {
   right: 15px;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-left-btn {
+    left: 7.04px;
+  }
+
+  .itempage-right-btn {
+    right: 7.04px;
+  }
 }
 
 .itempage-sub-image-section {
@@ -290,13 +352,17 @@
 }
 
 .itempage-sub-image-section img {
-  width: 135px;
-  height: 162px;
   object-fit: cover;
   cursor: pointer;
   transition: 0.3s;
-  max-width: 100%;
+  max-width: 25%;
   height: auto;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-sub-image-section {
+    gap: 8px;
+  }
 }
 
 .itempage-main-image.disabled,
@@ -326,6 +392,13 @@
   gap: 32px;
 }
 
+@media screen and (max-width: 425px) {
+  .itempage-info-container {
+    width: 100%;
+    gap: 56px;
+  }
+}
+
 .itempage-info-info,
 .itempage-info-option {
   display: flex;
@@ -337,6 +410,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.itempage-info-info-data > div {
+  display: flex;
+  justify-content: space-between;
 }
 
 .itempage-info-id {
@@ -353,6 +431,13 @@
   font-style: normal;
   font-weight: 700;
   line-height: 72px;
+}
+
+.itempage-info-favorite {
+  font-size: 24px;
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .itempage-info-description {
@@ -407,6 +492,61 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-info-id {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .itempage-info-name {
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 60px;
+  }
+
+  .itempage-info-favorite {
+    font-size: 16px;
+  }
+
+  .itempage-info-description {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .itempage-info-normal-price {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 48px;
+  }
+
+  .itempage-info-after-price {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 48px;
+  }
+
+  .itempage-info-before-price {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .itempage-info-outstock-tag {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
 }
 
 .itempage-info-rating {
@@ -596,4 +736,25 @@
   display: flex;
   justify-content: space-between;
   gap: 40px;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-more {
+    gap: 40px;
+  }
+
+  .itempage-more-header {
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  .itempage-more-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 36.88px;
+  }
 }
