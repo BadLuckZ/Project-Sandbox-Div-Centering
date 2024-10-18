@@ -6,17 +6,29 @@ export const formatInteger = (number, decimalPoints) => {
 };
 
 export const getAllSizes = (variants) => {
-  const sizes = [
-    ...new Set(
-      variants.filter((variant) => variant.size).map((variant) => variant.size)
-    ),
-  ];
-  return sizes.sort();
+  const sortedVariants = variants.sort((a, b) => {
+    return a.skuCode.localeCompare(b.skuCode);
+  });
+  const sizes = [];
+  sortedVariants.forEach((v) => {
+    if (!sizes.includes(v.size)) {
+      sizes.push(v.size);
+    }
+  });
+  return sizes;
 };
 
 export const getAllColors = (variants) => {
-  const colors = [...new Set(variants.map((variant) => variant.color))];
-  return colors.sort();
+  const sortedVariants = variants.sort((a, b) => {
+    return a.skuCode.localeCompare(b.skuCode);
+  });
+  const colors = [];
+  sortedVariants.forEach((v) => {
+    if (!colors.includes(v.color)) {
+      colors.push(v.color);
+    }
+  });
+  return colors;
 };
 
 export async function fetchAllItemsInCategories(target) {

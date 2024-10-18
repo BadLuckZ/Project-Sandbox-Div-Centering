@@ -422,17 +422,19 @@ const ItemPage = () => {
                 haveStock && amount > 0 ? "" : " disabled"
               }`}
               onClick={() => {
-                const item = {
-                  id: currentItem.id,
-                  permalink: currentItem.permalink,
-                  price: currentItem.price,
-                  promotionalPrice: currentItem.promotionalPrice,
-                  amount: amount,
-                  color: color || null,
-                  size: size || null,
-                };
-                setCartItem(item);
-                setShowPopUp(true);
+                if (amount) {
+                  const item = {
+                    id: currentItem.id,
+                    permalink: currentItem.permalink,
+                    price: currentItem.price,
+                    promotionalPrice: currentItem.promotionalPrice,
+                    amount: amount,
+                    color: color || null,
+                    size: size || null,
+                  };
+                  setCartItem(item);
+                  setShowPopUp(true);
+                }
               }}
             >
               <p>Add to cart</p>
