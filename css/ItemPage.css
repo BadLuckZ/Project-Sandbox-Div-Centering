@@ -12,6 +12,375 @@
   gap: 40px;
 }
 
+/* ============================================================= */
+/* ====================== CSS for Slider ======================= */
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 576px;
+  position: relative;
+}
+
+.main-image-section {
+  position: relative;
+  width: 576px;
+  height: 597px;
+  overflow: hidden;
+}
+
+.main-image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main-image-section button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  width: 59px;
+  height: 58px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.main-image-section button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.slider-discount-tag {
+  position: absolute;
+  background-color: var(--Project-Sandbox-Danger);
+  color: var(--Project-Sandbox-White);
+  position: absolute;
+  right: 0px;
+  top: 89.5px;
+  width: 86px;
+  height: 47px;
+  display: flex;
+  padding: 6.706px 16.765px;
+  justify-content: center;
+  align-items: center;
+  font-size: 26.824px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 33.529px;
+}
+
+.slider-outstock-tag {
+  position: absolute;
+  background-color: var(--Project-Sandbox-Secondary-Black-900);
+  color: var(--Project-Sandbox-White, var(--Base-White, #fff));
+  right: 0px;
+  top: 83px;
+  width: 175px;
+  height: 47px;
+  display: flex;
+  padding: 6.706px 16.765px;
+  justify-content: center;
+  align-items: center;
+  font-size: 26.824px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 33.529px;
+}
+
+.left-btn {
+  left: 15px;
+}
+
+.right-btn {
+  right: 15px;
+}
+
+.sub-image-section {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  overflow-x: hidden;
+}
+
+.sub-image-section img {
+  width: 135px;
+  height: 162px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.3s;
+  max-width: 100%;
+  height: auto;
+}
+
+.image-disabled {
+  filter: brightness(50%);
+}
+/* ============================================================= */
+/* ============================================================= */
+
+/* ============================================================= */
+/* ====================== CSS for Info ========================= */
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: calc(100% - 576px);
+  gap: 32px;
+}
+
+.info-info,
+.info-option {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-info-data {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-id {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.info-name {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 72px;
+}
+
+.info-description {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.info-normal-price {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.info-discount {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-after-price {
+  width: fit-content;
+  background-color: var(--Project-Sandbox-Danger);
+  color: var(--Project-Sandbox-White);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.info-before-price {
+  display: flex;
+  gap: 4px;
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.info-before-price p {
+  text-decoration: line-through;
+}
+
+.info-rating {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.info-rating > i {
+  font-size: 24px;
+}
+
+.info-star-full {
+  color: var(--Project-Sandbox-Primary-Red-700);
+}
+
+.info-star-half {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-star-half i:first-child {
+  color: var(--Project-Sandbox-Primary-Red-700);
+  left: 0;
+  width: 50%;
+  position: absolute;
+}
+
+.info-star-half i:last-child {
+  left: 50%;
+  color: var(--Project-Sandbox-Secondary-Black-300);
+  transform: rotateY(180deg);
+}
+
+.info-star-none {
+  color: var(--Project-Sandbox-Secondary-Black-300);
+}
+
+.info-color > p,
+.info-size > p,
+.info-qty > p {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.info-color,
+.info-size,
+.info-qty {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-color > div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.info-color-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px;
+  transition: 0.3s;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.info-color-btn:hover {
+  border-color: var(--Project-Sandbox-Secondary-Black-700);
+  transform: scale(1.05);
+}
+
+.info-color-btn.selected > div {
+  border: 4px solid var(--Project-Sandbox-Primary-Red-700);
+}
+
+.info-color-area {
+  width: 52px;
+  height: 52px;
+  box-sizing: border-box;
+}
+
+.info-color-text {
+  text-align: center;
+}
+
+.info-size > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-size-btn {
+  border: 1px solid var(--Project-Sandbox-Secondary-Black-300);
+  background: var(--Project-Sandbox-White);
+  display: flex;
+  width: 100px;
+  height: 52px;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.info-size-btn:hover {
+  border-color: var(--Project-Sandbox-Secondary-Black-700);
+  background-color: var(--Project-Sandbox-Secondary-Black-300);
+}
+
+.info-size-btn > p {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.info-size-btn.selected {
+  background-color: var(--Project-Sandbox-Primary-Red-700);
+}
+
+.info-size-btn.disabled {
+  background-color: var(--Project-Sandbox-Secondary-Black-300);
+  border-color: var(--Project-Sandbox-Secondary-Black-300);
+  cursor: default;
+}
+
+.info-size-btn.disabled > p {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+}
+
+.add-to-cart-btn {
+  background-color: var(--Project-Sandbox-Secondary-Black-900);
+  display: flex;
+  height: 52px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #000;
+}
+
+.add-to-cart-btn > p {
+  color: var(--Project-Sandbox-White);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.add-to-cart-btn.disabled {
+  background-color: var(--Project-Sandbox-Secondary-Black-700);
+  cursor: default;
+}
+
+/* ============================================================= */
+/* ============================================================= */
+
 .itempage-more {
   display: flex;
   width: 100%;
