@@ -206,11 +206,9 @@ const ItemPage = () => {
               }`}
               onClick={handlePrevClick}
               disabled={
-                !(
-                  (!allColors.length || color) &&
-                  (!allSizes.length || size) &&
-                  haveStock
-                )
+                (!allColors.length || color) &&
+                (!allSizes.length || size) &&
+                !haveStock
               }
             >
               <i className="fa-solid fa-chevron-left"></i>
@@ -226,11 +224,9 @@ const ItemPage = () => {
               }`}
               onClick={handleNextClick}
               disabled={
-                !(
-                  (!allColors.length || color) &&
-                  (!allSizes.length || size) &&
-                  haveStock
-                )
+                (!allColors.length || color) &&
+                (!allSizes.length || size) &&
+                !haveStock
               }
             >
               <i className="fa-solid fa-chevron-right"></i>
