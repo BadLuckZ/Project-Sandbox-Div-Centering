@@ -9,7 +9,8 @@ import {
   formatInteger,
   getAllSizes,
   getAllColors,
-  addItemToNewCart,
+  addCart,
+  getItemInCart,
 } from "../js/utils.js";
 import { Select, MenuItem } from "@mui/material";
 
@@ -24,7 +25,7 @@ const ItemPage = () => {
   const [amount, setAmount] = useState("");
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
-  const [cartItem, setCartItem] = useState(null); // item that wll be sent to CartPage
+  const [cart, setCart] = useState([]);
   const [haveStock, setHaveStock] = useState(true);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -37,7 +38,6 @@ const ItemPage = () => {
       setAmount("");
       setSize("");
       setColor("");
-      setCartItem(null);
       setHaveStock(false);
       setLoading(true);
       setShowPopUp(false);
@@ -54,6 +54,12 @@ const ItemPage = () => {
         const randomItems = randomlyPickItems(items.data, 4, data.id);
         setRelatedItems(randomItems);
         setLoading(false);
+        const itemInCart = getItemInCart(cart, data.id);
+        if (itemInCart) {
+          setAmount(itemInCart.quantity);
+          setSize(itemInCart.size);
+          setColor(itemInCart.color);
+        }
       } catch (err) {
         console.error(err);
         setLoading(false);
@@ -163,7 +169,7 @@ const ItemPage = () => {
                 className="itempage-popup-viewcart-btn"
                 onClick={() => {
                   setShowPopUp(false);
-                  addItemToNewCart(cartItem);
+                  addCart(cart);
                   navigate("/cart");
                 }}
               >
@@ -359,7 +365,6 @@ const ItemPage = () => {
                     onClick={() => {
                       setColor(currentColor);
                       setAmount("");
-                      setCartItem(null);
                     }}
                   >
                     <div
@@ -386,7 +391,6 @@ const ItemPage = () => {
                     onClick={() => {
                       setSize(currentSize);
                       setAmount("");
-                      setCartItem(null);
                     }}
                   >
                     <p>{currentSize}</p>
@@ -434,14 +438,18 @@ const ItemPage = () => {
                 if (amount) {
                   const item = {
                     id: currentItem.id,
+                    skuCode: currentItem.skuCode,
                     permalink: currentItem.permalink,
                     price: currentItem.price,
                     promotionalPrice: currentItem.promotionalPrice,
-                    amount: amount,
+                    quantity: amount,
                     color: color || null,
                     size: size || null,
                   };
-                  setCartItem(item);
+                  setCart([
+                    ...cart.filter((itemCart) => itemCart.id != item.id),
+                    item,
+                  ]);
                   setShowPopUp(true);
                 }
               }}
