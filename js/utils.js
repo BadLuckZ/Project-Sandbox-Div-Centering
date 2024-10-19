@@ -11,7 +11,7 @@ export const getAllSizes = (variants) => {
   });
   const sizes = [];
   sortedVariants.forEach((v) => {
-    if (!sizes.includes(v.size)) {
+    if (v.size && !sizes.includes(v.size)) {
       sizes.push(v.size);
     }
   });
@@ -24,7 +24,7 @@ export const getAllColors = (variants) => {
   });
   const colors = [];
   sortedVariants.forEach((v) => {
-    if (!colors.includes(v.color)) {
+    if (v.color && !colors.includes(v.color)) {
       colors.push(v.color);
     }
   });

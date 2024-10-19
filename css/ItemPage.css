@@ -59,6 +59,12 @@
   padding-bottom: 24px;
 }
 
+@media screen and (max-width: 425px) {
+  .itempage-popup-header {
+    padding-bottom: 0px;
+  }
+}
+
 .itempage-popup-header > p {
   justify-self: flex-start;
   color: var(--Project-Sandbox-Secondary-Black-900);
@@ -79,6 +85,21 @@
   align-items: center;
   cursor: pointer;
   transition: 0.3s;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-popup-header > p {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .itempage-popup-header > i {
+    font-size: 14px;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .itempage-popup-header > i:hover {
@@ -111,17 +132,17 @@
   gap: 10px;
 }
 
+.itempage-popup-info > div > div {
+  display: flex;
+  gap: 16px;
+}
+
 .itempage-popup-name {
   color: var(--Project-Sandbox-Secondary-Black-900);
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
-}
-
-.itempage-popup-info > div > div {
-  display: flex;
-  gap: 16px;
 }
 
 .itempage-popup-price {
@@ -146,10 +167,64 @@
   align-self: flex-start;
 }
 
+@media screen and (max-width: 425px) {
+  .itempage-popup-content {
+    flex-direction: column;
+  }
+
+  .itempage-popup-info {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .itempage-popup-info > div {
+    width: 100%;
+    gap: 4px;
+  }
+
+  .itempage-popup-info > div > div {
+    gap: 8px;
+  }
+
+  .itempage-popup-name {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .itempage-popup-price {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .itempage-popup-color,
+  .itempage-popup-size,
+  .itempage-popup-qty {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .itempage-popup-price {
+    align-self: flex-end;
+  }
+}
+
 .itempage-popup-buttons {
   display: flex;
   width: 100%;
   gap: 10px;
+}
+
+@media screen and (max-width: 425px) {
+  .itempage-popup-buttons {
+    flex-direction: column;
+  }
 }
 
 .itempage-popup-viewcart-btn {
