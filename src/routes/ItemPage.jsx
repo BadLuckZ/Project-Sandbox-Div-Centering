@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../css/ItemPage.css";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard.jsx";
@@ -9,39 +9,33 @@ import {
   formatInteger,
   getAllSizes,
   getAllColors,
-  addCart,
   getItemInCart,
 } from "../js/utils.js";
 import { Select, MenuItem } from "@mui/material";
+import { CartContext } from "../contexts/CartContext.jsx";
 
 const ItemPage = () => {
   const { itemPermalink } = useParams();
   const navigate = useNavigate();
-  const [currentItem, setCurrentItem] = useState(null); // item from current permalink
+  const { cart, setCart } = useContext(CartContext);
+  const [currentItem, setCurrentItem] = useState(null);
   const [relatedItems, setRelatedItems] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showPopUp, setShowPopUp] = useState(false);
 
-  const [amount, setAmount] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [size, setSize] = useState("");
   const [color, setColor] = useState("");
-  const [cart, setCart] = useState([]);
   const [haveStock, setHaveStock] = useState(true);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Fetch Item
+  // Fetch Item and Related Items
   useEffect(() => {
     async function fetchItem() {
-      setCurrentItem(null);
-      setRelatedItems(null);
-      setAmount("");
-      setSize("");
-      setColor("");
-      setHaveStock(false);
       setLoading(true);
-      setShowPopUp(false);
       const url = `https://api.storefront.wdb.skooldio.dev/products/${itemPermalink}`;
+
       try {
         const res = await fetch(url);
         if (!res.ok) {
@@ -49,44 +43,44 @@ const ItemPage = () => {
         }
         const data = await res.json();
         setCurrentItem(data);
+
+        const itemInCart = getItemInCart(cart, data.id);
+        if (itemInCart) {
+          setColor(itemInCart.color || "");
+          setSize(itemInCart.size || "");
+          setQuantity(itemInCart.quantity || "");
+        } else {
+          setColor("");
+          setSize("");
+          setQuantity("");
+        }
+
         const randomCategory = randomlyPickCategory(data.categories);
         const items = await fetchAllItemsInCategories(randomCategory);
         const randomItems = randomlyPickItems(items.data, 4, data.id);
         setRelatedItems(randomItems);
-        setLoading(false);
-        const itemInCart = getItemInCart(cart, data.id);
-        if (itemInCart) {
-          setAmount(itemInCart.quantity);
-          setSize(itemInCart.size);
-          setColor(itemInCart.color);
-        }
       } catch (err) {
         console.error(err);
+      } finally {
         setLoading(false);
       }
     }
     fetchItem();
   }, [itemPermalink]);
 
-  // Check whether there is a stock or not
+  // Check Stock Availability
   useEffect(() => {
-    if (
-      currentItem &&
-      ((allColors.length > 0 && color) || (allSizes.length > 0 && size))
-    ) {
+    if (!currentItem) return;
+    const allSizes = getAllSizes(currentItem.variants);
+    const allColors = getAllColors(currentItem.variants);
+
+    if ((allColors.length === 0 || color) && (allSizes.length === 0 || size)) {
       const variant = currentItem.variants.find(
         (v) => v.color === color && v.size === size
       );
-      if (variant && variant.remains > 0) {
-        setHaveStock(true); // Have the target in stock
-      } else if (
-        (allColors.length > 0 && color) ||
-        (allSizes.length > 0 && size)
-      ) {
-        setHaveStock(false); // Finished selecting but the target is out of stock
-      } else {
-        setHaveStock(true); // Default
-      }
+      setHaveStock(variant && variant.remains > 0);
+    } else {
+      setHaveStock(true);
     }
   }, [color, size]);
 
@@ -105,11 +99,13 @@ const ItemPage = () => {
   const handleSubImageClick = (index) => {
     setCurrentImageIndex(index);
   };
+
   const handlePrevClick = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? currentItem.imageUrls.length - 1 : prevIndex - 1
     );
   };
+
   const handleNextClick = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === currentItem.imageUrls.length - 1 ? 0 : prevIndex + 1
@@ -128,6 +124,18 @@ const ItemPage = () => {
 
   const allSizes = getAllSizes(currentItem.variants);
   const allColors = getAllColors(currentItem.variants);
+
+  const getAvailableQuantities = () => {
+    if (!currentItem || !haveStock) return [];
+
+    const variant = currentItem.variants.find(
+      (v) => v.color === color && v.size === size
+    );
+
+    if (!variant || variant.remains <= 0) return [];
+
+    return Array.from({ length: variant.remains }, (_, i) => i + 1);
+  };
 
   return (
     <div className="itempage-container">
@@ -156,7 +164,7 @@ const ItemPage = () => {
                     {size ? (
                       <p className="itempage-popup-size">Size : {size}</p>
                     ) : null}
-                    <p className="itempage-popup-qty">QTY : {amount}</p>
+                    <p className="itempage-popup-qty">QTY : {quantity}</p>
                   </div>
                 </div>
                 <h3 className="itempage-popup-price">
@@ -169,7 +177,6 @@ const ItemPage = () => {
                 className="itempage-popup-viewcart-btn"
                 onClick={() => {
                   setShowPopUp(false);
-                  addCart(cart);
                   navigate("/cart");
                 }}
               >
@@ -364,7 +371,7 @@ const ItemPage = () => {
                     }`}
                     onClick={() => {
                       setColor(currentColor);
-                      setAmount("");
+                      setQuantity("");
                     }}
                   >
                     <div
@@ -390,7 +397,7 @@ const ItemPage = () => {
                     }`}
                     onClick={() => {
                       setSize(currentSize);
-                      setAmount("");
+                      setQuantity("");
                     }}
                   >
                     <p>{currentSize}</p>
@@ -401,48 +408,35 @@ const ItemPage = () => {
             <div className="itempage-info-qty">
               <p>Qty.</p>
               <Select
-                value={amount}
+                value={quantity}
                 onChange={(event) => {
-                  setAmount(event.target.value);
+                  setQuantity(event.target.value);
                 }}
+                displayEmpty
               >
-                {(() => {
-                  const variant = currentItem.variants.find(
-                    (v) => v.color === color && v.size === size
-                  );
-                  if (variant && variant.remains > 0) {
-                    return Array.from({ length: variant.remains }, (_, i) => (
-                      <MenuItem
-                        key={`${variant.color}-${variant.size}-${
-                          currentItem.id
-                        }-${i + 1}`}
-                        value={i + 1}
-                      >
-                        {i + 1}
-                      </MenuItem>
-                    ));
-                  }
-                  return (
-                    <MenuItem value={""} disabled>
-                      Out of Stock
-                    </MenuItem>
-                  );
-                })()}
+                <MenuItem value="">
+                  {haveStock ? "Select Quantity" : "Out of Stock"}
+                </MenuItem>
+                {getAvailableQuantities().map((qty) => (
+                  <MenuItem key={`qty-${qty}`} value={qty}>
+                    {qty}
+                  </MenuItem>
+                ))}
               </Select>
             </div>
             <div
               className={`itempage-add-to-cart-btn ${
-                haveStock && amount > 0 ? "" : " disabled"
+                haveStock && quantity > 0 ? "" : " disabled"
               }`}
               onClick={() => {
-                if (amount) {
+                if (quantity) {
                   const item = {
                     id: currentItem.id,
                     skuCode: currentItem.skuCode,
                     permalink: currentItem.permalink,
                     price: currentItem.price,
                     promotionalPrice: currentItem.promotionalPrice,
-                    quantity: amount,
+                    quantity: quantity,
                     color: color || null,
                     size: size || null,
                   };

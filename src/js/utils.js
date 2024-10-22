@@ -71,64 +71,10 @@ export function randomlyPickItems(arr, number, target) {
 }
 
 export const getItemInCart = (cart, itemId) => {
-  const item = cart.find((itemCart) => itemCart.id == itemId);
-  return item;
-};
-
-export async function addCart(cart) {
-  console.log(cart);
-  // == Sample of cart ==
-  // cart = [
-  //   {
-  //     id: "6FYslqo6hFuvdIpffL9t",
-  //     skuCode: "S09001",
-  //     permalink: "shoes-athletic-mesh-slip-on-sneakers",
-  //     price: 990,
-  //     promotionalPrice: 990,
-  //     quantity: 9,
-  //     color: "Black",
-  //     size: "36",
-  //   },
-  //   {
-  //     id: "UMcp5TasyJzU5XuQCNbv",
-  //     skuCode: "S09004",
-  //     permalink: "shoes-casual-strappy-flat-sandals",
-  //     price: 590,
-  //     promotionalPrice: 590,
-  //     quantity: 3,
-  //     color: "Nude",
-  //     size: "36",
-  //   },
-  //   {
-  //     id: "qkgJhtwob70HoMELcHn0",
-  //     skuCode: "C09004",
-  //     permalink: "shirts-fleece-turtleneck-long-sleeve-dress",
-  //     price: 1990,
-  //     promotionalPrice: 1490,
-  //     quantity: 10,
-  //     color: "Red",
-  //     size: "L",
-  //   },
-  // ];
-  // ===================
-
-  const url = "https://api.storefront.wdb.skooldio.dev/carts";
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cart),
-    });
-    if (!res.ok) {
-      throw Error("Fail to post data");
-    }
-    const data = await response.json();
-    console.log(data);
-    return data;
-  } catch (err) {
-    console.error(err);
+  const item = cart.find((itemCart) => itemCart.id === itemId);
+  if (item) {
+    return item;
+  } else {
+    return null;
   }
-  return null;
-}
+};
