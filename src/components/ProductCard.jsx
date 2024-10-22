@@ -1,5 +1,5 @@
-import "../css/ProductCard.css";
-import { formatInteger } from "../js/utils.js";
+import React from "react";
+import { formatInteger } from "../js/utils";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({
@@ -23,57 +23,84 @@ const ProductCard = ({
 
   return (
     <div
-      className="product-card"
+      className="flex w-[267px] h-[425px] flex-col cursor-pointer transition-transform gap-4 duration-300 hover:-translate-y-2 max-[425px]:w-full"
       onClick={() => {
         navigate(`/items/${permalink}`);
       }}
     >
-      <div className="product-card-image">
-        <img src={imageUrls[0]} alt={name} />
+      <div className="relative max-w-[267px] h-[267px] max-[425px]:max-w-full">
+        <img
+          src={imageUrls[0]}
+          alt={name}
+          className="h-full w-full object-cover object-center"
+        />
         {percentDiscount > 0 && (
-          <p className="product-card-discount-tag">-{percentDiscount}%</p>
+          <p className="absolute flex right-0 top-[31px] h-[34px] bg-danger text-white px-2.5 py-1 items-center text-base font-normal">
+            -{percentDiscount}%
+          </p>
         )}
       </div>
-      <div className="product-card-info">
-        <h1 className="product-card-name">{name}</h1>
-        <h2 className="product-card-description">{description}</h2>
-        <div className="product-card-rating">
-          {Array.from({ length: 5 }, (v, i) => {
+      <div className="mt-2 flex flex-col">
+        <h1 className="truncate text-2xl font-bold text-secondary-black-900">
+          {name}
+        </h1>
+        <h2 className="truncate text-base font-normal text-secondary-black-700">
+          {description}
+        </h2>
+        <div className="mt-1 flex">
+          {Array.from({ length: 5 }, (_, i) => {
             const starRating = i + 1;
             if (ratings >= starRating) {
               return (
-                <i
+                <span
                   key={i}
-                  className="fa-solid fa-star product-card-star-full"
-                ></i>
+                  className="inline-block text-2xl text-primary-red-700 w-6 text-center"
+                >
+                  ★
+                </span>
               );
             } else if (Math.ceil(ratings) === starRating) {
               return (
-                <i key={i} className="product-card-star-half">
-                  <i className="fa-solid fa-star-half"></i>
-                  <i className="fa-solid fa-star-half"></i>
-                </i>
+                <span key={i} className="inline-block relative w-6 text-center">
+                  <span className="absolute inset-0 text-2xl text-secondary-black-300">
+                    ★
+                  </span>
+                  <span
+                    className="absolute inset-0 text-2xl text-primary-red-700 overflow-hidden"
+                    style={{
+                      clipPath: "inset(0 50% 0 0)",
+                    }}
+                  >
+                    ★
+                  </span>
+                </span>
               );
             } else {
               return (
-                <i
+                <span
                   key={i}
-                  className="fa-solid fa-star product-card-star-none"
-                ></i>
+                  className="inline-block text-2xl text-secondary-black-300 w-6 text-center"
+                >
+                  ★
+                </span>
               );
             }
           })}
         </div>
-        <div className="product-card-price">
+        <div className="mt-1 flex items-baseline justify-end gap-4">
           {percentDiscount > 0 ? (
             <>
-              <h1 className="product-card-before-price">{formattedPrice}</h1>
-              <h1 className="product-card-after-price">
+              <span className="text-sm font-semibold text-secondary-black-700 line-through">
+                {formattedPrice}
+              </span>
+              <span className="text-2xl font-bold text-danger">
                 THB{formattedPromotionalPrice}
-              </h1>
+              </span>
             </>
           ) : (
-            <h1 className="product-card-normal-price">THB{formattedPrice}</h1>
+            <span className="text-2xl font-bold text-secondary-black-900">
+              THB{formattedPrice}
+            </span>
           )}
         </div>
       </div>
