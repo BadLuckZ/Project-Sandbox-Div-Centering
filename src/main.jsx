@@ -5,6 +5,7 @@ import HomePage from "../src/routes/HomePage.jsx";
 import ItemPage from "../src/routes/ItemPage.jsx";
 import CartPage from "../src/routes/CartPage.jsx";
 import { CartProvider } from "./contexts/CartContext.jsx";
+import "../src/index.css";
 
 const router = createBrowserRouter([
   {
