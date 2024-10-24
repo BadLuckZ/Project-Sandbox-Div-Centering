@@ -2,6 +2,18 @@
   display: flex;
   width: 100%;
   padding: 67px 127px 64px 40px;
+  gap: 40px;
+}
+
+.itemspage-category {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemspage-category button {
+  margin: 4px;
+  border: 2px solid black;
+  border-radius: 4px;
 }
 
 .itemspage-content {
@@ -32,5 +44,6 @@
 .itemspage-content-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 20px;
+  row-gap: 40px;
+  column-gap: 40px;
 }

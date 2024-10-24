@@ -15,6 +15,7 @@ module.exports = {
           300: "var(--Project-Sandbox-Secondary-Black-300)",
         },
         "primary-red": {
+          900: "var(--Project-Sandbox-Primary-Red-900)",
           700: "var(--Project-Sandbox-Primary-Red-700)",
         },
         danger: "var(--Project-Sandbox-Danger)",

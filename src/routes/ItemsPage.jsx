@@ -3,7 +3,7 @@ import "../css/ItemsPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext.jsx";
 import ProductCard from "../components/ProductCard";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, MenuItem, Select, Typography } from "@mui/material";
 
 const ItemsPage = () => {
   const { category } = useParams();
@@ -13,6 +13,12 @@ const ItemsPage = () => {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("");
   const [categories, setCategories] = useState("");
+
+  const sortOptions = [
+    { value: "price:asc", text: "Price - Low to high" },
+    { value: "price:desc", text: "Price - High to low" },
+    { value: "ratings:desc", text: "Best seller" },
+  ];
 
   // Fetch Items
   useEffect(() => {
@@ -32,19 +38,17 @@ const ItemsPage = () => {
         setLoading(false);
       }
     }
+
     async function fetchAllCategories() {
       setLoading(true);
       const url = `https://api.storefront.wdb.skooldio.dev/categories`;
       try {
         const res = await fetch(url);
         if (!res.ok) {
-          throw new Error("Failed to fetch items");
+          throw new Error("Failed to fetch categories");
         }
         const data = await res.json();
-        const fetchCategories = [];
-        data.forEach((d) => {
-          fetchCategories.push(d.permalink);
-        });
+        const fetchCategories = data.map((d) => d.permalink);
         setCategories(fetchCategories);
       } catch (err) {
         console.error(err);
@@ -52,8 +56,10 @@ const ItemsPage = () => {
         setLoading(false);
       }
     }
+
     fetchAllCategories();
     fetchItems();
+    setSortBy("");
   }, [category]);
 
   // Sort Function
@@ -61,20 +67,20 @@ const ItemsPage = () => {
     if (items) {
       let sortedItems = [...items];
       if (sortBy === "price:asc") {
-        sortedItems = sortedItems.sort(
-          (a, b) => a.promotionalPrice - b.promotionalPrice
-        );
+        sortedItems.sort((a, b) => a.promotionalPrice - b.promotionalPrice);
       } else if (sortBy === "price:desc") {
-        sortedItems = sortedItems.sort(
-          (a, b) => b.promotionalPrice - a.promotionalPrice
-        );
+        sortedItems.sort((a, b) => b.promotionalPrice - a.promotionalPrice);
       } else if (sortBy === "ratings:desc") {
-        sortedItems = sortedItems.sort((a, b) => b.ratings - a.ratings);
+        sortedItems.sort((a, b) => b.ratings - a.ratings);
       }
 
       setItems(sortedItems);
     }
-  }, [sortBy]);
+  }, [sortBy, items]);
+
+  const handleClickSortOption = (event) => {
+    setSortBy(event.target.value);
+  };
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -85,7 +91,7 @@ const ItemsPage = () => {
 
   return (
     <div className="itemspage-container">
-      {/* <nav className="itemspage-category">
+      <div className="itemspage-category">
         {categories.map((category, index) => (
           <button
             key={category}
@@ -98,46 +104,69 @@ const ItemsPage = () => {
             {category}
           </button>
         ))}
-      </nav> */}
+      </div>
 
       <div className="itemspage-content">
         <div className="itemspage-content-header">
-          <h1>Men's cloth</h1>
-          <FormControl
-            className="itemspage-content-sort"
-            sx={{ marginLeft: "auto", minWidth: 100 }}
-          >
-            <InputLabel>Sort By</InputLabel>
+          <h1>{category}</h1>
+          <FormControl sx={{ m: 1, minWidth: 180 }}>
             <Select
-              label="Sort By"
               value={sortBy}
-              onChange={(event) => {
-                setSortBy(event.target.value);
+              onChange={handleClickSortOption}
+              displayEmpty
+              renderValue={() => {
+                const selectedOption = sortOptions.find(
+                  (sortOption) => sortOption.value === sortBy
+                );
+
+                return (
+                  <Typography
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    {selectedOption ? selectedOption.text : "Sort by"}
+                  </Typography>
+                );
               }}
-              autoWidth
             >
-              <MenuItem value={"price:asc"}>Price - Low to High</MenuItem>
-              <MenuItem value={"price:desc"}>Price - High to Low</MenuItem>
-              <MenuItem value={"ratings:desc"}>Best Seller</MenuItem>
+              {sortOptions.map((sortOption) => (
+                <MenuItem key={sortOption.value} value={sortOption.value}>
+                  <Typography
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    <span
+                      style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: "50%",
+                        backgroundColor:
+                          sortBy === sortOption.value
+                            ? "var(--Project-Sandbox-Primary-Red-900)"
+                            : "transparent",
+                        border:
+                          "2px solid var(--Project-Sandbox-Primary-Red-900)",
+                      }}
+                    />
+                    {sortOption.text}
+                  </Typography>
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </div>
         <div className="itemspage-content-grid">
-          {items.map((item, idx) => {
-            return (
-              <ProductCard
-                key={`${item}-${idx}`}
-                id={item.id}
-                permalink={item.permalink}
-                name={item.name}
-                description={item.description}
-                price={item.price}
-                promotionalPrice={item.promotionalPrice}
-                ratings={item.ratings}
-                imageUrls={item.imageUrls}
-              />
-            );
-          })}
+          {items.map((item) => (
+            <ProductCard
+              key={item.id}
+              id={item.id}
+              permalink={item.permalink}
+              name={item.name}
+              description={item.description}
+              price={item.price}
+              promotionalPrice={item.promotionalPrice}
+              ratings={item.ratings}
+              imageUrls={item.imageUrls}
+            />
+          ))}
         </div>
       </div>
     </div>
