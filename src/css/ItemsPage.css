@@ -1,0 +1,36 @@
+.itemspage-container {
+  display: flex;
+  width: 100%;
+  padding: 67px 127px 64px 40px;
+}
+
+.itemspage-content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 42px;
+}
+
+.itemspage-content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.itemspage-content-header > h1 {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 48px;
+}
+
+.itemspage-content-sort {
+  margin-left: auto;
+}
+
+.itemspage-content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 20px;
+}

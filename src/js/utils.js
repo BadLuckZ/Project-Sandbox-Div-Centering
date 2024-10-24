@@ -6,6 +6,9 @@ export const formatInteger = (number, decimalPoints) => {
 };
 
 export const getAllSizes = (variants) => {
+  if (["XS", "S", "M", "L", "XL", "2XL"].includes(variants[0].size)) {
+    return ["XS", "S", "M", "L", "XL", "2XL"];
+  }
   const sortedVariants = variants.sort((a, b) => {
     return a.skuCode.localeCompare(b.skuCode);
   });

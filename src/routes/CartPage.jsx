@@ -4,7 +4,6 @@ import { CartContext } from "../contexts/CartContext";
 
 const CartPage = () => {
   const { cart } = useContext(CartContext);
-  console.log(cart);
   return (
     <div className="cartpage-container">
       <h1>This is Cart Page</h1>
