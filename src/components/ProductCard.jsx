@@ -25,7 +25,7 @@ const ProductCard = ({
     <div
       className="flex w-[267px] h-[425px] flex-col cursor-pointer transition-transform gap-4 duration-300 hover:-translate-y-2 max-[425px]:w-full"
       onClick={() => {
-        navigate(`/items/${permalink}`);
+        navigate(`/item/${permalink}`);
       }}
     >
       <div className="relative max-w-[267px] h-[267px] max-[425px]:max-w-full">

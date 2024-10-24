@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "../src/routes/HomePage.jsx";
-import ItemPage from "../src/routes/ItemPage.jsx";
 import CartPage from "../src/routes/CartPage.jsx";
 import { CartProvider } from "./contexts/CartContext.jsx";
 import "../src/index.css";
+import DetailPage from "./routes/DetailPage.jsx";
+import ItemsPage from "./routes/ItemsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -13,8 +14,12 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: "/items/:itemPermalink",
-    element: <ItemPage />,
+    path: "/items/:category",
+    element: <ItemsPage />,
+  },
+  {
+    path: "/item/:itemPermalink",
+    element: <DetailPage />,
   },
   {
     path: "/cart",

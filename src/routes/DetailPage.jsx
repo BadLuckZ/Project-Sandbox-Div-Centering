@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import "../css/ItemPage.css";
+import "../css/DetailPage.css";
 import { useParams, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard.jsx";
 import {
@@ -14,7 +14,7 @@ import {
 import { Select, MenuItem } from "@mui/material";
 import { CartContext } from "../contexts/CartContext.jsx";
 
-const ItemPage = () => {
+const DetailPage = () => {
   const { itemPermalink } = useParams();
   const navigate = useNavigate();
   const { cart, setCart } = useContext(CartContext);
@@ -138,12 +138,12 @@ const ItemPage = () => {
   };
 
   return (
-    <div className="itempage-container">
+    <div className="detailpage-container">
       {/* Popup Content */}
       {showPopUp && (
-        <div className="itempage-popup-overlay">
-          <div className="itempage-popup-container">
-            <div className="itempage-popup-header">
+        <div className="detailpage-popup-overlay">
+          <div className="detailpage-popup-container">
+            <div className="detailpage-popup-header">
               <p>Item added to your cart!</p>
               <i
                 className="fa-solid fa-x"
@@ -152,29 +152,29 @@ const ItemPage = () => {
                 }}
               ></i>
             </div>
-            <div className="itempage-popup-content">
+            <div className="detailpage-popup-content">
               <img src={currentItem.imageUrls[0]}></img>
-              <div className="itempage-popup-info">
+              <div className="detailpage-popup-info">
                 <div>
-                  <h3 className="itempage-popup-name">{currentItem.name}</h3>
+                  <h3 className="detailpage-popup-name">{currentItem.name}</h3>
                   <div>
                     {color ? (
-                      <p className="itempage-popup-color">Color : {color}</p>
+                      <p className="detailpage-popup-color">Color : {color}</p>
                     ) : null}
                     {size ? (
-                      <p className="itempage-popup-size">Size : {size}</p>
+                      <p className="detailpage-popup-size">Size : {size}</p>
                     ) : null}
-                    <p className="itempage-popup-qty">QTY : {quantity}</p>
+                    <p className="detailpage-popup-qty">QTY : {quantity}</p>
                   </div>
                 </div>
-                <h3 className="itempage-popup-price">
+                <h3 className="detailpage-popup-price">
                   THB {formattedPromotionalPrice}
                 </h3>
               </div>
             </div>
-            <div className="itempage-popup-buttons">
+            <div className="detailpage-popup-buttons">
               <button
-                className="itempage-popup-viewcart-btn"
+                className="detailpage-popup-viewcart-btn"
                 onClick={() => {
                   setShowPopUp(false);
                   navigate("/cart");
@@ -183,7 +183,7 @@ const ItemPage = () => {
                 View cart
               </button>
               <button
-                className="itempage-popup-continue-btn"
+                className="detailpage-popup-continue-btn"
                 onClick={() => {
                   setShowPopUp(false);
                 }}
@@ -195,13 +195,13 @@ const ItemPage = () => {
         </div>
       )}
 
-      <div className="itempage-content">
+      <div className="detailpage-content">
         {/* Slider Content */}
-        <div className="itempage-slider-container">
-          <div className="itempage-main-image-section">
+        <div className="detailpage-slider-container">
+          <div className="detailpage-main-image-section">
             <img
               src={currentItem.imageUrls[currentImageIndex]}
-              className={`itempage-main-image ${
+              className={`detailpage-main-image ${
                 (!allColors.length || color) && (!allSizes.length || size)
                   ? haveStock
                     ? ""
@@ -210,7 +210,7 @@ const ItemPage = () => {
               }`}
             />
             <button
-              className={`itempage-left-btn ${
+              className={`detailpage-left-btn ${
                 (!allColors.length || color) && (!allSizes.length || size)
                   ? haveStock
                     ? ""
@@ -228,7 +228,7 @@ const ItemPage = () => {
             </button>
 
             <button
-              className={`itempage-right-btn ${
+              className={`detailpage-right-btn ${
                 (!allColors.length || color) && (!allSizes.length || size)
                   ? haveStock
                     ? ""
@@ -247,27 +247,27 @@ const ItemPage = () => {
             {(!allColors.length || color) && (!allSizes.length || size) ? (
               haveStock ? (
                 percentDiscount > 0 && (
-                  <p className="itempage-slider-discount-tag">
+                  <p className="detailpage-slider-discount-tag">
                     -{percentDiscount}%
                   </p>
                 )
               ) : (
-                <p className="itempage-slider-outstock-tag">Out of stock</p>
+                <p className="detailpage-slider-outstock-tag">Out of stock</p>
               )
             ) : (
               percentDiscount > 0 && (
-                <p className="itempage-slider-discount-tag">
+                <p className="detailpage-slider-discount-tag">
                   -{percentDiscount}%
                 </p>
               )
             )}
           </div>
-          <div className="itempage-sub-image-section">
+          <div className="detailpage-sub-image-section">
             {currentItem.imageUrls.map((imageUrl, index) =>
               currentImageIndex === index ? null : (
                 <img
                   src={imageUrl}
-                  className={`itempage-sub-image ${
+                  className={`detailpage-sub-image ${
                     (!allColors.length || color) && (!allSizes.length || size)
                       ? haveStock
                         ? ""
@@ -291,56 +291,58 @@ const ItemPage = () => {
         </div>
 
         {/* Info Content */}
-        <div className="itempage-info-container">
-          <div className="itempage-info-info">
-            <div className="itempage-info-info-data">
+        <div className="detailpage-info-container">
+          <div className="detailpage-info-info">
+            <div className="detailpage-info-info-data">
               <div>
-                <h2 className="itempage-info-id">ID: {currentItem.skuCode}</h2>
+                <h2 className="detailpage-info-id">
+                  ID: {currentItem.skuCode}
+                </h2>
                 <i
-                  className="itempage-info-favorite fa-regular fa-heart"
+                  className="detailpage-info-favorite fa-regular fa-heart"
                   onClick={(event) => {
                     event.target.classList.toggle("fa-regular");
                     event.target.classList.toggle("fa-solid");
                   }}
                 ></i>
               </div>
-              <h1 className="itempage-info-name">{currentItem.name}</h1>
-              <h2 className="itempage-info-description">
+              <h1 className="detailpage-info-name">{currentItem.name}</h1>
+              <h2 className="detailpage-info-description">
                 {currentItem.description}
               </h2>
             </div>
             {percentDiscount ? (
-              <div className="itempage-info-discount">
-                <h1 className="itempage-info-after-price">
+              <div className="detailpage-info-discount">
+                <h1 className="detailpage-info-after-price">
                   THB {formattedPromotionalPrice}
                 </h1>
-                <h3 className="itempage-info-before-price">
+                <h3 className="detailpage-info-before-price">
                   From <p>THB {formattedPrice}</p>
                 </h3>
                 {(!allColors.length || color) && (!allSizes.length || size) ? (
                   haveStock ? null : (
-                    <p className="itempage-info-outstock-tag">Out of stock</p>
+                    <p className="detailpage-info-outstock-tag">Out of stock</p>
                   )
                 ) : null}
               </div>
             ) : (
-              <h1 className="itempage-info-normal-price">
+              <h1 className="detailpage-info-normal-price">
                 THB {formattedPrice}
               </h1>
             )}
-            <div className="itempage-info-rating">
+            <div className="detailpage-info-rating">
               {Array.from({ length: 5 }, (v, i) => {
                 const starRating = i + 1;
                 if (currentItem.ratings >= starRating) {
                   return (
                     <i
                       key={i}
-                      className="fa-solid fa-star itempage-info-star-full"
+                      className="fa-solid fa-star detailpage-info-star-full"
                     ></i>
                   );
                 } else if (Math.ceil(currentItem.ratings) === starRating) {
                   return (
-                    <i key={i} className="itempage-info-star-half">
+                    <i key={i} className="detailpage-info-star-half">
                       <i className="fa-solid fa-star-half"></i>
                       <i className="fa-solid fa-star-half"></i>
                     </i>
@@ -349,16 +351,16 @@ const ItemPage = () => {
                   return (
                     <i
                       key={i}
-                      className="fa-solid fa-star itempage-info-star-none"
+                      className="fa-solid fa-star detailpage-info-star-none"
                     ></i>
                   );
                 }
               })}
             </div>
           </div>
-          <div className="itempage-info-option">
+          <div className="detailpage-info-option">
             <div
-              className="itempage-info-color"
+              className="detailpage-info-color"
               style={{ display: allColors.length > 0 ? "flex" : "none" }}
             >
               <p>Color</p>
@@ -366,7 +368,7 @@ const ItemPage = () => {
                 {allColors.map((currentColor, idx) => (
                   <div
                     key={`${currentItem.id}-${currentColor}-${idx}`}
-                    className={`itempage-info-color-btn ${
+                    className={`detailpage-info-color-btn ${
                       color === currentColor ? "selected" : ""
                     }`}
                     onClick={() => {
@@ -375,16 +377,16 @@ const ItemPage = () => {
                     }}
                   >
                     <div
-                      className="itempage-info-color-area"
+                      className="detailpage-info-color-area"
                       style={{ backgroundColor: currentColor }}
                     ></div>
-                    <p className="itempage-info-color-text">{currentColor}</p>
+                    <p className="detailpage-info-color-text">{currentColor}</p>
                   </div>
                 ))}
               </div>
             </div>
             <div
-              className="itempage-info-size"
+              className="detailpage-info-size"
               style={{ display: allSizes.length > 0 ? "flex" : "none" }}
             >
               <p>Size</p>
@@ -392,7 +394,7 @@ const ItemPage = () => {
                 {allSizes.map((currentSize, idx) => (
                   <button
                     key={`${currentItem.id}-${currentSize}-${idx}`}
-                    className={`itempage-info-size-btn ${
+                    className={`detailpage-info-size-btn ${
                       size === currentSize ? "selected" : ""
                     }`}
                     onClick={() => {
@@ -405,17 +407,24 @@ const ItemPage = () => {
                 ))}
               </div>
             </div>
-            <div className="itempage-info-qty">
+            <div className="detailpage-info-qty">
               <p>Qty.</p>
               <Select
                 value={quantity}
                 onChange={(event) => {
                   setQuantity(event.target.value);
                 }}
+                disabled={
+                  !((!allColors.length || color) && (!allSizes.length || size))
+                }
                 displayEmpty
               >
                 <MenuItem value="">
-                  {haveStock ? "Select Quantity" : "Out of Stock"}
+                  {(!allColors.length || color) && (!allSizes.length || size)
+                    ? haveStock
+                      ? "Select Quantity"
+                      : "Out of Stock"
+                    : ""}
                 </MenuItem>
                 {getAvailableQuantities().map((qty) => (
                   <MenuItem key={`qty-${qty}`} value={qty}>
@@ -425,7 +434,7 @@ const ItemPage = () => {
               </Select>
             </div>
             <div
-              className={`itempage-add-to-cart-btn ${
+              className={`detailpage-add-to-cart-btn ${
                 haveStock && quantity > 0 ? "" : " disabled"
               }`}
               onClick={() => {
@@ -454,9 +463,9 @@ const ItemPage = () => {
         </div>
       </div>
 
-      <div className="itempage-more">
-        <h2 className="itempage-more-header">People also like these</h2>
-        <div className="itempage-more-content">
+      <div className="detailpage-more">
+        <h2 className="detailpage-more-header">People also like these</h2>
+        <div className="detailpage-more-content">
           {relatedItems.map((item, idx) => {
             return (
               <ProductCard
@@ -478,4 +487,4 @@ const ItemPage = () => {
   );
 };
 
-export default ItemPage;
+export default DetailPage;
