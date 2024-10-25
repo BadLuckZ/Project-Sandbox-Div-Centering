@@ -10,11 +10,14 @@ const ItemsPage = () => {
   const { category } = useParams();
   const navigate = useNavigate();
   const { cart, setCart } = useContext(CartContext);
-  const [allItems, setAllItems] = useState({});
-  const [displayedItems, setDisplayedItems] = useState([]);
+  const [items, setItems] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("");
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState("");
+  const [currentCategory, setCurrentCategory] = useState(null);
+  const [sortedItems, setSortedItems] = useState(null);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [contentLoading, setContentLoading] = useState(true);
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -22,70 +25,79 @@ const ItemsPage = () => {
     { value: "ratings:desc", text: "Best seller" },
   ];
 
-  // Fetch Data
+  // Fetch All Categories
   useEffect(() => {
     async function fetchAllCategories() {
-      setLoading(true);
       try {
-        const categoriesRes = await fetch(
-          "https://api.storefront.wdb.skooldio.dev/categories"
-        );
-        if (!categoriesRes.ok) throw new Error("Failed to fetch categories");
-        const categoriesData = await categoriesRes.json();
-        const fetchedCategories = categoriesData.map((d) => d.permalink);
-        setCategories(fetchedCategories);
-
-        const itemsPromises = fetchedCategories.map((cat) =>
-          fetch(
-            `https://api.storefront.wdb.skooldio.dev/products?categories=${cat}`
-          )
-            .then((res) => res.json())
-            .then((data) => ({ [cat]: data.data }))
-        );
-
-        const itemsResults = await Promise.all(itemsPromises);
-        const combinedItems = itemsResults.reduce(
-          (acc, curr) => ({ ...acc, ...curr }),
-          {}
-        );
-        setAllItems(combinedItems);
+        const url = `https://api.storefront.wdb.skooldio.dev/categories`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await res.json();
+        const fetchCategories = data.map((d) => d.permalink);
+        setCategories(fetchCategories);
       } catch (err) {
-        console.error("Error fetching data:", err);
+        console.error(err);
       } finally {
-        setLoading(false);
+        setPageLoading(false);
       }
     }
     fetchAllCategories();
   }, []);
 
-  // Sorting Functions
+  // Fetch Items in New Category
   useEffect(() => {
-    if (allItems[category]) {
-      let itemsToDisplay = [...allItems[category]];
-
-      // Apply sorting
-      if (sortBy === "price:asc") {
-        itemsToDisplay.sort((a, b) => a.promotionalPrice - b.promotionalPrice);
-      } else if (sortBy === "price:desc") {
-        itemsToDisplay.sort((a, b) => b.promotionalPrice - a.promotionalPrice);
-      } else if (sortBy === "ratings:desc") {
-        itemsToDisplay.sort((a, b) => b.ratings - a.ratings);
+    async function fetchItems() {
+      if (category !== currentCategory) {
+        setContentLoading(true);
+        setItems(null);
+        setSortedItems(null);
       }
-
-      setDisplayedItems(itemsToDisplay);
+      try {
+        const url = `https://api.storefront.wdb.skooldio.dev/products?categories=${category}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          throw new Error("Failed to fetch items");
+        }
+        const data = await res.json();
+        setItems(data.data);
+        setCurrentCategory(category);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setContentLoading(false);
+      }
     }
-  }, [category, sortBy, allItems]);
+    if (category !== currentCategory) {
+      setSortBy("");
+      fetchItems();
+    }
+  }, [category, currentCategory]);
+
+  // Sort Function
+  useEffect(() => {
+    if (items) {
+      let newSortedItems = [...items];
+      if (sortBy === "price:asc") {
+        newSortedItems.sort((a, b) => a.promotionalPrice - b.promotionalPrice);
+      } else if (sortBy === "price:desc") {
+        newSortedItems.sort((a, b) => b.promotionalPrice - a.promotionalPrice);
+      } else if (sortBy === "ratings:desc") {
+        newSortedItems.sort((a, b) => b.ratings - a.ratings);
+      }
+      setSortedItems(newSortedItems);
+    } else {
+      setSortedItems(null);
+    }
+  }, [sortBy, items]);
 
   const handleClickSortOption = (event) => {
     setSortBy(event.target.value);
   };
 
-  if (loading) {
+  if (pageLoading || !categories) {
     return <h1>Loading...</h1>;
-  }
-
-  if (!allItems[category] || !categories.length) {
-    return <h1>Item not found</h1>;
   }
 
   return (
@@ -99,7 +111,6 @@ const ItemsPage = () => {
             className={c === category ? "active" : ""}
             onClick={() => {
               navigate(`/items/${c}`);
-              setSortBy("");
             }}
           >
             {categoryData[c].text}
@@ -107,69 +118,75 @@ const ItemsPage = () => {
         ))}
       </div>
 
-      <div className="itemspage-content">
-        <div className="itemspage-content-header">
-          <h1>{categoryData[category].text}</h1>
-          <FormControl sx={{ m: 1, minWidth: 180 }}>
-            <Select
-              value={sortBy}
-              onChange={handleClickSortOption}
-              displayEmpty
-              renderValue={() => {
-                const selectedOption = sortOptions.find(
-                  (sortOption) => sortOption.value === sortBy
-                );
+      {contentLoading ? (
+        <div className="itemspage-content">
+          <h1>Loading...</h1>
+        </div>
+      ) : (
+        <div className="itemspage-content">
+          <div className="itemspage-content-header">
+            <h1>{categoryData[category].text}</h1>
+            <FormControl sx={{ m: 1, minWidth: 180 }}>
+              <Select
+                value={sortBy}
+                onChange={handleClickSortOption}
+                displayEmpty
+                renderValue={() => {
+                  const selectedOption = sortOptions.find(
+                    (sortOption) => sortOption.value === sortBy
+                  );
 
-                return (
-                  <Typography
-                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                  >
-                    {selectedOption ? selectedOption.text : "Sort by"}
-                  </Typography>
-                );
-              }}
-            >
-              {sortOptions.map((sortOption) => (
-                <MenuItem key={sortOption.value} value={sortOption.value}>
-                  <Typography
-                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                  >
-                    <span
-                      style={{
-                        width: 16,
-                        height: 16,
-                        borderRadius: "50%",
-                        backgroundColor:
-                          sortBy === sortOption.value
-                            ? "var(--Project-Sandbox-Primary-Red-900)"
-                            : "transparent",
-                        border:
-                          "2px solid var(--Project-Sandbox-Primary-Red-900)",
-                      }}
-                    />
-                    {sortOption.text}
-                  </Typography>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                  return (
+                    <Typography
+                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                    >
+                      {selectedOption ? selectedOption.text : "Sort by"}
+                    </Typography>
+                  );
+                }}
+              >
+                {sortOptions.map((sortOption) => (
+                  <MenuItem key={sortOption.value} value={sortOption.value}>
+                    <Typography
+                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                    >
+                      <span
+                        style={{
+                          width: 16,
+                          height: 16,
+                          borderRadius: "50%",
+                          backgroundColor:
+                            sortBy === sortOption.value
+                              ? "var(--Project-Sandbox-Primary-Red-900)"
+                              : "transparent",
+                          border:
+                            "2px solid var(--Project-Sandbox-Primary-Red-900)",
+                        }}
+                      />
+                      {sortOption.text}
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          <div className="itemspage-content-grid">
+            {sortedItems?.map((item) => (
+              <ProductCard
+                key={item.id}
+                id={item.id}
+                permalink={item.permalink}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                promotionalPrice={item.promotionalPrice}
+                ratings={item.ratings}
+                imageUrls={item.imageUrls}
+              />
+            ))}
+          </div>
         </div>
-        <div className="itemspage-content-grid">
-          {displayedItems.map((item) => (
-            <ProductCard
-              key={item.id}
-              id={item.id}
-              permalink={item.permalink}
-              name={item.name}
-              description={item.description}
-              price={item.price}
-              promotionalPrice={item.promotionalPrice}
-              ratings={item.ratings}
-              imageUrls={item.imageUrls}
-            />
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 };
