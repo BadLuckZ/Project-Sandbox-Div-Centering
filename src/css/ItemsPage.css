@@ -11,9 +11,13 @@
 }
 
 .itemspage-category button {
-  margin: 4px;
+  margin: 8px;
   border: 2px solid black;
   border-radius: 4px;
+}
+
+.itemspage-category button.active {
+  border: 2px solid var(--Project-Sandbox-Primary-Red-900);
 }
 
 .itemspage-content {

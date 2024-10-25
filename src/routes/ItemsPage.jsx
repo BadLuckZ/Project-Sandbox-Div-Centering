@@ -4,15 +4,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext.jsx";
 import ProductCard from "../components/ProductCard";
 import { FormControl, MenuItem, Select, Typography } from "@mui/material";
+import { categoryData } from "../js/utils.js";
 
 const ItemsPage = () => {
   const { category } = useParams();
   const navigate = useNavigate();
   const { cart, setCart } = useContext(CartContext);
-  const [items, setItems] = useState(null);
+  const [allItems, setAllItems] = useState({});
+  const [displayedItems, setDisplayedItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("");
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -20,63 +22,59 @@ const ItemsPage = () => {
     { value: "ratings:desc", text: "Best seller" },
   ];
 
-  // Fetch Items
+  // Fetch Data
   useEffect(() => {
-    async function fetchItems() {
-      setLoading(true);
-      const url = `https://api.storefront.wdb.skooldio.dev/products?categories=${category}`;
-      try {
-        const res = await fetch(url);
-        if (!res.ok) {
-          throw new Error("Failed to fetch items");
-        }
-        const data = await res.json();
-        setItems(data.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     async function fetchAllCategories() {
       setLoading(true);
-      const url = `https://api.storefront.wdb.skooldio.dev/categories`;
       try {
-        const res = await fetch(url);
-        if (!res.ok) {
-          throw new Error("Failed to fetch categories");
-        }
-        const data = await res.json();
-        const fetchCategories = data.map((d) => d.permalink);
-        setCategories(fetchCategories);
+        const categoriesRes = await fetch(
+          "https://api.storefront.wdb.skooldio.dev/categories"
+        );
+        if (!categoriesRes.ok) throw new Error("Failed to fetch categories");
+        const categoriesData = await categoriesRes.json();
+        const fetchedCategories = categoriesData.map((d) => d.permalink);
+        setCategories(fetchedCategories);
+
+        const itemsPromises = fetchedCategories.map((cat) =>
+          fetch(
+            `https://api.storefront.wdb.skooldio.dev/products?categories=${cat}`
+          )
+            .then((res) => res.json())
+            .then((data) => ({ [cat]: data.data }))
+        );
+
+        const itemsResults = await Promise.all(itemsPromises);
+        const combinedItems = itemsResults.reduce(
+          (acc, curr) => ({ ...acc, ...curr }),
+          {}
+        );
+        setAllItems(combinedItems);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
     }
-
     fetchAllCategories();
-    fetchItems();
-    setSortBy("");
-  }, [category]);
+  }, []);
 
-  // Sort Function
+  // Sorting Functions
   useEffect(() => {
-    if (items) {
-      let sortedItems = [...items];
+    if (allItems[category]) {
+      let itemsToDisplay = [...allItems[category]];
+
+      // Apply sorting
       if (sortBy === "price:asc") {
-        sortedItems.sort((a, b) => a.promotionalPrice - b.promotionalPrice);
+        itemsToDisplay.sort((a, b) => a.promotionalPrice - b.promotionalPrice);
       } else if (sortBy === "price:desc") {
-        sortedItems.sort((a, b) => b.promotionalPrice - a.promotionalPrice);
+        itemsToDisplay.sort((a, b) => b.promotionalPrice - a.promotionalPrice);
       } else if (sortBy === "ratings:desc") {
-        sortedItems.sort((a, b) => b.ratings - a.ratings);
+        itemsToDisplay.sort((a, b) => b.ratings - a.ratings);
       }
 
-      setItems(sortedItems);
+      setDisplayedItems(itemsToDisplay);
     }
-  }, [sortBy, items]);
+  }, [category, sortBy, allItems]);
 
   const handleClickSortOption = (event) => {
     setSortBy(event.target.value);
@@ -85,30 +83,33 @@ const ItemsPage = () => {
   if (loading) {
     return <h1>Loading...</h1>;
   }
-  if (!items || !categories) {
+
+  if (!allItems[category] || !categories.length) {
     return <h1>Item not found</h1>;
   }
 
   return (
     <div className="itemspage-container">
       <div className="itemspage-category">
-        {categories.map((category, index) => (
+        {categories.map((c) => (
           <button
-            key={category}
-            value={category}
-            className={index === 0 ? "active" : ""}
+            key={c}
+            value={c}
+            disabled={c === category}
+            className={c === category ? "active" : ""}
             onClick={() => {
-              navigate(`/items/${category}`);
+              navigate(`/items/${c}`);
+              setSortBy("");
             }}
           >
-            {category}
+            {categoryData[c].text}
           </button>
         ))}
       </div>
 
       <div className="itemspage-content">
         <div className="itemspage-content-header">
-          <h1>{category}</h1>
+          <h1>{categoryData[category].text}</h1>
           <FormControl sx={{ m: 1, minWidth: 180 }}>
             <Select
               value={sortBy}
@@ -154,7 +155,7 @@ const ItemsPage = () => {
           </FormControl>
         </div>
         <div className="itemspage-content-grid">
-          {items.map((item) => (
+          {displayedItems.map((item) => (
             <ProductCard
               key={item.id}
               id={item.id}

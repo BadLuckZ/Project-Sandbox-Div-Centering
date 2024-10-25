@@ -81,3 +81,14 @@ export const getItemInCart = (cart, itemId) => {
     return null;
   }
 };
+
+export const categoryData = {
+  "all-men": { text: "Men's Clothing", type: "All" },
+  "all-ladies": { text: "Women's Clothing", type: "All" },
+  "men-shirts": { text: "Men's Shirts", type: "Shirts" },
+  "ladies-shirts": { text: "Women's Shirts", type: "Shirts" },
+  "men-shoes": { text: "Men's Shoes", type: "Shoes" },
+  "ladies-shoes": { text: "Women's Shoes", type: "Shoes" },
+  "men-accessories": { text: "Men's Accessories", type: "Accessories" },
+  "ladies-accessories": { text: "Women's Accessories", type: "Accessories" },
+};
