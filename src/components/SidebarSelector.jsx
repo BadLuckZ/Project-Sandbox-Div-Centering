@@ -9,17 +9,21 @@ import {
 import { categoryData } from "../js/utils";
 import { useNavigate } from "react-router-dom";
 
-export default function SidebarSelector({ type, current }) {
+export default function SidebarSelector({ type, currentPermalink }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (
-      categoryData.some((item) => item.type === type && item.api === current)
+      categoryData.some(
+        (item) => item.type === type && item.api === currentPermalink
+      )
     ) {
       setOpen(true);
+    } else {
+      setOpen(false);
     }
-  }, [type, current]);
+  }, [type, currentPermalink]);
 
   const handleClick = () => {
     setOpen((prev) => !prev);
@@ -42,7 +46,6 @@ export default function SidebarSelector({ type, current }) {
             sx: {
               color: "var(--Project-Sandbox-Secondary-Black-900)",
               fontSize: "18px",
-              fontStyle: "normal",
               fontWeight: "600",
               lineHeight: "24px",
             },
@@ -60,7 +63,7 @@ export default function SidebarSelector({ type, current }) {
                 disablePadding
                 sx={{
                   backgroundColor:
-                    item.api === current
+                    item.api === currentPermalink
                       ? "var(--Project-Sandbox-Primary-Red-700)"
                       : "inherit",
                 }}

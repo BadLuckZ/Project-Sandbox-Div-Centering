@@ -15,16 +15,13 @@ import SidebarSelector from "../components/SidebarSelector.jsx";
 import Header from "../components/Header.jsx";
 
 export default function ItemsPage() {
-  const { category } = useParams();
-  const navigate = useNavigate();
+  const { categoryPermalink } = useParams();
   const { cart, setCart } = useContext(CartContext);
   const [items, setItems] = useState(null);
   const [sortBy, setSortBy] = useState("");
-  const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(null);
   const [sortedItems, setSortedItems] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [contentLoading, setContentLoading] = useState(true);
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -33,52 +30,32 @@ export default function ItemsPage() {
   ];
 
   useEffect(() => {
-    async function fetchAllCategories() {
-      try {
-        const url = `https://api.storefront.wdb.skooldio.dev/categories`;
-        const res = await fetch(url);
-        if (!res.ok) {
-          throw new Error("Failed to fetch categories");
-        }
-        const data = await res.json();
-        const fetchCategories = data.map((d) => d.permalink);
-        setCategories(fetchCategories);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchAllCategories();
-  }, []);
-
-  useEffect(() => {
     async function fetchItems() {
-      if (category !== currentCategory) {
-        setContentLoading(true);
+      if (categoryPermalink !== currentCategory) {
+        setLoading(true);
         setItems(null);
         setSortedItems(null);
       }
       try {
-        const url = `https://api.storefront.wdb.skooldio.dev/products?categories=${category}`;
+        const url = `https://api.storefront.wdb.skooldio.dev/products?categories=${categoryPermalink}`;
         const res = await fetch(url);
         if (!res.ok) {
           throw new Error("Failed to fetch items");
         }
         const data = await res.json();
         setItems(data.data);
-        setCurrentCategory(category);
+        setCurrentCategory(categoryPermalink);
       } catch (err) {
         console.error(err);
       } finally {
-        setContentLoading(false);
+        setLoading(false);
       }
     }
-    if (category !== currentCategory) {
+    if (categoryPermalink !== currentCategory) {
       setSortBy("");
       fetchItems();
     }
-  }, [category, currentCategory]);
+  }, [categoryPermalink, currentCategory]);
 
   useEffect(() => {
     if (items) {
@@ -100,29 +77,27 @@ export default function ItemsPage() {
     setSortBy(event.target.value);
   };
 
-  if (loading || !categories) {
-    return (
-      <div className="itemspage-container">
-        <Skeleton variant="rectangular" height={60} />
-        <Skeleton variant="rectangular" height={400} />
-      </div>
-    );
-  }
+  const currentCategoryData = categoryData.find(
+    (cat) => cat.api === categoryPermalink
+  );
 
-  const currentCategoryData = categoryData.find((cat) => cat.api === category);
+  const categoryTypes = [...new Set(categoryData.map((item) => item.type))];
 
   return (
     <>
-      <Header />
+      <Header currentPermalink={categoryPermalink} />
       <div className="itemspage-container">
         <div className="itemspage-selector">
-          <SidebarSelector type="All" current={category} />
-          <SidebarSelector type="Shirts" current={category} />
-          <SidebarSelector type="Shoes" current={category} />
-          <SidebarSelector type="Accessories" current={category} />
+          {categoryTypes.map((categoryType) => (
+            <SidebarSelector
+              key={categoryType}
+              type={categoryType}
+              currentPermalink={categoryPermalink}
+            />
+          ))}
         </div>
         <div className="itemspage-content">
-          {contentLoading ? (
+          {loading ? (
             <>
               <div className="itemspage-content-header">
                 <Skeleton variant="text" width={200} height={40} />

@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: "/items/:category",
+    path: "/items/:categoryPermalink",
     element: <ItemsPage />,
   },
   {

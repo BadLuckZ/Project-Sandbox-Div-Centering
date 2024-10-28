@@ -82,7 +82,23 @@ export const getItemInCart = (cart, itemId) => {
   }
 };
 
+async function fetchAllCategories() {
+  try {
+    const url = `https://api.storefront.wdb.skooldio.dev/categories`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error("Failed to fetch categories");
+    }
+    const data = await res.json();
+    const fetchCategories = data.map((d) => d.permalink);
+    console.log(fetchCategories);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export const categoryData = [
+  // get the data from fetchAllCategories and modify them in this function
   { api: "all-men", text: "Men's Clothing", type: "All" },
   { api: "all-ladies", text: "Women's Clothing", type: "All" },
   { api: "men-shirts", text: "Men's Shirts", type: "Shirts" },
@@ -95,4 +111,5 @@ export const categoryData = [
     text: "Women's Accessories",
     type: "Accessories",
   },
+  { api: "test", text: "Test Test", type: "Test" },
 ];
