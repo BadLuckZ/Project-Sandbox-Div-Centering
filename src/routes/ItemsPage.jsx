@@ -11,6 +11,8 @@ import {
   Typography,
 } from "@mui/material";
 import { categoryData } from "../js/utils.js";
+import SidebarSelector from "../components/SidebarSelector.jsx";
+import Header from "../components/Header.jsx";
 
 export default function ItemsPage() {
   const { category } = useParams();
@@ -18,7 +20,7 @@ export default function ItemsPage() {
   const { cart, setCart } = useContext(CartContext);
   const [items, setItems] = useState(null);
   const [sortBy, setSortBy] = useState("");
-  const [categories, setCategories] = useState("");
+  const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(null);
   const [sortedItems, setSortedItems] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -30,7 +32,6 @@ export default function ItemsPage() {
     { value: "ratings:desc", text: "Best seller" },
   ];
 
-  // Fetch All Categories
   useEffect(() => {
     async function fetchAllCategories() {
       try {
@@ -51,7 +52,6 @@ export default function ItemsPage() {
     fetchAllCategories();
   }, []);
 
-  // Fetch Items in New Category
   useEffect(() => {
     async function fetchItems() {
       if (category !== currentCategory) {
@@ -80,7 +80,6 @@ export default function ItemsPage() {
     }
   }, [category, currentCategory]);
 
-  // Sort Function
   useEffect(() => {
     if (items) {
       let newSortedItems = [...items];
@@ -110,101 +109,103 @@ export default function ItemsPage() {
     );
   }
 
+  const currentCategoryData = categoryData.find((cat) => cat.api === category);
+
   return (
-    <div className="itemspage-container">
-      <div className="itemspage-category">
-        {categories.map((c) => (
-          <button
-            key={c}
-            value={c}
-            disabled={c === category}
-            className={c === category ? "active" : ""}
-            onClick={() => {
-              navigate(`/items/${c}`);
-            }}
-          >
-            {categoryData[c].text}
-          </button>
-        ))}
-      </div>
-
-      {contentLoading ? (
-        <div className="itemspage-content">
-          <div className="itemspage-content-header">
-            <Skeleton variant="text" width={200} height={40} />
-            <Skeleton variant="rectangular" width={180} height={40} />
-          </div>
-          <div className="itemspage-content-grid">
-            {[...Array(8)].map((_, index) => (
-              <Skeleton key={index} variant="rectangular" height={300} />
-            ))}
-          </div>
+    <>
+      <Header />
+      <div className="itemspage-container">
+        <div className="itemspage-selector">
+          <SidebarSelector type="All" current={category} />
+          <SidebarSelector type="Shirts" current={category} />
+          <SidebarSelector type="Shoes" current={category} />
+          <SidebarSelector type="Accessories" current={category} />
         </div>
-      ) : (
         <div className="itemspage-content">
-          <div className="itemspage-content-header">
-            <h1>{categoryData[category].text}</h1>
-            <FormControl sx={{ m: 1, minWidth: 180 }}>
-              <Select
-                value={sortBy}
-                onChange={handleClickSortOption}
-                displayEmpty
-                renderValue={() => {
-                  const selectedOption = sortOptions.find(
-                    (sortOption) => sortOption.value === sortBy
-                  );
-
-                  return (
-                    <Typography
-                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                    >
-                      {selectedOption ? selectedOption.text : "Sort by"}
-                    </Typography>
-                  );
-                }}
-              >
-                {sortOptions.map((sortOption) => (
-                  <MenuItem key={sortOption.value} value={sortOption.value}>
-                    <Typography
-                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                    >
-                      <span
-                        style={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: "50%",
-                          backgroundColor:
-                            sortBy === sortOption.value
-                              ? "var(--Project-Sandbox-Primary-Red-900)"
-                              : "transparent",
-                          border:
-                            "2px solid var(--Project-Sandbox-Primary-Red-900)",
-                        }}
-                      />
-                      {sortOption.text}
-                    </Typography>
-                  </MenuItem>
+          {contentLoading ? (
+            <>
+              <div className="itemspage-content-header">
+                <Skeleton variant="text" width={200} height={40} />
+                <Skeleton variant="rectangular" width={180} height={40} />
+              </div>
+              <div className="itemspage-content-grid">
+                {[...Array(8)].map((_, index) => (
+                  <Skeleton key={index} variant="rectangular" height={300} />
                 ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="itemspage-content-grid">
-            {sortedItems?.map((item) => (
-              <ProductCard
-                key={item.id}
-                id={item.id}
-                permalink={item.permalink}
-                name={item.name}
-                description={item.description}
-                price={item.price}
-                promotionalPrice={item.promotionalPrice}
-                ratings={item.ratings}
-                imageUrls={item.imageUrls}
-              />
-            ))}
-          </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="itemspage-content-header">
+                <h1>
+                  {currentCategoryData ? currentCategoryData.text : "Category"}
+                </h1>
+                <FormControl
+                  sx={{ m: 1, minWidth: 180 }}
+                  className="itemspage-content-sort"
+                >
+                  <Select
+                    value={sortBy}
+                    onChange={handleClickSortOption}
+                    displayEmpty
+                    renderValue={() => {
+                      const selectedOption = sortOptions.find(
+                        (sortOption) => sortOption.value === sortBy
+                      );
+
+                      return (
+                        <Typography
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          {selectedOption ? selectedOption.text : "Sort by"}
+                        </Typography>
+                      );
+                    }}
+                  >
+                    {sortOptions.map((sortOption) => (
+                      <MenuItem key={sortOption.value} value={sortOption.value}>
+                        <Typography
+                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                        >
+                          <span
+                            style={{
+                              width: 16,
+                              height: 16,
+                              borderRadius: "50%",
+                              backgroundColor:
+                                sortBy === sortOption.value
+                                  ? "var(--Project-Sandbox-Primary-Red-900)"
+                                  : "transparent",
+                              border:
+                                "2px solid var(--Project-Sandbox-Primary-Red-900)",
+                            }}
+                          />
+                          {sortOption.text}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="itemspage-content-grid">
+                {sortedItems?.map((item) => (
+                  <ProductCard
+                    key={item.id}
+                    id={item.id}
+                    permalink={item.permalink}
+                    name={item.name}
+                    description={item.description}
+                    price={item.price}
+                    promotionalPrice={item.promotionalPrice}
+                    ratings={item.ratings}
+                    imageUrls={item.imageUrls}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,28 +1,19 @@
 .itemspage-container {
   display: flex;
   width: 100%;
-  padding: 67px 127px 64px 40px;
+  padding: 64px 124px 64px 64px;
   gap: 40px;
 }
 
-.itemspage-category {
+.itemspage-selector {
   display: flex;
   flex-direction: column;
-}
-
-.itemspage-category button {
-  margin: 8px;
-  border: 2px solid black;
-  border-radius: 4px;
-}
-
-.itemspage-category button.active {
-  border: 2px solid var(--Project-Sandbox-Primary-Red-900);
+  width: 268px;
 }
 
 .itemspage-content {
   display: flex;
-  width: 100%;
+  width: calc(100% - 268px);
   flex-direction: column;
   gap: 42px;
 }
@@ -39,6 +30,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 48px;
+  margin: 0;
 }
 
 .itemspage-content-sort {

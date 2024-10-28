@@ -20,6 +20,9 @@ module.exports = {
         },
         danger: "var(--Project-Sandbox-Danger)",
         white: "var(--Project-Sandbox-White)",
+        text: {
+          "dark-text": "var(--Text-DarkText)",
+        },
       },
     },
   },
