@@ -10,10 +10,12 @@ import {
   getAllSizes,
   getAllColors,
   getItemInCart,
+  handleScrollToTop,
 } from "../js/utils.js";
 import { Select, MenuItem, Skeleton } from "@mui/material";
 import { CartContext } from "../contexts/CartContext.jsx";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 
 const DetailPage = () => {
   const { itemPermalink } = useParams();
@@ -87,46 +89,43 @@ const DetailPage = () => {
 
   if (loading) {
     return (
-      <>
-        <Header />
-        <div className="detailpage-container">
-          <div className="detailpage-content">
-            <div className="detailpage-slider-container">
-              <Skeleton variant="rectangular" width="100%" height={400} />
-              <div className="detailpage-sub-image-section">
-                {[...Array(4)].map((_, index) => (
-                  <Skeleton
-                    key={index}
-                    variant="rectangular"
-                    width={80}
-                    height={80}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="detailpage-info-container">
-              <Skeleton variant="text" width="60%" />
-              <Skeleton variant="text" width="40%" />
-              <Skeleton variant="rectangular" width="100%" height={100} />
-              <Skeleton variant="rectangular" width="100%" height={50} />
-              <Skeleton variant="rectangular" width="100%" height={50} />
-            </div>
-          </div>
-          <div className="detailpage-more">
-            <Skeleton variant="text" width={200} />
-            <div className="detailpage-more-content">
+      <div className="detailpage-container">
+        <div className="detailpage-content">
+          <div className="detailpage-slider-container">
+            <Skeleton variant="rectangular" width="100%" height={400} />
+            <div className="detailpage-sub-image-section">
               {[...Array(4)].map((_, index) => (
                 <Skeleton
                   key={index}
                   variant="rectangular"
-                  width={200}
-                  height={300}
+                  width={80}
+                  height={80}
                 />
               ))}
             </div>
           </div>
+          <div className="detailpage-info-container">
+            <Skeleton variant="text" width="60%" />
+            <Skeleton variant="text" width="40%" />
+            <Skeleton variant="rectangular" width="100%" height={100} />
+            <Skeleton variant="rectangular" width="100%" height={50} />
+            <Skeleton variant="rectangular" width="100%" height={50} />
+          </div>
         </div>
-      </>
+        <div className="detailpage-more">
+          <Skeleton variant="text" width={200} />
+          <div className="detailpage-more-content">
+            {[...Array(4)].map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="rectangular"
+                width={200}
+                height={300}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -225,6 +224,7 @@ const DetailPage = () => {
                   className="detailpage-popup-viewcart-btn"
                   onClick={() => {
                     setShowPopUp(false);
+                    handleScrollToTop();
                     navigate("/cart");
                   }}
                 >
@@ -540,6 +540,7 @@ const DetailPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

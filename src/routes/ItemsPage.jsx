@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../css/ItemsPage.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { CartContext } from "../contexts/CartContext.jsx";
+import { useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import {
   FormControl,
@@ -10,18 +9,20 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { categoryData } from "../js/utils.js";
+import { categoryData, handleScrollToTop } from "../js/utils.js";
 import SidebarSelector from "../components/SidebarSelector.jsx";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 
 export default function ItemsPage() {
   const { categoryPermalink } = useParams();
-  const { cart, setCart } = useContext(CartContext);
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState("");
-  const [currentCategory, setCurrentCategory] = useState(null);
-  const [sortedItems, setSortedItems] = useState(null);
+  const [currentCategoryPermalink, setCurrentCategoryPermalink] =
+    useState(null); // displayed category permalink
+  const [sortedItems, setSortedItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [targetCategory, setTargetCategory] = useState(null); // Category that is chosen from Footer
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -31,7 +32,7 @@ export default function ItemsPage() {
 
   useEffect(() => {
     async function fetchItems() {
-      if (categoryPermalink !== currentCategory) {
+      if (categoryPermalink !== currentCategoryPermalink) {
         setLoading(true);
         setItems(null);
         setSortedItems(null);
@@ -44,18 +45,18 @@ export default function ItemsPage() {
         }
         const data = await res.json();
         setItems(data.data);
-        setCurrentCategory(categoryPermalink);
+        setCurrentCategoryPermalink(categoryPermalink);
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
     }
-    if (categoryPermalink !== currentCategory) {
+    if (categoryPermalink !== currentCategoryPermalink) {
       setSortBy("");
       fetchItems();
     }
-  }, [categoryPermalink, currentCategory]);
+  }, [categoryPermalink, currentCategoryPermalink]);
 
   useEffect(() => {
     if (items) {
@@ -81,11 +82,19 @@ export default function ItemsPage() {
     (cat) => cat.api === categoryPermalink
   );
 
+  const handleFeaturedProductClick = (categoryType) => {
+    handleScrollToTop();
+    setTargetCategory(categoryType);
+  };
+
   const categoryTypes = [...new Set(categoryData.map((item) => item.type))];
 
   return (
     <>
-      <Header currentPermalink={categoryPermalink} />
+      <Header
+        currentPermalink={categoryPermalink}
+        targetCategory={targetCategory}
+      />
       <div className="itemspage-container">
         <div className="itemspage-selector">
           {categoryTypes.map((categoryType) => (
@@ -163,24 +172,33 @@ export default function ItemsPage() {
                 </FormControl>
               </div>
               <div className="itemspage-content-grid">
-                {sortedItems?.map((item) => (
-                  <ProductCard
-                    key={item.id}
-                    id={item.id}
-                    permalink={item.permalink}
-                    name={item.name}
-                    description={item.description}
-                    price={item.price}
-                    promotionalPrice={item.promotionalPrice}
-                    ratings={item.ratings}
-                    imageUrls={item.imageUrls}
-                  />
-                ))}
+                {sortedItems && sortedItems.length > 0 ? (
+                  sortedItems.map((item) => (
+                    <ProductCard
+                      key={item.id}
+                      id={item.id}
+                      permalink={item.permalink}
+                      name={item.name}
+                      description={item.description}
+                      price={item.price}
+                      promotionalPrice={item.promotionalPrice}
+                      ratings={item.ratings}
+                      imageUrls={item.imageUrls}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="body1">No items available.</Typography>
+                )}
               </div>
             </>
           )}
         </div>
       </div>
+      <Footer
+        onFeaturedProductClick={(categoryType) =>
+          handleFeaturedProductClick(categoryType)
+        }
+      />
     </>
   );
 }

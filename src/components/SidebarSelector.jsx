@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Collapse,
-  ListItemButton,
-} from "@mui/material";
+import { List, ListItemButton, ListItemText, Collapse } from "@mui/material";
 import { categoryData } from "../js/utils";
 import { useNavigate } from "react-router-dom";
 
@@ -58,9 +52,9 @@ export default function SidebarSelector({ type, currentPermalink }) {
           {categoryData
             .filter((item) => item.type === type)
             .map((item) => (
-              <ListItem
+              <ListItemButton
                 key={item.api}
-                disablePadding
+                onClick={() => handleItemClick(item.api)}
                 sx={{
                   backgroundColor:
                     item.api === currentPermalink
@@ -68,20 +62,18 @@ export default function SidebarSelector({ type, currentPermalink }) {
                       : "inherit",
                 }}
               >
-                <ListItemButton onClick={() => handleItemClick(item.api)}>
-                  <ListItemText
-                    primary={item.text}
-                    primaryTypographyProps={{
-                      sx: {
-                        color: "var(--Text-DarkText)",
-                        fontSize: "14px",
-                        fontWeight: "400",
-                        lineHeight: "20px",
-                      },
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
+                <ListItemText
+                  primary={item.text}
+                  primaryTypographyProps={{
+                    sx: {
+                      color: "var(--Text-DarkText)",
+                      fontSize: "14px",
+                      fontWeight: "400",
+                      lineHeight: "20px",
+                    },
+                  }}
+                />
+              </ListItemButton>
             ))}
         </List>
       </Collapse>

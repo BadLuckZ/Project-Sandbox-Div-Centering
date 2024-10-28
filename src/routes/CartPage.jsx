@@ -2,6 +2,7 @@ import { useContext } from "react";
 import "../css/CartPage.css";
 import { CartContext } from "../contexts/CartContext";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const CartPage = () => {
   const { cart } = useContext(CartContext);
@@ -25,6 +26,7 @@ const CartPage = () => {
           })}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

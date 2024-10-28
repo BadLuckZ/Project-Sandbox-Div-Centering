@@ -111,5 +111,10 @@ export const categoryData = [
     text: "Women's Accessories",
     type: "Accessories",
   },
-  { api: "test", text: "Test Test", type: "Test" },
 ];
+
+export const handleScrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+  });
+};
