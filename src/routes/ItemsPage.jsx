@@ -3,20 +3,25 @@ import "../css/ItemsPage.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext.jsx";
 import ProductCard from "../components/ProductCard";
-import { FormControl, MenuItem, Select, Typography } from "@mui/material";
+import {
+  FormControl,
+  MenuItem,
+  Select,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import { categoryData } from "../js/utils.js";
 
-const ItemsPage = () => {
+export default function ItemsPage() {
   const { category } = useParams();
   const navigate = useNavigate();
   const { cart, setCart } = useContext(CartContext);
   const [items, setItems] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState("");
   const [categories, setCategories] = useState("");
   const [currentCategory, setCurrentCategory] = useState(null);
   const [sortedItems, setSortedItems] = useState(null);
-  const [pageLoading, setPageLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [contentLoading, setContentLoading] = useState(true);
 
   const sortOptions = [
@@ -40,7 +45,7 @@ const ItemsPage = () => {
       } catch (err) {
         console.error(err);
       } finally {
-        setPageLoading(false);
+        setLoading(false);
       }
     }
     fetchAllCategories();
@@ -96,8 +101,13 @@ const ItemsPage = () => {
     setSortBy(event.target.value);
   };
 
-  if (pageLoading || !categories) {
-    return <h1>Loading...</h1>;
+  if (loading || !categories) {
+    return (
+      <div className="itemspage-container">
+        <Skeleton variant="rectangular" height={60} />
+        <Skeleton variant="rectangular" height={400} />
+      </div>
+    );
   }
 
   return (
@@ -120,7 +130,15 @@ const ItemsPage = () => {
 
       {contentLoading ? (
         <div className="itemspage-content">
-          <h1>Loading...</h1>
+          <div className="itemspage-content-header">
+            <Skeleton variant="text" width={200} height={40} />
+            <Skeleton variant="rectangular" width={180} height={40} />
+          </div>
+          <div className="itemspage-content-grid">
+            {[...Array(8)].map((_, index) => (
+              <Skeleton key={index} variant="rectangular" height={300} />
+            ))}
+          </div>
         </div>
       ) : (
         <div className="itemspage-content">
@@ -189,6 +207,4 @@ const ItemsPage = () => {
       )}
     </div>
   );
-};
-
-export default ItemsPage;
+}
