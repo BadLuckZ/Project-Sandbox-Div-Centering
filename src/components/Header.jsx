@@ -167,50 +167,52 @@ const Header = ({ currentPermalink = null }) => {
         </Container>
       </AppBar>
 
-      <Drawer
-        anchor="left"
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      >
-        <Box sx={{ width: 250, padding: 2 }}>
-          <List>
-            {categoryTypes.map((catType) => (
-              <Box key={catType}>
-                <ListSubheader
-                  sx={{
-                    fontSize: "1.1rem",
-                    fontWeight: 600,
-                    color: "var(--Project-Sandbox-Black)",
-                  }}
-                >
-                  {catType}
-                </ListSubheader>
-                {categoryData
-                  .filter((cat) => cat.type === catType)
-                  .map((cat) => (
-                    <ListItem
-                      key={cat.api}
-                      button
-                      onClick={() => handleSubItemClick(cat.api)}
-                      sx={{
-                        backgroundColor:
-                          cat.api === currentPermalink
-                            ? "var(--Project-Sandbox-Primary-Red-700)"
-                            : "inherit",
-                        "&:hover": {
+      {isMobile && (
+        <Drawer
+          anchor="left"
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        >
+          <Box sx={{ width: 250, padding: 2 }}>
+            <List>
+              {categoryTypes.map((catType) => (
+                <Box key={catType}>
+                  <ListSubheader
+                    sx={{
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      color: "var(--Project-Sandbox-Black)",
+                    }}
+                  >
+                    {catType}
+                  </ListSubheader>
+                  {categoryData
+                    .filter((cat) => cat.type === catType)
+                    .map((cat) => (
+                      <ListItem
+                        key={cat.api}
+                        button
+                        onClick={() => handleSubItemClick(cat.api)}
+                        sx={{
                           backgroundColor:
-                            "var(--Project-Sandbox-Secondary-Black-300)",
-                        },
-                      }}
-                    >
-                      <ListItemText primary={cat.text} />
-                    </ListItem>
-                  ))}
-              </Box>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
+                            cat.api === currentPermalink
+                              ? "var(--Project-Sandbox-Primary-Red-700)"
+                              : "inherit",
+                          "&:hover": {
+                            backgroundColor:
+                              "var(--Project-Sandbox-Secondary-Black-300)",
+                          },
+                        }}
+                      >
+                        <ListItemText primary={cat.text} />
+                      </ListItem>
+                    ))}
+                </Box>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+      )}
     </>
   );
 };
