@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, Input } from "@mui/material";
 import { categoryData, handleScrollToTop } from "../js/utils";
 import { CategoryContext } from "../contexts/CategoryContext";
 
@@ -163,6 +163,7 @@ const Footer = () => {
                 backgroundColor: "var(--Project-Sandbox-White)",
                 borderRadius: "4px",
                 height: "54px",
+                padding: "0 10px",
                 input: {
                   color: "var(--Project-Sandbox-Secondary-Black-500)",
                   fontSize: "16px",
