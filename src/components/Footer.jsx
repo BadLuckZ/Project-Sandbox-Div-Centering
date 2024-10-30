@@ -222,7 +222,7 @@ const Footer = () => {
             Powered By
           </Typography>
           <img
-            src="/src/img/skooldio.jpg"
+            src="/img/skooldio.jpg"
             style={{ width: "49.853px", height: "17.109px" }}
           />
           <Typography
@@ -236,7 +236,7 @@ const Footer = () => {
             |
           </Typography>
           <img
-            src="/src/img/webdev.jpg"
+            src="/img/webdev.jpg"
             style={{ width: "30.951px", height: "16.923px" }}
           />
         </Box>

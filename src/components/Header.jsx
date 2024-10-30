@@ -77,7 +77,7 @@ const Header = ({ currentPermalink = null }) => {
               }}
               sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
             >
-              <img src="/src/img/logo.svg" alt="Logo" />
+              <img src="/img/logo.svg" alt="Logo" />
               <Typography
                 component="p"
                 sx={{
@@ -132,6 +132,8 @@ const Header = ({ currentPermalink = null }) => {
                                 button
                                 onClick={() => handleSubItemClick(cat.api)}
                                 sx={{
+                                  color:
+                                    "var(--Project-Sandbox-Secondary-Black-900)",
                                   backgroundColor:
                                     cat.api === currentPermalink
                                       ? "var(--Project-Sandbox-Primary-Red-700)"
@@ -175,7 +177,11 @@ const Header = ({ currentPermalink = null }) => {
             {categoryTypes.map((catType) => (
               <Box key={catType}>
                 <ListSubheader
-                  sx={{ fontSize: "1.1rem", fontWeight: 600, color: "black" }}
+                  sx={{
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    color: "var(--Project-Sandbox-Black)",
+                  }}
                 >
                   {catType}
                 </ListSubheader>
