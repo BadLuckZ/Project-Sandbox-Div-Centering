@@ -9,7 +9,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { categoryData, handleScrollToTop } from "../js/utils.js";
+import { categoryData } from "../js/utils.js";
 import SidebarSelector from "../components/SidebarSelector.jsx";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
