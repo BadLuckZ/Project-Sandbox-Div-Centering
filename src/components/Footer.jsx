@@ -156,10 +156,9 @@ const Footer = () => {
           </Typography>
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            <TextField
+            <Input
               type="email"
               placeholder="Enter your email"
-              variant="outlined"
               sx={{
                 backgroundColor: "var(--Project-Sandbox-White)",
                 borderRadius: "4px",

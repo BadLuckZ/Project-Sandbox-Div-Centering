@@ -327,8 +327,9 @@ const DetailPage = () => {
                       if (
                         (!allColors.length || color) &&
                         (!allSizes.length || size) &&
-                        haveStock
+                        !haveStock
                       ) {
+                      } else {
                         handleSubImageClick(index);
                       }
                     }}
