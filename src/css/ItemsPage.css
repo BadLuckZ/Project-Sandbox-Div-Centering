@@ -11,9 +11,15 @@
   width: 268px;
 }
 
+@media screen and (max-width: 768px) {
+  .itemspage-selector {
+    display: none;
+  }
+}
+
 .itemspage-content {
   display: flex;
-  width: calc(100% - 268px);
+  width: 100%;
   flex-direction: column;
   gap: 42px;
 }
@@ -27,9 +33,7 @@
 
 .itemspage-content-header > h1 {
   font-size: 32px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 48px;
   margin: 0;
 }
 
@@ -42,4 +46,16 @@
   grid-template-columns: repeat(3, 1fr);
   row-gap: 40px;
   column-gap: 40px;
+}
+
+@media screen and (max-width: 1024px) {
+  .itemspage-content-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .itemspage-content-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -4,10 +4,11 @@ import { categoryData, handleScrollToTop } from "../js/utils";
 import { CategoryContext } from "../contexts/CategoryContext";
 
 const Footer = () => {
-  const { setActiveCategory } = useContext(CategoryContext);
+  const { setActiveCategory, setSidebarOpen } = useContext(CategoryContext);
 
   const handleCategoryClick = (categoryType) => {
     setActiveCategory(categoryType);
+    setSidebarOpen(true);
     handleScrollToTop();
   };
 
@@ -221,7 +222,7 @@ const Footer = () => {
             Powered By
           </Typography>
           <img
-            src="../src/img/skooldio.jpg"
+            src="/src/img/skooldio.jpg"
             style={{ width: "49.853px", height: "17.109px" }}
           />
           <Typography
@@ -235,7 +236,7 @@ const Footer = () => {
             |
           </Typography>
           <img
-            src="../src/img/webdev.jpg"
+            src="/src/img/webdev.jpg"
             style={{ width: "30.951px", height: "16.923px" }}
           />
         </Box>

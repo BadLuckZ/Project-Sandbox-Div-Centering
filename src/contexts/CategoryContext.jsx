@@ -4,9 +4,11 @@ export const CategoryContext = createContext();
 
 export const CategoryProvider = ({ children }) => {
   const [activeCategory, setActiveCategory] = useState(null);
-
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
-    <CategoryContext.Provider value={{ activeCategory, setActiveCategory }}>
+    <CategoryContext.Provider
+      value={{ activeCategory, setActiveCategory, sidebarOpen, setSidebarOpen }}
+    >
       {children}
     </CategoryContext.Provider>
   );

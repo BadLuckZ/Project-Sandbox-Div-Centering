@@ -8,6 +8,7 @@ import {
   Select,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { categoryData } from "../js/utils.js";
 import SidebarSelector from "../components/SidebarSelector.jsx";
@@ -22,6 +23,8 @@ export default function ItemsPage() {
     useState(null);
   const [sortedItems, setSortedItems] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -87,24 +90,34 @@ export default function ItemsPage() {
     <>
       <Header currentPermalink={categoryPermalink} />
       <div className="itemspage-container">
-        <div className="itemspage-selector">
-          {categoryTypes.map((categoryType) => (
-            <SidebarSelector
-              key={categoryType}
-              type={categoryType}
-              currentPermalink={categoryPermalink}
-            />
-          ))}
-        </div>
+        {!isMobile && (
+          <div className="itemspage-selector">
+            {categoryTypes.map((categoryType) => (
+              <SidebarSelector
+                key={categoryType}
+                type={categoryType}
+                currentPermalink={categoryPermalink}
+              />
+            ))}
+          </div>
+        )}
         <div className="itemspage-content">
           {loading ? (
             <>
               <div className="itemspage-content-header">
-                <Skeleton variant="text" width={200} height={40} />
-                <Skeleton variant="rectangular" width={180} height={40} />
+                <Skeleton
+                  variant="text"
+                  width={isMobile ? 150 : 200}
+                  height={40}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width={isMobile ? 120 : 180}
+                  height={40}
+                />
               </div>
               <div className="itemspage-content-grid">
-                {[...Array(8)].map((_, index) => (
+                {[...Array(isMobile ? 4 : 8)].map((_, index) => (
                   <Skeleton key={index} variant="rectangular" height={300} />
                 ))}
               </div>
