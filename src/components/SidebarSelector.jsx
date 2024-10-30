@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { List, ListItemButton, ListItemText, Collapse } from "@mui/material";
-import { categoryData } from "../js/utils";
+import { categoryData, handleScrollToTop } from "../js/utils";
 import { useNavigate } from "react-router-dom";
 
 export default function SidebarSelector({ type, currentPermalink }) {
@@ -24,6 +24,7 @@ export default function SidebarSelector({ type, currentPermalink }) {
   };
 
   const handleItemClick = (api) => {
+    handleScrollToTop();
     navigate(`/items/${api}`);
   };
 
@@ -33,6 +34,11 @@ export default function SidebarSelector({ type, currentPermalink }) {
         onClick={handleClick}
         aria-expanded={open}
         aria-controls={`collapse-${type}`}
+        sx={{
+          ":hover": {
+            backgroundColor: "var(--Project-Sandbox-Secondary-Black-300)",
+          },
+        }}
       >
         <ListItemText
           primary={type}
@@ -60,6 +66,13 @@ export default function SidebarSelector({ type, currentPermalink }) {
                     item.api === currentPermalink
                       ? "var(--Project-Sandbox-Primary-Red-700)"
                       : "inherit",
+                  cursor: item.api === currentPermalink ? "default" : "pointer",
+                  ":hover": {
+                    backgroundColor:
+                      item.api === currentPermalink
+                        ? "var(--Project-Sandbox-Primary-Red-700)"
+                        : "var(--Project-Sandbox-Secondary-Black-300)",
+                  },
                 }}
               >
                 <ListItemText

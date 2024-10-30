@@ -19,10 +19,9 @@ export default function ItemsPage() {
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [currentCategoryPermalink, setCurrentCategoryPermalink] =
-    useState(null); // displayed category permalink
+    useState(null);
   const [sortedItems, setSortedItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [targetCategory, setTargetCategory] = useState(null); // Category that is chosen from Footer
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -82,19 +81,11 @@ export default function ItemsPage() {
     (cat) => cat.api === categoryPermalink
   );
 
-  const handleFeaturedProductClick = (categoryType) => {
-    handleScrollToTop();
-    setTargetCategory(categoryType);
-  };
-
   const categoryTypes = [...new Set(categoryData.map((item) => item.type))];
 
   return (
     <>
-      <Header
-        currentPermalink={categoryPermalink}
-        targetCategory={targetCategory}
-      />
+      <Header currentPermalink={categoryPermalink} />
       <div className="itemspage-container">
         <div className="itemspage-selector">
           {categoryTypes.map((categoryType) => (
@@ -194,11 +185,7 @@ export default function ItemsPage() {
           )}
         </div>
       </div>
-      <Footer
-        onFeaturedProductClick={(categoryType) =>
-          handleFeaturedProductClick(categoryType)
-        }
-      />
+      <Footer />
     </>
   );
 }

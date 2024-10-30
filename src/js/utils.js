@@ -118,3 +118,17 @@ export const handleScrollToTop = () => {
     top: 0,
   });
 };
+
+export const getRandomItems = (arr, num) => {
+  if (arr.length <= num) {
+    return arr;
+  }
+  const result = [];
+  while (result.length < num) {
+    const idx = Math.floor(Math.random() * arr.length);
+    if (!result.includes(arr[idx])) {
+      result.push(arr[idx]);
+    }
+  }
+  return result;
+};

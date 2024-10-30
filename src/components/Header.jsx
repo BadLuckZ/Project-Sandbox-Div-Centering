@@ -14,7 +14,7 @@ import {
   Fade,
   Badge,
 } from "@mui/material";
-import { categoryData } from "../js/utils";
+import { categoryData, handleScrollToTop } from "../js/utils";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { CategoryContext } from "../contexts/CategoryContext";
@@ -33,7 +33,10 @@ const Header = ({ currentPermalink = null }) => {
     setActiveCategory(null);
   };
 
-  const categoryTypes = [...new Set(categoryData.map((item) => item.type))];
+  const categoryTypes = [
+    "Home",
+    ...new Set(categoryData.map((item) => item.type)),
+  ];
   const totalItemsInCart = cart.reduce(
     (count, item) => count + item.quantity,
     0
@@ -86,45 +89,67 @@ const Header = ({ currentPermalink = null }) => {
                         color: "var(--Project-Sandbox-Primary-Red-700)",
                       },
                     }}
-                    onClick={() => handleCategoryClick(catType)}
+                    onClick={() => {
+                      if (catType == "Home") {
+                        handleScrollToTop();
+                        navigate("/");
+                      } else {
+                        handleCategoryClick(catType);
+                      }
+                    }}
                   >
                     {catType}
                   </Button>
-                  <Fade in={activeCategory === catType} timeout={300}>
-                    <List
-                      sx={{
-                        position: "absolute",
-                        top: "100%",
-                        left: 0,
-                        backgroundColor: "white",
-                        boxShadow: 2,
-                        zIndex: 1,
-                        width: "200px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {categoryData
-                        .filter((cat) => cat.type === catType)
-                        .map((cat) => (
-                          <ListItem
-                            key={cat.api}
-                            button
-                            onClick={() => handleSubItemClick(cat.api)}
-                            sx={{
-                              cursor: "pointer",
-                            }}
-                          >
-                            <ListItemText
-                              primary={cat.text}
+                  {activeCategory != "Home" && (
+                    <Fade in={activeCategory === catType}>
+                      <List
+                        sx={{
+                          position: "absolute",
+                          top: "100%",
+                          left: 0,
+                          backgroundColor: "white",
+                          boxShadow: 2,
+                          zIndex: 1,
+                          width: "200px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {categoryData
+                          .filter((cat) => cat.type === catType)
+                          .map((cat) => (
+                            <ListItem
+                              key={cat.api}
+                              button
+                              onClick={() => handleSubItemClick(cat.api)}
                               sx={{
-                                color:
-                                  "var(--Project-Sandbox-Secondary-Black-900)",
+                                backgroundColor:
+                                  cat.api === currentPermalink
+                                    ? "var(--Project-Sandbox-Primary-Red-700)"
+                                    : "inherit",
+                                cursor:
+                                  cat.api === currentPermalink
+                                    ? "default"
+                                    : "pointer",
+                                ":hover": {
+                                  backgroundColor:
+                                    cat.api === currentPermalink
+                                      ? "var(--Project-Sandbox-Primary-Red-700)"
+                                      : "var(--Project-Sandbox-Secondary-Black-300)",
+                                },
                               }}
-                            />
-                          </ListItem>
-                        ))}
-                    </List>
-                  </Fade>
+                            >
+                              <ListItemText
+                                primary={cat.text}
+                                sx={{
+                                  color:
+                                    "var(--Project-Sandbox-Secondary-Black-900)",
+                                }}
+                              />
+                            </ListItem>
+                          ))}
+                      </List>
+                    </Fade>
+                  )}
                 </div>
               ))}
             </Stack>
