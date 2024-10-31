@@ -511,6 +511,7 @@ const DetailPage = () => {
                   if (quantity) {
                     const item = {
                       id: currentItem.id,
+                      imageUrls: currentItem.imageUrls,
                       skuCode: currentItem.skuCode,
                       name: currentItem.name,
                       permalink: currentItem.permalink,

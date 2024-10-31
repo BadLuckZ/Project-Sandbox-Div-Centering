@@ -9,8 +9,82 @@ import ProductCard from "../components/ProductCard";
 import { Button } from "@mui/material";
 
 const contentLimit = 4;
-
 const randomFees = [0, 1, 20];
+
+const CartItem = ({ item }) => {
+  const {
+    id,
+    permalink,
+    imageUrls,
+    name,
+    color,
+    size,
+    quantity,
+    price,
+    promotionalPrice,
+  } = item;
+
+  const formattedFinalPrice = formatInteger(price * quantity, 2);
+  const formattedFinalPromotionalPrice = formatInteger(
+    promotionalPrice * quantity,
+    2
+  );
+
+  return (
+    <div className="cartpage-content-item">
+      <img
+        className="cartpage-content-item-image"
+        src={imageUrls[0]}
+        alt={name}
+      />
+      <div className="cartpage-content-item-content">
+        <div className="cartpage-content-item-header">
+          <h3>{name}</h3>
+          <i className="fa-solid fa-trash"></i>
+        </div>
+        <div className="cartpage-content-item-detail">
+          <div className="cartpage-content-item-selectors">
+            {color && (
+              <div className="cartpage-content-item-color">
+                <p>Color</p>
+                <h3>{color}</h3>
+              </div>
+            )}
+            {size && (
+              <div className="cartpage-content-item-size">
+                <p>Size</p>
+                <h3>{size}</h3>
+              </div>
+            )}
+            <div className="cartpage-content-item-quantity">
+              <p>Qty.</p>
+              <h3>{quantity}</h3>
+            </div>
+          </div>
+          <div className="cartpage-content-item-price">
+            {price === promotionalPrice ? (
+              <>
+                <p style={{ visibility: "hidden" }}>{formattedFinalPrice}</p>
+                <p className="cartpage-content-item-normalprice">
+                  THB {formattedFinalPromotionalPrice}
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="cartpage-content-item-beforeprice">
+                  {formattedFinalPrice}
+                </p>
+                <p className="cartpage-content-item-afterprice">
+                  THB {formattedFinalPromotionalPrice}
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const SummaryItem = ({
   hasItemInCart,
@@ -18,17 +92,11 @@ const SummaryItem = ({
   leftValue,
   rightValue,
 }) => {
-  let formatLeftValue, formatRightValue;
-  if (typeof leftValue == typeof 1) {
-    formatLeftValue = formatInteger(leftValue, 2);
-  } else {
-    formatLeftValue = leftValue;
-  }
-  if (typeof rightValue == typeof 1) {
-    formatRightValue = formatInteger(rightValue, 2);
-  } else {
-    formatRightValue = rightValue;
-  }
+  const formatLeftValue =
+    typeof leftValue === "number" ? formatInteger(leftValue, 2) : leftValue;
+  const formatRightValue =
+    typeof rightValue === "number" ? formatInteger(rightValue, 2) : rightValue;
+
   return (
     <div
       className="cartpage-content-summary-item"
@@ -46,9 +114,7 @@ const SummaryItem = ({
               : ""
             : "var(--Project-Sandbox-Secondary-Black-500)",
           fontSize: isFinal ? "18px" : "16px",
-          fontStyle: "normal",
           fontWeight: isFinal ? "600" : "400",
-          lineHeight: isFinal ? "24px" : "20px",
         }}
       >
         {formatLeftValue}
@@ -61,9 +127,7 @@ const SummaryItem = ({
               : ""
             : "var(--Project-Sandbox-Secondary-Black-500)",
           fontSize: isFinal ? "18px" : "16px",
-          fontStyle: "normal",
           fontWeight: isFinal ? "600" : "400",
-          lineHeight: isFinal ? "24px" : "20px",
         }}
       >
         {formatRightValue}
@@ -83,12 +147,10 @@ const CartPage = () => {
     let isMounted = false;
     async function fetchMoreItems() {
       setLoading(true);
-      const url = `https://api.storefront.wdb.skooldio.dev/products`;
+      const url = "https://api.storefront.wdb.skooldio.dev/products";
       try {
         const res = await fetch(url);
-        if (!res.ok) {
-          throw new Error("Failed to fetch items");
-        }
+        if (!res.ok) throw new Error("Failed to fetch items");
         const data = await res.json();
         if (!isMounted) {
           setMoreItems(getRandomItems(data.data, contentLimit));
@@ -124,22 +186,18 @@ const CartPage = () => {
     (count, item) => count + item.quantity,
     0
   );
-
   const totalPriceInCart = cart.reduce(
     (price, item) => price + item.quantity * item.promotionalPrice,
     0
   );
-
-  const hasItemInCart = totalItemsInCart != 0;
+  const hasItemInCart = totalItemsInCart !== 0;
 
   return (
     <>
       <Header />
       <div
         className="cartpage-container"
-        onClick={() => {
-          setActiveCategory(null);
-        }}
+        onClick={() => setActiveCategory(null)}
       >
         <div className="cartpage-cart">
           <h1 className="cartpage-header">My Cart</h1>
@@ -148,18 +206,9 @@ const CartPage = () => {
               <h2 className="cartpage-content-items-header">Items</h2>
               {hasItemInCart ? (
                 <div>
-                  {cart.map((cartItem, idx) => {
-                    return (
-                      <>
-                        <div key={`${cartItem.skuCode} ${idx}`}>
-                          <p>{cartItem.skuCode || "null"}</p>
-                          <p>{cartItem.color || "null"}</p>
-                          <p>{cartItem.size || "null"}</p>
-                          <p>{cartItem.quantity || "null"}</p>
-                        </div>
-                      </>
-                    );
-                  })}
+                  {cart.map((cartItem) => (
+                    <CartItem key={cartItem.id} item={cartItem} />
+                  ))}
                 </div>
               ) : (
                 <p>No Items In Cart</p>
@@ -169,22 +218,21 @@ const CartPage = () => {
               <div className="cartpage-content-summary-header">
                 <h2>Summary</h2>
                 <h3>{`${totalItemsInCart} item${
-                  totalItemsInCart == 1 ? "" : "s"
+                  totalItemsInCart === 1 ? "" : "s"
                 }`}</h3>
               </div>
               <div className="cartpage-content-summary-items">
                 {hasItemInCart ? (
-                  cart.map((c) => {
-                    return (
-                      <SummaryItem
-                        hasItemInCart={hasItemInCart}
-                        leftValue={`${c.name} ${
-                          c.quantity <= 1 ? `` : `x${c.quantity}`
-                        }`}
-                        rightValue={c.promotionalPrice * c.quantity}
-                      />
-                    );
-                  })
+                  cart.map((c) => (
+                    <SummaryItem
+                      key={c.id}
+                      hasItemInCart={hasItemInCart}
+                      leftValue={`${c.name}${
+                        c.quantity <= 1 ? "" : ` : x${c.quantity}`
+                      }`}
+                      rightValue={c.promotionalPrice * c.quantity}
+                    />
+                  ))
                 ) : (
                   <SummaryItem
                     hasItemInCart={hasItemInCart}
@@ -193,7 +241,7 @@ const CartPage = () => {
                   />
                 )}
               </div>
-              <hr></hr>
+              <hr />
               <div className="cartpage-content-summary-items">
                 <SummaryItem
                   hasItemInCart={hasItemInCart}
@@ -206,7 +254,7 @@ const CartPage = () => {
                   rightValue={hasItemInCart ? fee * totalPriceInCart : 0}
                 />
               </div>
-              <hr></hr>
+              <hr />
               <div className="cartpage-content-summary-items">
                 <SummaryItem
                   hasItemInCart={hasItemInCart}
@@ -253,7 +301,7 @@ const CartPage = () => {
                     cursor: hasItemInCart ? "pointer" : "default",
                     ":hover": {
                       background: hasItemInCart
-                        ? "var(--Project-Sandbox-Secondary-Black-300)"
+                        ? "var(--Project-Sandbox-Secondary-Black-100)"
                         : "",
                     },
                   }}
@@ -273,26 +321,28 @@ const CartPage = () => {
           </div>
         </div>
 
-        <div className="cartpage-more">
-          <h2 className="cartpage-more-header">People also like these</h2>
-          <div className="cartpage-more-content">
-            {moreItems.map((item, idx) => {
-              return (
-                <ProductCard
-                  key={item + idx}
-                  id={item.id}
-                  permalink={item.permalink}
-                  name={item.name}
-                  description={item.description}
-                  price={item.price}
-                  promotionalPrice={item.promotionalPrice}
-                  ratings={item.ratings}
-                  imageUrls={item.imageUrls}
-                />
-              );
-            })}
+        {!hasItemInCart && (
+          <div className="cartpage-more">
+            <h2 className="cartpage-more-header">People also like these</h2>
+            <div className="cartpage-more-content">
+              {moreItems.map((item, idx) => {
+                return (
+                  <ProductCard
+                    key={item + idx}
+                    id={item.id}
+                    permalink={item.permalink}
+                    name={item.name}
+                    description={item.description}
+                    price={item.price}
+                    promotionalPrice={item.promotionalPrice}
+                    ratings={item.ratings}
+                    imageUrls={item.imageUrls}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <Footer />
     </>
