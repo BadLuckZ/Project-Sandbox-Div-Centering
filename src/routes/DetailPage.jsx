@@ -18,6 +18,8 @@ import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import { CategoryContext } from "../contexts/CategoryContext.jsx";
 
+const contentLimit = 4;
+
 const DetailPage = () => {
   const { itemPermalink } = useParams();
   const navigate = useNavigate();
@@ -62,7 +64,11 @@ const DetailPage = () => {
 
         const randomCategory = randomlyPickCategory(data.categories);
         const items = await fetchAllItemsInCategories(randomCategory);
-        const randomItems = randomlyPickItems(items.data, 4, data.id);
+        const randomItems = randomlyPickItems(
+          items.data,
+          contentLimit,
+          data.id
+        );
         setRelatedItems(randomItems);
       } catch (err) {
         console.error(err);
@@ -506,6 +512,7 @@ const DetailPage = () => {
                     const item = {
                       id: currentItem.id,
                       skuCode: currentItem.skuCode,
+                      name: currentItem.name,
                       permalink: currentItem.permalink,
                       price: currentItem.price,
                       promotionalPrice: currentItem.promotionalPrice,

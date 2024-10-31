@@ -1,0 +1,135 @@
+.cartpage-container {
+  display: flex;
+  flex-direction: column;
+  padding: 64px 124px 80px 124px;
+  gap: 48px;
+}
+
+.cartpage-header {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 48px;
+  padding-bottom: 42px;
+}
+
+.cartpage-content {
+  display: flex;
+  gap: 40px;
+}
+
+.cartpage-content-items {
+  width: 712px;
+  margin: 24px;
+}
+
+.cartpage-content-items-header {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.cartpage-content-summary {
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  margin: 24px;
+  gap: 24px;
+}
+
+.cartpage-content-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartpage-content-summary-header > h2 {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.cartpage-content-summary-header > h3 {
+  color: var(--Project-Sandbox-Secondary-Black-700);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.cartpage-content-summary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cartpage-content-summary-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cartpage-content-summary-buttons > Button {
+  display: flex;
+  height: 54px;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.cartpage-content-summary-buttons > Button > p {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cartpage-more {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.cartpage-more-header {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 48px;
+}
+
+.cartpage-more-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+@media screen and (max-width: 821px) {
+  .cartpage-more {
+    gap: 40px;
+  }
+
+  .cartpage-more-header {
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  .cartpage-more-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 36.88px;
+  }
+}

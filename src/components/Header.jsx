@@ -28,7 +28,6 @@ const Header = ({ currentPermalink = null }) => {
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:768px)");
-  const isTablet = useMediaQuery("(min-width:769px) and (max-width: 1024px)");
 
   const handleCategoryClick = (catType) => {
     setActiveCategory((prev) => (prev === catType ? null : catType));
@@ -57,11 +56,7 @@ const Header = ({ currentPermalink = null }) => {
           maxWidth="xl"
           sx={{
             width: "100%",
-            padding: isMobile
-              ? "10px 16px !important"
-              : isTablet
-              ? "10px 64px !important"
-              : "10px 160px !important",
+            padding: isMobile ? "10px 16px !important" : "10px 64px !important",
             gap: "16px",
           }}
         >
