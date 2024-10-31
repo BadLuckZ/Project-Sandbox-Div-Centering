@@ -29,7 +29,10 @@ export default function SidebarSelector({ type, currentPermalink }) {
   };
 
   return (
-    <List sx={{ width: "100%" }} component="nav">
+    <List
+      sx={{ width: "100%", fontFamily: "Poppins, sans-serif" }}
+      component="nav"
+    >
       <ListItemButton
         onClick={handleClick}
         aria-expanded={open}
@@ -48,6 +51,7 @@ export default function SidebarSelector({ type, currentPermalink }) {
               fontSize: "18px",
               fontWeight: "600",
               lineHeight: "24px",
+              fontFamily: "Poppins, sans-serif",
             },
           }}
         />
@@ -80,9 +84,10 @@ export default function SidebarSelector({ type, currentPermalink }) {
                   primaryTypographyProps={{
                     sx: {
                       color: "var(--Text-DarkText)",
-                      fontSize: "14px",
+                      fontSize: "16px",
                       fontWeight: "400",
                       lineHeight: "20px",
+                      fontFamily: "Poppins, sans-serif",
                     },
                   }}
                 />

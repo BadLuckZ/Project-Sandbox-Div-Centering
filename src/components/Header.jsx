@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -47,10 +47,12 @@ const Header = ({ currentPermalink = null }) => {
   );
 
   return (
-    <>
+    <Box>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "var(--Project-Sandbox-Black)" }}
+        sx={{
+          backgroundColor: "var(--Project-Sandbox-Black)",
+        }}
       >
         <Container
           maxWidth="xl"
@@ -104,7 +106,10 @@ const Header = ({ currentPermalink = null }) => {
                     color: "var(--Project-Sandbox-White)",
                     fontSize: "18px",
                     fontWeight: 600,
+                    fontStyle: "normal",
                     ml: 1,
+                    lineHeight: "24px",
+                    fontFamily: "Poppins, sans-serif",
                   }}
                 >
                   WDB
@@ -129,6 +134,11 @@ const Header = ({ currentPermalink = null }) => {
                           "&:hover": {
                             color: "var(--Project-Sandbox-Primary-Red-700)",
                           },
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: "400",
+                          lineHeight: "20px",
+                          fontFamily: "Poppins, sans-serif",
                         }}
                       >
                         {catType}
@@ -142,7 +152,7 @@ const Header = ({ currentPermalink = null }) => {
                             backgroundColor: "white",
                             boxShadow: 2,
                             zIndex: 1,
-                            width: "200px",
+                            width: "250px",
                           }}
                         >
                           {categoryData
@@ -171,7 +181,16 @@ const Header = ({ currentPermalink = null }) => {
                                       : "pointer",
                                 }}
                               >
-                                <ListItemText primary={cat.text} />
+                                <ListItemText
+                                  primary={cat.text}
+                                  primaryTypographyProps={{
+                                    fontFamily: "Poppins, sans-serif",
+                                    fontSize: "16px",
+                                    fontStyle: "normal",
+                                    fontWeight: "400",
+                                    lineHeight: "20px",
+                                  }}
+                                />
                               </ListItem>
                             ))}
                         </List>
@@ -205,14 +224,24 @@ const Header = ({ currentPermalink = null }) => {
           open={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
         >
-          <Box sx={{ width: 250, padding: 2 }}>
-            <List>
+          <Box
+            sx={{
+              maxWidth: "300px",
+              padding: "16px",
+            }}
+          >
+            <List
+              sx={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            >
               {categoryTypes.map((catType) => (
                 <Box key={catType}>
                   <ListSubheader
                     sx={{
-                      fontSize: "1.1rem",
+                      fontSize: "18px",
                       fontWeight: 600,
+                      fontStyle: "normal",
+                      lineHeight: "24px",
+                      paddingBottom: "12px",
                       color: "var(--Project-Sandbox-Black)",
                     }}
                   >
@@ -236,7 +265,16 @@ const Header = ({ currentPermalink = null }) => {
                           },
                         }}
                       >
-                        <ListItemText primary={cat.text} />
+                        <ListItemText
+                          primary={cat.text}
+                          primaryTypographyProps={{
+                            fontSize: "16px",
+                            fontStyle: "normal",
+                            fontWeight: "400",
+                            lineHeight: "20px",
+                            fontFamily: "Poppins, sans-serif",
+                          }}
+                        />
                       </ListItem>
                     ))}
                 </Box>
@@ -245,7 +283,7 @@ const Header = ({ currentPermalink = null }) => {
           </Box>
         </Drawer>
       )}
-    </>
+    </Box>
   );
 };
 
