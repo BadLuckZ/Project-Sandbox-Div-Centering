@@ -29,6 +29,7 @@ const DetailPage = () => {
   const [relatedItems, setRelatedItems] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [currentVariant, setCurrentVariant] = useState(null);
 
   const [quantity, setQuantity] = useState("");
   const [size, setSize] = useState("");
@@ -85,13 +86,22 @@ const DetailPage = () => {
     const allSizes = getAllSizes(currentItem.variants);
     const allColors = getAllColors(currentItem.variants);
 
-    if ((allColors.length === 0 || color) && (allSizes.length === 0 || size)) {
-      const variant = currentItem.variants.find(
+    let variant = null;
+    if (allColors.length > 0 && allSizes.length > 0) {
+      variant = currentItem.variants.find(
         (v) => v.color === color && v.size === size
       );
-      setHaveStock(variant && variant.remains > 0);
+    } else if (allColors.length > 0) {
+      variant = currentItem.variants.find((v) => v.color === color);
+    } else if (allColors.size > 0) {
+      variant = currentItem.variants.find((v) => v.size === size);
+    }
+    if (!variant || variant.remains <= 0) {
+      setHaveStock(false);
+      setCurrentVariant(null);
     } else {
       setHaveStock(true);
+      setCurrentVariant(variant);
     }
   }, [color, size]);
 
@@ -175,15 +185,12 @@ const DetailPage = () => {
   const allColors = getAllColors(currentItem.variants);
 
   const getAvailableQuantities = () => {
-    if (!currentItem || !haveStock) return [];
-
-    const variant = currentItem.variants.find(
-      (v) => v.color === color && v.size === size
-    );
-
-    if (!variant || variant.remains <= 0) return [];
-
-    return Array.from({ length: variant.remains }, (_, i) => i + 1);
+    console.log(currentVariant);
+    if (currentVariant) {
+      return Array.from({ length: currentVariant.remains }, (_, i) => i + 1);
+    } else {
+      return [];
+    }
   };
 
   return (

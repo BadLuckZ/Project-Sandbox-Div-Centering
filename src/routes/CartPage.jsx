@@ -11,133 +11,8 @@ import { Button } from "@mui/material";
 const contentLimit = 4;
 const randomFees = [0, 1, 20];
 
-const CartItem = ({ item }) => {
-  const {
-    id,
-    permalink,
-    imageUrls,
-    name,
-    color,
-    size,
-    quantity,
-    price,
-    promotionalPrice,
-  } = item;
-
-  const formattedFinalPrice = formatInteger(price * quantity, 2);
-  const formattedFinalPromotionalPrice = formatInteger(
-    promotionalPrice * quantity,
-    2
-  );
-
-  return (
-    <div className="cartpage-content-item">
-      <img
-        className="cartpage-content-item-image"
-        src={imageUrls[0]}
-        alt={name}
-      />
-      <div className="cartpage-content-item-content">
-        <div className="cartpage-content-item-header">
-          <h3>{name}</h3>
-          <i className="fa-solid fa-trash"></i>
-        </div>
-        <div className="cartpage-content-item-detail">
-          <div className="cartpage-content-item-selectors">
-            {color && (
-              <div className="cartpage-content-item-color">
-                <p>Color</p>
-                <h3>{color}</h3>
-              </div>
-            )}
-            {size && (
-              <div className="cartpage-content-item-size">
-                <p>Size</p>
-                <h3>{size}</h3>
-              </div>
-            )}
-            <div className="cartpage-content-item-quantity">
-              <p>Qty.</p>
-              <h3>{quantity}</h3>
-            </div>
-          </div>
-          <div className="cartpage-content-item-price">
-            {price === promotionalPrice ? (
-              <>
-                <p style={{ visibility: "hidden" }}>{formattedFinalPrice}</p>
-                <p className="cartpage-content-item-normalprice">
-                  THB {formattedFinalPromotionalPrice}
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="cartpage-content-item-beforeprice">
-                  {formattedFinalPrice}
-                </p>
-                <p className="cartpage-content-item-afterprice">
-                  THB {formattedFinalPromotionalPrice}
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const SummaryItem = ({
-  hasItemInCart,
-  isFinal = false,
-  leftValue,
-  rightValue,
-}) => {
-  const formatLeftValue =
-    typeof leftValue === "number" ? formatInteger(leftValue, 2) : leftValue;
-  const formatRightValue =
-    typeof rightValue === "number" ? formatInteger(rightValue, 2) : rightValue;
-
-  return (
-    <div
-      className="cartpage-content-summary-item"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <h2
-        style={{
-          color: hasItemInCart
-            ? isFinal
-              ? "var(--Project-Sandbox-Secondary-Black-900)"
-              : ""
-            : "var(--Project-Sandbox-Secondary-Black-500)",
-          fontSize: isFinal ? "18px" : "16px",
-          fontWeight: isFinal ? "600" : "400",
-        }}
-      >
-        {formatLeftValue}
-      </h2>
-      <h3
-        style={{
-          color: hasItemInCart
-            ? isFinal
-              ? "var(--Project-Sandbox-Secondary-Black-900)"
-              : ""
-            : "var(--Project-Sandbox-Secondary-Black-500)",
-          fontSize: isFinal ? "18px" : "16px",
-          fontWeight: isFinal ? "600" : "400",
-        }}
-      >
-        {formatRightValue}
-      </h3>
-    </div>
-  );
-};
-
 const CartPage = () => {
-  const { cart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
   const [moreItems, setMoreItems] = useState(null);
   const [loading, setLoading] = useState(false);
   const { setActiveCategory } = useContext(CategoryContext);
@@ -177,6 +52,143 @@ const CartPage = () => {
       setFee(randomFees[2]);
     }
   }, []);
+
+  const handleRemoveItem = (item) => {
+    const newCart = cart.filter((cartItem) => cartItem.id != item.id);
+    setCart(newCart);
+  };
+
+  const CartItem = ({ item }) => {
+    const {
+      id,
+      permalink,
+      imageUrls,
+      name,
+      color,
+      size,
+      quantity,
+      price,
+      promotionalPrice,
+    } = item;
+
+    const formattedFinalPrice = formatInteger(price * quantity, 2);
+    const formattedFinalPromotionalPrice = formatInteger(
+      promotionalPrice * quantity,
+      2
+    );
+
+    return (
+      <div className="cartpage-content-item">
+        <img
+          className="cartpage-content-item-image"
+          src={imageUrls[0]}
+          alt={name}
+        />
+        <div className="cartpage-content-item-content">
+          <div className="cartpage-content-item-header">
+            <h3>{name}</h3>
+            <i
+              className="fa-solid fa-trash"
+              onClick={() => {
+                handleRemoveItem(item);
+              }}
+            ></i>
+          </div>
+          <div className="cartpage-content-item-detail">
+            <div className="cartpage-content-item-selectors">
+              {color && (
+                <div className="cartpage-content-item-color">
+                  <p>Color</p>
+                  <h3>{color}</h3>
+                </div>
+              )}
+              {size && (
+                <div className="cartpage-content-item-size">
+                  <p>Size</p>
+                  <h3>{size}</h3>
+                </div>
+              )}
+              <div className="cartpage-content-item-quantity">
+                <p>Qty.</p>
+                <h3>{quantity}</h3>
+              </div>
+            </div>
+            <div className="cartpage-content-item-price">
+              {price === promotionalPrice ? (
+                <>
+                  <p style={{ visibility: "hidden" }}>{formattedFinalPrice}</p>
+                  <p className="cartpage-content-item-normalprice">
+                    THB {formattedFinalPromotionalPrice}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="cartpage-content-item-beforeprice">
+                    {formattedFinalPrice}
+                  </p>
+                  <p className="cartpage-content-item-afterprice">
+                    THB {formattedFinalPromotionalPrice}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const SummaryItem = ({
+    hasItemInCart,
+    isFinal = false,
+    leftValue,
+    rightValue,
+  }) => {
+    const formatLeftValue =
+      typeof leftValue === "number" ? formatInteger(leftValue, 2) : leftValue;
+    const formatRightValue =
+      typeof rightValue === "number"
+        ? formatInteger(rightValue, 2)
+        : rightValue;
+
+    return (
+      <div
+        className="cartpage-content-summary-item"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h2
+          style={{
+            color: hasItemInCart
+              ? isFinal
+                ? "var(--Project-Sandbox-Secondary-Black-900)"
+                : ""
+              : "var(--Project-Sandbox-Secondary-Black-500)",
+            fontSize: isFinal ? "18px" : "16px",
+            fontWeight: isFinal ? "600" : "400",
+          }}
+        >
+          {formatLeftValue}
+        </h2>
+        <h3
+          style={{
+            color: hasItemInCart
+              ? isFinal
+                ? "var(--Project-Sandbox-Secondary-Black-900)"
+                : ""
+              : "var(--Project-Sandbox-Secondary-Black-500)",
+            fontSize: isFinal ? "18px" : "16px",
+            fontWeight: isFinal ? "600" : "400",
+          }}
+        >
+          {formatRightValue}
+        </h3>
+      </div>
+    );
+  };
 
   if (loading || !moreItems) {
     return <h1>Loading</h1>;
