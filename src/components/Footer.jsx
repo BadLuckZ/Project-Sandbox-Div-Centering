@@ -14,9 +14,10 @@ const Footer = () => {
   const { setActiveCategory, setSidebarOpen } = useContext(CategoryContext);
   const isAlignCenter = useMediaQuery("(max-width: 900px)");
   const isMobile = useMediaQuery("(max-width: 425px)");
+
   const handleCategoryClick = (categoryType) => {
     setActiveCategory(categoryType);
-    setSidebarOpen(true);
+    setSidebarOpen(!isMobile);
     handleScrollToTop();
   };
 
@@ -24,9 +25,6 @@ const Footer = () => {
 
   return (
     <Box
-      onClick={() => {
-        setActiveCategory(null);
-      }}
       sx={{
         backgroundColor: "var(--Project-Sandbox-Secondary-Black-900)",
         display: "flex",

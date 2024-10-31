@@ -4,9 +4,14 @@ import { CartContext } from "../contexts/CartContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { CategoryContext } from "../contexts/CategoryContext";
-import { formatInteger, getRandomItems } from "../js/utils";
+import {
+  formatInteger,
+  getAllColors,
+  getAllSizes,
+  getRandomItems,
+} from "../js/utils";
 import ProductCard from "../components/ProductCard";
-import { Button } from "@mui/material";
+import { Button, MenuItem, Select } from "@mui/material";
 
 const contentLimit = 4;
 const randomFees = [0, 1, 20];
@@ -58,10 +63,19 @@ const CartPage = () => {
     setCart(newCart);
   };
 
+  const setNewData = (updatedItem) => {
+    const updatedCart = cart.map((cartItem) =>
+      cartItem.id === updatedItem.id ? updatedItem : cartItem
+    );
+    setCart(updatedCart);
+  };
+
   const CartItem = ({ item }) => {
     const {
       id,
       permalink,
+      variants,
+      currentVariant,
       imageUrls,
       name,
       color,
@@ -70,6 +84,63 @@ const CartPage = () => {
       price,
       promotionalPrice,
     } = item;
+
+    console.log(variants);
+
+    const [selectedColor, setSelectedColor] = useState(currentVariant.color);
+    const [selectedSize, setSelectedSize] = useState(currentVariant.size);
+    const [selectedQuantity, setSelectedQuantity] = useState(quantity);
+    const [remains, setRemains] = useState(currentVariant.remains);
+
+    const allSizes = getAllSizes(variants);
+    const allColors = getAllColors(variants);
+
+    const handleColorChange = (event) => {
+      const updatedColor = event.target.value;
+      setSelectedColor(updatedColor);
+      const updatedVariant = variants.find(
+        (v) => v.color === updatedColor && v.size === selectedSize
+      );
+      if (updatedVariant && updatedVariant.remains > 0) {
+        const updatedItem = {
+          ...item,
+          color: updatedColor,
+          currentVariant: updatedVariant,
+          quantity: 1,
+        };
+        setNewData(updatedItem);
+        setRemains(updatedVariant.remains);
+      } else {
+        handleRemoveItem(item);
+      }
+    };
+
+    const handleSizeChange = (event) => {
+      const updatedSize = event.target.value;
+      setSelectedSize(updatedSize);
+      const updatedVariant = variants.find(
+        (v) => v.size === updatedSize && v.color === selectedColor
+      );
+      if (updatedVariant && updatedVariant.remains > 0) {
+        const updatedItem = {
+          ...item,
+          size: updatedSize,
+          currentVariant: updatedVariant,
+          quantity: 1,
+        };
+        setNewData(updatedItem);
+        setRemains(updatedVariant.remains);
+      } else {
+        handleRemoveItem(item);
+      }
+    };
+
+    const handleQuantityChange = (event) => {
+      const updatedQuantity = event.target.value;
+      setSelectedQuantity(updatedQuantity);
+      const updatedItem = { ...item, quantity: updatedQuantity };
+      setNewData(updatedItem);
+    };
 
     const formattedFinalPrice = formatInteger(price * quantity, 2);
     const formattedFinalPromotionalPrice = formatInteger(
@@ -99,18 +170,48 @@ const CartPage = () => {
               {color && (
                 <div className="cartpage-content-item-color">
                   <p>Color</p>
-                  <h3>{color}</h3>
+                  <Select
+                    value={selectedColor}
+                    onChange={handleColorChange}
+                    displayEmpty
+                  >
+                    {allColors.map((colorOption) => (
+                      <MenuItem key={colorOption} value={colorOption}>
+                        {colorOption}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
               )}
               {size && (
                 <div className="cartpage-content-item-size">
                   <p>Size</p>
-                  <h3>{size}</h3>
+                  <Select
+                    value={selectedSize}
+                    onChange={handleSizeChange}
+                    displayEmpty
+                  >
+                    {allSizes.map((sizeOption) => (
+                      <MenuItem key={sizeOption} value={sizeOption}>
+                        {sizeOption}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
               )}
               <div className="cartpage-content-item-quantity">
                 <p>Qty.</p>
-                <h3>{quantity}</h3>
+                <Select
+                  value={selectedQuantity}
+                  onChange={handleQuantityChange}
+                  displayEmpty
+                >
+                  {[...Array(remains).keys()].map((q) => (
+                    <MenuItem key={q + 1} value={q + 1}>
+                      {q + 1}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
             </div>
             <div className="cartpage-content-item-price">

@@ -185,7 +185,8 @@ const DetailPage = () => {
   const allColors = getAllColors(currentItem.variants);
 
   const getAvailableQuantities = () => {
-    console.log(currentVariant);
+    // console.log(currentItem.variants);
+    // console.log(currentVariant);
     if (currentVariant) {
       return Array.from({ length: currentVariant.remains }, (_, i) => i + 1);
     } else {
@@ -520,6 +521,8 @@ const DetailPage = () => {
                       id: currentItem.id,
                       imageUrls: currentItem.imageUrls,
                       skuCode: currentItem.skuCode,
+                      variants: currentItem.variants,
+                      currentVariant: currentVariant,
                       name: currentItem.name,
                       permalink: currentItem.permalink,
                       price: currentItem.price,

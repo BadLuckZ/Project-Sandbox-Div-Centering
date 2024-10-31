@@ -30,7 +30,7 @@ const Header = ({ currentPermalink = null }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
 
   const handleCategoryClick = (catType) => {
-    setActiveCategory((prev) => (prev === catType ? null : catType));
+    setActiveCategory(catType);
     if (isMobile) setSidebarOpen(true);
   };
 
