@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import "../css/HomePage.css";
 import ProductCard from "../components/ProductCard";
 import { getRandomItems } from "../js/utils";
-import { Skeleton } from "@mui/material";
+import { Skeleton, useMediaQuery } from "@mui/material";
 import CollectionCard from "../components/CollectionCard";
 import { CategoryContext } from "../contexts/CategoryContext";
 
@@ -36,6 +36,9 @@ const HomePage = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const { setActiveCategory } = useContext(CategoryContext);
+  const isMobile = useMediaQuery("(max-width:425px)");
+  const isTablet = useMediaQuery("(min-width:426px) and (max-width:768px)");
+
   useEffect(() => {
     let isMounted = false;
     async function fetchFeaturedItems() {
@@ -65,96 +68,38 @@ const HomePage = () => {
 
   if (loading || !featuredItems) {
     return (
-      <>
-        <div className="homepage-banner">
-          <Skeleton
-            variant="rectangular"
-            width="100%"
-            height={400}
-            sx={{
-              borderRadius: 1,
-              transform: "none",
-            }}
-          />
-        </div>
-        <div className="homepage-container">
-          <section className="homepage-collection">
-            <Skeleton
-              variant="text"
-              width={200}
-              height={40}
-              sx={{ marginBottom: 3 }}
-            />
-            <div className="homepage-collection-grid">
-              {collectionCardContent.map((_, index) => (
-                <div key={index} className="homepage-collection-card">
-                  <Skeleton
-                    variant="rectangular"
-                    width="100%"
-                    height={300}
-                    sx={{
-                      borderRadius: 1,
-                      transform: "none",
-                    }}
-                  />
-                  <div className="card-content">
-                    <Skeleton
-                      variant="text"
-                      width="80%"
-                      height={32}
-                      sx={{ bgcolor: "rgba(255, 255, 255, 0.3)" }}
-                    />
-                    <Skeleton
-                      variant="text"
-                      width="100%"
-                      height={24}
-                      sx={{ bgcolor: "rgba(255, 255, 255, 0.3)" }}
-                    />
-                    <Skeleton
-                      variant="rectangular"
-                      width={100}
-                      height={36}
-                      sx={{
-                        borderRadius: 50,
-                        bgcolor: "rgba(255, 255, 255, 0.3)",
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
+      <div className="homepage-container">
+        <Skeleton variant="rectangular" width="100%" height={420} />
 
-          <section className="homepage-featured-items">
-            <Skeleton
-              variant="text"
-              width={200}
-              height={40}
-              sx={{ marginBottom: 3 }}
-            />
-            <div className="homepage-featured-items-grid">
-              {Array.from({ length: contentLimit }).map((_, index) => (
-                <div key={index} style={{ width: "100%" }}>
-                  <Skeleton
-                    variant="rectangular"
-                    width="100%"
-                    height={0}
-                    sx={{
-                      paddingTop: "133%",
-                      borderRadius: 1,
-                      transform: "none",
-                      marginBottom: 1,
-                    }}
-                  />
-                  <Skeleton variant="text" width="80%" height={24} />
-                  <Skeleton variant="text" width="60%" height={24} />
-                  <Skeleton variant="text" width="40%" height={24} />
-                </div>
-              ))}
-            </div>
-          </section>
+        {/* Collection Section */}
+        <div className="homepage-collection">
+          <div className="homepage-collection-grid">
+            {[1, 2, 3].map((item) => (
+              <Skeleton
+                key={item}
+                variant="rectangular"
+                width={isMobile ? "100%" : isTablet ? "45%" : "30%"}
+                height={430}
+              />
+            ))}
+          </div>
         </div>
-      </>
+
+        {/* Featured Items Section */}
+        <div className="homepage-featured-items">
+          <Skeleton variant="text" width={200} height={48} />
+          <div className="homepage-featured-items-grid">
+            {[1, 2, 3, 4].map((item) => (
+              <Skeleton
+                key={item}
+                variant="rectangular"
+                width={isMobile ? "100%" : isTablet ? "45%" : "22%"}
+                height={425}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 

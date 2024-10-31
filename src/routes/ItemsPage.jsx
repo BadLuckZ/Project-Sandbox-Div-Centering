@@ -27,6 +27,7 @@ export default function ItemsPage() {
   const [loading, setLoading] = useState(true);
 
   const isMobile = useMediaQuery("(max-width:768px)");
+  const isTablet = useMediaQuery("(min-width:769px) and (max-width:1024px)");
 
   const sortOptions = [
     { value: "price:asc", text: "Price - Low to high" },
@@ -88,6 +89,34 @@ export default function ItemsPage() {
 
   const categoryTypes = [...new Set(categoryData.map((item) => item.type))];
 
+  if (loading || !categoryData) {
+    return (
+      <div className="itemspage-container">
+        {!isMobile && (
+          <div className="itemspage-selector">
+            <Skeleton variant="rectangular" width={268} height={400} />
+          </div>
+        )}
+        <div className="itemspage-content">
+          <div className="itemspage-content-header">
+            <Skeleton variant="text" width={200} height={40} />
+            <Skeleton variant="rectangular" width={180} height={54} />
+          </div>
+          <div className="itemspage-content-grid">
+            {[1, 2, 3, 4, 5, 6].map((item) => (
+              <Skeleton
+                key={item}
+                variant="rectangular"
+                width={isMobile ? "100%" : isTablet ? "45%" : "30%"}
+                height={425}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Header currentPermalink={categoryPermalink} />
@@ -109,128 +138,103 @@ export default function ItemsPage() {
           </div>
         )}
         <div className="itemspage-content">
-          {loading ? (
-            <>
-              <div className="itemspage-content-header">
-                <Skeleton
-                  variant="text"
-                  width={isMobile ? 150 : 200}
-                  height={40}
-                />
-                <Skeleton
-                  variant="rectangular"
-                  width={isMobile ? 120 : 180}
-                  height={40}
-                />
-              </div>
-              <div className="itemspage-content-grid">
-                {[...Array(isMobile ? 4 : 8)].map((_, index) => (
-                  <Skeleton key={index} variant="rectangular" height={300} />
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="itemspage-content-header">
-                <h1>
-                  {currentCategoryData ? currentCategoryData.text : "Category"}
-                </h1>
-                <FormControl
-                  sx={{
-                    display: "flex",
-                    height: "54px",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "8px",
-                  }}
-                  className="itemspage-content-sort"
-                >
-                  <Select
-                    value={sortBy}
-                    onChange={handleClickSortOption}
-                    displayEmpty
-                    renderValue={() => {
-                      const selectedOption = sortOptions.find(
-                        (sortOption) => sortOption.value === sortBy
-                      );
+          <div className="itemspage-content-header">
+            <h1>
+              {currentCategoryData ? currentCategoryData.text : "Category"}
+            </h1>
+            <FormControl
+              sx={{
+                display: "flex",
+                height: "54px",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "8px",
+              }}
+              className="itemspage-content-sort"
+            >
+              <Select
+                value={sortBy}
+                onChange={handleClickSortOption}
+                displayEmpty
+                renderValue={() => {
+                  const selectedOption = sortOptions.find(
+                    (sortOption) => sortOption.value === sortBy
+                  );
 
-                      return (
-                        <Typography
-                          sx={{
-                            color: "var(--Project-Sandbox-Secondary-Black-900)",
-                            fontSize: "16px",
-                            fontStyle: "normal",
-                            fontWeight: "400",
-                            lineHeight: "20px",
-                          }}
-                        >
-                          {selectedOption ? selectedOption.text : "Sort by"}
-                        </Typography>
-                      );
-                    }}
-                  >
-                    {sortOptions.map((sortOption) => (
-                      <MenuItem key={sortOption.value} value={sortOption.value}>
-                        <Typography
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "12px",
-                            padding: "12px 6px",
-                          }}
-                        >
-                          <span
-                            style={{
-                              width: "16px",
-                              height: "16px",
-                              borderRadius: "50%",
-                              backgroundColor:
-                                sortBy === sortOption.value
-                                  ? "var(--Project-Sandbox-Primary-Red-900)"
-                                  : "transparent",
-                              border:
-                                "2px solid var(--Project-Sandbox-Primary-Red-900)",
-                            }}
-                          />
-                          <p
-                            style={{
-                              color:
-                                "var(--Project-Sandbox-Secondary-Black-900)",
-                              fontSize: "16px",
-                              fontStyle: "normal",
-                              fontWeight: "400",
-                              lineHeight: "20px",
-                            }}
-                          >
-                            {sortOption.text}
-                          </p>
-                        </Typography>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="itemspage-content-grid">
-                {sortedItems && sortedItems.length > 0 ? (
-                  sortedItems.map((item) => (
-                    <ProductCard
-                      key={item.id}
-                      id={item.id}
-                      permalink={item.permalink}
-                      name={item.name}
-                      description={item.description}
-                      price={item.price}
-                      promotionalPrice={item.promotionalPrice}
-                      ratings={item.ratings}
-                      imageUrls={item.imageUrls}
-                    />
-                  ))
-                ) : (
-                  <Typography>No items available.</Typography>
-                )}
-              </div>
-            </>
-          )}
+                  return (
+                    <Typography
+                      sx={{
+                        color: "var(--Project-Sandbox-Secondary-Black-900)",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: "400",
+                        lineHeight: "20px",
+                      }}
+                    >
+                      {selectedOption ? selectedOption.text : "Sort by"}
+                    </Typography>
+                  );
+                }}
+              >
+                {sortOptions.map((sortOption) => (
+                  <MenuItem key={sortOption.value} value={sortOption.value}>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "12px 6px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                          borderRadius: "50%",
+                          backgroundColor:
+                            sortBy === sortOption.value
+                              ? "var(--Project-Sandbox-Primary-Red-900)"
+                              : "transparent",
+                          border:
+                            "2px solid var(--Project-Sandbox-Primary-Red-900)",
+                        }}
+                      />
+                      <p
+                        style={{
+                          color: "var(--Project-Sandbox-Secondary-Black-900)",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: "400",
+                          lineHeight: "20px",
+                        }}
+                      >
+                        {sortOption.text}
+                      </p>
+                    </Typography>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          <div className="itemspage-content-grid">
+            {sortedItems && sortedItems.length > 0 ? (
+              sortedItems.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  id={item.id}
+                  permalink={item.permalink}
+                  name={item.name}
+                  description={item.description}
+                  price={item.price}
+                  promotionalPrice={item.promotionalPrice}
+                  ratings={item.ratings}
+                  imageUrls={item.imageUrls}
+                />
+              ))
+            ) : (
+              <Typography>No items available.</Typography>
+            )}
+          </div>
         </div>
       </div>
       <Footer />
