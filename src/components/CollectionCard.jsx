@@ -1,6 +1,6 @@
 const CollectionCard = ({ title, subtitle, content, imgUrl }) => {
   return (
-    <div className="relative rounded-lg overflow-hidden">
+    <div className="relative rounded-lg w-full max-w-[350.5px] min-h-[430px] overflow-hidden">
       {imgUrl ? (
         <>
           <img

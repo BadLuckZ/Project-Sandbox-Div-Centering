@@ -12,7 +12,7 @@ import { CategoryContext } from "../contexts/CategoryContext";
 
 const Footer = () => {
   const { setActiveCategory, setSidebarOpen } = useContext(CategoryContext);
-  const isAlignCenter = useMediaQuery("(max-width: 895px)");
+  const isAlignCenter = useMediaQuery("(max-width: 900px)");
   const handleCategoryClick = (categoryType) => {
     setActiveCategory(categoryType);
     setSidebarOpen(true);
