@@ -12,6 +12,7 @@ import {
 } from "../js/utils";
 import ProductCard from "../components/ProductCard";
 import { Button, MenuItem, Select } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const contentLimit = 4;
 const randomFees = [0, 1, 20];
@@ -19,6 +20,7 @@ const randomFees = [0, 1, 20];
 const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
   const [moreItems, setMoreItems] = useState(null);
+  const navigator = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setActiveCategory } = useContext(CategoryContext);
   const [fee, setFee] = useState(0);
@@ -149,93 +151,93 @@ const CartPage = () => {
     );
 
     return (
-      <div className="cartpage-content-item">
-        <img
-          className="cartpage-content-item-image"
-          src={imageUrls[0]}
-          alt={name}
-        />
-        <div className="cartpage-content-item-content">
-          <div className="cartpage-content-item-header">
-            <h3>{name}</h3>
-            <i
-              className="fa-solid fa-trash"
-              onClick={() => {
-                handleRemoveItem(item);
-              }}
-            ></i>
-          </div>
-          <div className="cartpage-content-item-detail">
-            <div className="cartpage-content-item-selectors">
-              {color && (
-                <div className="cartpage-content-item-color">
-                  <p>Color</p>
-                  <Select
-                    value={selectedColor}
-                    onChange={handleColorChange}
-                    displayEmpty
-                  >
-                    {allColors.map((colorOption) => (
-                      <MenuItem key={colorOption} value={colorOption}>
-                        {colorOption}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-              )}
-              {size && (
-                <div className="cartpage-content-item-size">
-                  <p>Size</p>
-                  <Select
-                    value={selectedSize}
-                    onChange={handleSizeChange}
-                    displayEmpty
-                  >
-                    {allSizes.map((sizeOption) => (
-                      <MenuItem key={sizeOption} value={sizeOption}>
-                        {sizeOption}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-              )}
-              <div className="cartpage-content-item-quantity">
-                <p>Qty.</p>
-                <Select
-                  value={selectedQuantity}
-                  onChange={handleQuantityChange}
-                  displayEmpty
-                >
-                  {[...Array(remains).keys()].map((q) => (
-                    <MenuItem key={q + 1} value={q + 1}>
-                      {q + 1}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
+      <>
+        <div className="cartpage-content-item">
+          <img
+            className="cartpage-content-item-image"
+            src={imageUrls[0]}
+            alt={name}
+          />
+          <div className="cartpage-content-item-content">
+            <div className="cartpage-content-item-header">
+              <h3>{name}</h3>
+              <i
+                className="fa-solid fa-trash"
+                onClick={() => {
+                  handleRemoveItem(item);
+                }}
+              ></i>
             </div>
-            <div className="cartpage-content-item-price">
-              {price === promotionalPrice ? (
-                <>
-                  <p style={{ visibility: "hidden" }}>{formattedFinalPrice}</p>
+            <div className="cartpage-content-item-detail">
+              <div className="cartpage-content-item-selectors">
+                {color && (
+                  <div className="cartpage-content-item-color">
+                    <p>Color</p>
+                    <Select
+                      value={selectedColor}
+                      onChange={handleColorChange}
+                      displayEmpty
+                    >
+                      {allColors.map((colorOption) => (
+                        <MenuItem key={colorOption} value={colorOption}>
+                          {colorOption}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                )}
+                {size && (
+                  <div className="cartpage-content-item-size">
+                    <p>Size</p>
+                    <Select
+                      value={selectedSize}
+                      onChange={handleSizeChange}
+                      displayEmpty
+                    >
+                      {allSizes.map((sizeOption) => (
+                        <MenuItem key={sizeOption} value={sizeOption}>
+                          {sizeOption}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </div>
+                )}
+                <div className="cartpage-content-item-quantity">
+                  <p>Qty.</p>
+                  <Select
+                    value={selectedQuantity}
+                    onChange={handleQuantityChange}
+                    displayEmpty
+                  >
+                    {[...Array(remains).keys()].map((q) => (
+                      <MenuItem key={q + 1} value={q + 1}>
+                        {q + 1}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+              <div className="cartpage-content-item-price">
+                {price === promotionalPrice ? (
                   <p className="cartpage-content-item-normalprice">
                     THB {formattedFinalPromotionalPrice}
                   </p>
-                </>
-              ) : (
-                <>
-                  <p className="cartpage-content-item-beforeprice">
-                    {formattedFinalPrice}
-                  </p>
-                  <p className="cartpage-content-item-afterprice">
-                    THB {formattedFinalPromotionalPrice}
-                  </p>
-                </>
-              )}
+                ) : (
+                  <>
+                    <p className="cartpage-content-item-beforeprice">
+                      {formattedFinalPrice}
+                    </p>
+                    <p className="cartpage-content-item-afterprice">
+                      THB {formattedFinalPromotionalPrice}
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <hr></hr>
+      </>
     );
   };
 
@@ -324,7 +326,27 @@ const CartPage = () => {
                   ))}
                 </div>
               ) : (
-                <p>No Items In Cart</p>
+                <div className="cartpage-content-empty">
+                  <img
+                    src="/img/emptycart.svg"
+                    className="cartpage-content-empty-background"
+                  ></img>
+                  <h2 className="cartpage-content-empty-title">
+                    Your cart is empty
+                  </h2>
+                  <h3 className="cartpage-content-empty-subtitle">
+                    Looks like you have not added anything to your cart. Go
+                    ahead & explore top categories.
+                  </h3>
+                  <div
+                    className="cartpage-content-empty-continue"
+                    onClick={() => {
+                      navigator(-1);
+                    }}
+                  >
+                    <p>Continue Shopping</p>
+                  </div>
+                </div>
               )}
             </div>
             <div className="cartpage-content-summary">
@@ -383,6 +405,10 @@ const CartPage = () => {
               <div className="cartpage-content-summary-buttons">
                 <Button
                   className="cartpage-content-summary-checkout"
+                  disabled={!hasItemInCart}
+                  onClick={() => {
+                    window.open("https://popdeng.click/", "_blank");
+                  }}
                   sx={{
                     background: hasItemInCart
                       ? "var(--Project-Sandbox-Secondary-Black-900)"
@@ -407,6 +433,10 @@ const CartPage = () => {
                 </Button>
                 <Button
                   className="cartpage-content-summary-continue"
+                  disabled={!hasItemInCart}
+                  onClick={() => {
+                    navigator(-1);
+                  }}
                   sx={{
                     border:
                       "1px solid var(--Project-Sandbox-Secondary-Black-300)",
@@ -414,7 +444,7 @@ const CartPage = () => {
                     cursor: hasItemInCart ? "pointer" : "default",
                     ":hover": {
                       background: hasItemInCart
-                        ? "var(--Project-Sandbox-Secondary-Black-100)"
+                        ? "var(--Project-Sandbox-Secondary-Black-300)"
                         : "",
                     },
                   }}

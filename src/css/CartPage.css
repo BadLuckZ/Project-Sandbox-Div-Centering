@@ -1,4 +1,5 @@
 .cartpage-container {
+  background-color: var(--Project-Sandbox-Secondary-Black-50);
   display: flex;
   flex-direction: column;
   padding: 64px 124px 80px 124px;
@@ -19,9 +20,11 @@
 }
 
 .cartpage-content-items {
+  background-color: var(--Project-Sandbox-White);
   width: calc(100% - 440px);
-  margin: 24px;
   display: flex;
+  gap: 24px;
+  padding: 24px;
   flex-direction: column;
 }
 
@@ -34,7 +37,7 @@
 
 .cartpage-content-item {
   width: 100%;
-  padding: 24px 0;
+  padding: 0 0 24px 0;
   height: 162px;
   display: flex;
 }
@@ -96,6 +99,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 102px;
 }
 
 .cartpage-content-item-selectors > div > p {
@@ -109,6 +113,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-top: auto;
 }
 
 .cartpage-content-item-normalprice {
@@ -136,11 +141,66 @@
   line-height: 24px;
 }
 
+.cartpage-content-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cartpage-content-empty-background {
+  width: 403px;
+  height: 403px;
+  padding-bottom: 24px;
+}
+
+.cartpage-content-empty-title {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.cartpage-content-empty-subtitle {
+  color: var(--Project-Sandbox-Secondary-Black-900);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  padding-bottom: 24px;
+}
+
+.cartpage-content-empty-continue {
+  background-color: var(--Project-Sandbox-Secondary-Black-900);
+  display: flex;
+  height: 54px;
+  padding: 7px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cartpage-content-empty-continue:hover {
+  background-color: var(--Project-Sandbox-Secondary-Black-700);
+}
+
+.cartpage-content-empty-continue > p {
+  color: var(--Project-Sandbox-White);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
 .cartpage-content-summary {
+  background-color: var(--Project-Sandbox-White);
   width: 440px;
   display: flex;
   flex-direction: column;
-  margin: 24px;
+  padding: 24px;
   gap: 24px;
 }
 
