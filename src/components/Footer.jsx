@@ -13,6 +13,7 @@ import { CategoryContext } from "../contexts/CategoryContext";
 const Footer = () => {
   const { setActiveCategory, setSidebarOpen } = useContext(CategoryContext);
   const isAlignCenter = useMediaQuery("(max-width: 900px)");
+  const isMobile = useMediaQuery("(max-width: 425px)");
   const handleCategoryClick = (categoryType) => {
     setActiveCategory(categoryType);
     setSidebarOpen(true);
@@ -30,14 +31,10 @@ const Footer = () => {
         backgroundColor: "var(--Project-Sandbox-Secondary-Black-900)",
         display: "flex",
         width: "100%",
-        padding: {
-          xs: "24px 16px",
-          md: "24px 64px",
-          lg: "24px 124px",
-        },
         flexDirection: "column",
         alignItems: "center",
         gap: "16px",
+        padding: `24px ${isMobile ? "16px" : "124px"}`,
       }}
     >
       <Grid container spacing={4}>

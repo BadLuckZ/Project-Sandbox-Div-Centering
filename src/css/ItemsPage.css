@@ -5,7 +5,13 @@
   gap: 40px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 424px) {
+  .itemspage-container {
+    padding: 24px 0px 78px 0px;
+  }
+}
+
+@media screen and (max-width: 425px) and (max-width: 768px) {
   .itemspage-container {
     padding: 24px 16px 78px 16px;
   }

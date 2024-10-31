@@ -57,7 +57,6 @@ const Header = ({ currentPermalink = null }) => {
           maxWidth="xl"
           sx={{
             width: "100%",
-            minWidth: "425px",
             padding: isMobile
               ? "10px 16px !important"
               : isTablet
