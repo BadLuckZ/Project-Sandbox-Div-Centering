@@ -28,6 +28,7 @@ const Header = ({ currentPermalink = null }) => {
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:768px)");
+  const isTablet = useMediaQuery("(min-width:769px) and (max-width: 1024px)");
 
   const handleCategoryClick = (catType) => {
     setActiveCategory((prev) => (prev === catType ? null : catType));
@@ -52,43 +53,69 @@ const Header = ({ currentPermalink = null }) => {
         position="static"
         sx={{ backgroundColor: "var(--Project-Sandbox-Black)" }}
       >
-        <Container maxWidth="xl">
+        <Container
+          maxWidth="xl"
+          sx={{
+            width: "100%",
+            minWidth: "425px",
+            padding: isMobile
+              ? "10px 16px !important"
+              : isTablet
+              ? "10px 64px !important"
+              : "10px 160px !important",
+            gap: "16px",
+          }}
+        >
           <Toolbar
             disableGutters
-            sx={{ minHeight: "56px !important", gap: "10px" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            {isMobile && (
-              <IconButton
-                onClick={() => setSidebarOpen(true)}
-                sx={{
-                  padding: "8px",
-                  fontSize: "1.25rem",
-                  color: "var(--Project-Sandbox-White)",
-                }}
-              >
-                <i className="fa-solid fa-bars"></i>
-              </IconButton>
-            )}
-
             <Box
-              onClick={() => {
-                handleScrollToTop();
-                navigate("/");
+              sx={{
+                display: "flex",
+                gap: "16px",
               }}
-              sx={{ cursor: "pointer", display: "flex", alignItems: "center" }}
             >
-              <img src="/img/logo.svg" alt="Logo" />
-              <Typography
-                component="p"
+              {isMobile && (
+                <IconButton
+                  onClick={() => setSidebarOpen(true)}
+                  sx={{
+                    padding: "8px",
+                    fontSize: "1.25rem",
+                    color: "var(--Project-Sandbox-White)",
+                  }}
+                >
+                  <i className="fa-solid fa-bars"></i>
+                </IconButton>
+              )}
+              <Box
+                onClick={() => {
+                  handleScrollToTop();
+                  navigate("/");
+                }}
                 sx={{
-                  color: "var(--Project-Sandbox-White)",
-                  fontSize: "18px",
-                  fontWeight: 600,
-                  ml: 1,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                WDB
-              </Typography>
+                <img src="/img/logo.svg" alt="Logo" />
+                <Typography
+                  component="p"
+                  sx={{
+                    color: "var(--Project-Sandbox-White)",
+                    fontSize: "18px",
+                    fontWeight: 600,
+                    ml: 1,
+                  }}
+                >
+                  WDB
+                </Typography>
+              </Box>
             </Box>
 
             {!isMobile && (
@@ -140,8 +167,14 @@ const Header = ({ currentPermalink = null }) => {
                                       : "inherit",
                                   "&:hover": {
                                     backgroundColor:
-                                      "var(--Project-Sandbox-Secondary-Black-300)",
+                                      cat.api === currentPermalink
+                                        ? "var(--Project-Sandbox-Primary-Red-700)"
+                                        : "var(--Project-Sandbox-Secondary-Black-300)",
                                   },
+                                  cursor:
+                                    cat.api === currentPermalink
+                                      ? "default"
+                                      : "pointer",
                                 }}
                               >
                                 <ListItemText primary={cat.text} />
@@ -157,7 +190,12 @@ const Header = ({ currentPermalink = null }) => {
 
             <IconButton
               onClick={() => navigate("/cart")}
-              sx={{ color: "inherit" }}
+              sx={{
+                color: "inherit",
+                ":hover": {
+                  color: "var(--Project-Sandbox-Primary-Red-700)",
+                },
+              }}
             >
               <Badge badgeContent={totalItemsInCart} color="error">
                 <i className="fa-solid fa-cart-shopping"></i>

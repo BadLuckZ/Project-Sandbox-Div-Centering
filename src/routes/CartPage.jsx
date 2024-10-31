@@ -3,13 +3,20 @@ import "../css/CartPage.css";
 import { CartContext } from "../contexts/CartContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { CategoryContext } from "../contexts/CategoryContext";
 
 const CartPage = () => {
   const { cart } = useContext(CartContext);
+  const { setActiveCategory } = useContext(CategoryContext);
   return (
     <>
       <Header />
-      <div className="cartpage-container">
+      <div
+        className="cartpage-container"
+        onClick={() => {
+          setActiveCategory(null);
+        }}
+      >
         <h1>This is Cart Page</h1>
         <div>
           {cart.map((cartItem, idx) => {

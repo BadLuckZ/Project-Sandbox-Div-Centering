@@ -14,9 +14,11 @@ import { categoryData } from "../js/utils.js";
 import SidebarSelector from "../components/SidebarSelector.jsx";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+import { CategoryContext } from "../contexts/CategoryContext.jsx";
 
 export default function ItemsPage() {
   const { categoryPermalink } = useParams();
+  const { setActiveCategory } = useContext(CategoryContext);
   const [items, setItems] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [currentCategoryPermalink, setCurrentCategoryPermalink] =
@@ -89,7 +91,12 @@ export default function ItemsPage() {
   return (
     <>
       <Header currentPermalink={categoryPermalink} />
-      <div className="itemspage-container">
+      <div
+        className="itemspage-container"
+        onClick={() => {
+          setActiveCategory(null);
+        }}
+      >
         {!isMobile && (
           <div className="itemspage-selector">
             {categoryTypes.map((categoryType) => (
@@ -129,7 +136,13 @@ export default function ItemsPage() {
                   {currentCategoryData ? currentCategoryData.text : "Category"}
                 </h1>
                 <FormControl
-                  sx={{ m: 1, minWidth: 180 }}
+                  sx={{
+                    display: "flex",
+                    height: "54px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
                   className="itemspage-content-sort"
                 >
                   <Select
@@ -143,7 +156,13 @@ export default function ItemsPage() {
 
                       return (
                         <Typography
-                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                          sx={{
+                            color: "var(--Project-Sandbox-Secondary-Black-900)",
+                            fontSize: "16px",
+                            fontStyle: "normal",
+                            fontWeight: "400",
+                            lineHeight: "20px",
+                          }}
                         >
                           {selectedOption ? selectedOption.text : "Sort by"}
                         </Typography>
@@ -153,12 +172,17 @@ export default function ItemsPage() {
                     {sortOptions.map((sortOption) => (
                       <MenuItem key={sortOption.value} value={sortOption.value}>
                         <Typography
-                          sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "12px",
+                            padding: "12px 6px",
+                          }}
                         >
                           <span
                             style={{
-                              width: 16,
-                              height: 16,
+                              width: "16px",
+                              height: "16px",
                               borderRadius: "50%",
                               backgroundColor:
                                 sortBy === sortOption.value
@@ -168,7 +192,18 @@ export default function ItemsPage() {
                                 "2px solid var(--Project-Sandbox-Primary-Red-900)",
                             }}
                           />
-                          {sortOption.text}
+                          <p
+                            style={{
+                              color:
+                                "var(--Project-Sandbox-Secondary-Black-900)",
+                              fontSize: "16px",
+                              fontStyle: "normal",
+                              fontWeight: "400",
+                              lineHeight: "20px",
+                            }}
+                          >
+                            {sortOption.text}
+                          </p>
                         </Typography>
                       </MenuItem>
                     ))}
@@ -191,7 +226,7 @@ export default function ItemsPage() {
                     />
                   ))
                 ) : (
-                  <Typography variant="body1">No items available.</Typography>
+                  <Typography>No items available.</Typography>
                 )}
               </div>
             </>

@@ -16,10 +16,12 @@ import { Select, MenuItem, Skeleton } from "@mui/material";
 import { CartContext } from "../contexts/CartContext.jsx";
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
+import { CategoryContext } from "../contexts/CategoryContext.jsx";
 
 const DetailPage = () => {
   const { itemPermalink } = useParams();
   const navigate = useNavigate();
+  const { setActiveCategory } = useContext(CategoryContext);
   const { cart, setCart } = useContext(CartContext);
   const [currentItem, setCurrentItem] = useState(null);
   const [relatedItems, setRelatedItems] = useState(null);
@@ -181,7 +183,12 @@ const DetailPage = () => {
   return (
     <>
       <Header />
-      <div className="detailpage-container">
+      <div
+        className="detailpage-container"
+        onClick={() => {
+          setActiveCategory(null);
+        }}
+      >
         {/* Popup Content */}
         {showPopUp && (
           <div className="detailpage-popup-overlay">

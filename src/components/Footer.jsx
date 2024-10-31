@@ -1,11 +1,18 @@
 import React, { useContext } from "react";
-import { Box, Button, Grid, Typography, Input } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  Input,
+  useMediaQuery,
+} from "@mui/material";
 import { categoryData, handleScrollToTop } from "../js/utils";
 import { CategoryContext } from "../contexts/CategoryContext";
 
 const Footer = () => {
   const { setActiveCategory, setSidebarOpen } = useContext(CategoryContext);
-
+  const isAlignCenter = useMediaQuery("(max-width: 895px)");
   const handleCategoryClick = (categoryType) => {
     setActiveCategory(categoryType);
     setSidebarOpen(true);
@@ -16,22 +23,37 @@ const Footer = () => {
 
   return (
     <Box
+      onClick={() => {
+        setActiveCategory(null);
+      }}
       sx={{
         backgroundColor: "var(--Project-Sandbox-Secondary-Black-900)",
         display: "flex",
         width: "100%",
-        padding: "24px 124px",
+        padding: {
+          xs: "24px 16px",
+          md: "24px 64px",
+          lg: "24px 124px",
+        },
         flexDirection: "column",
         alignItems: "center",
         gap: "16px",
       }}
     >
       <Grid container spacing={4}>
-        <Grid item xs={12} md={4}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={{
+            justifyItems: isAlignCenter ? "center" : "",
+            alignItems: isAlignCenter ? "center" : "",
+          }}
+        >
           <Typography
             sx={{
               color: "var(--Project-Sandbox-White)",
-              fontSize: "32px",
+              fontSize: { xs: "24px", md: "32px" },
               fontWeight: "700",
               paddingBottom: "24px",
             }}
@@ -43,7 +65,7 @@ const Footer = () => {
               key={`${categoryType}-${idx}`}
               sx={{
                 color: "var(--Project-Sandbox-White)",
-                fontSize: "18px",
+                fontSize: { xs: "16px", md: "18px" },
                 fontWeight: "600",
                 lineHeight: "24px",
                 paddingBottom: "16px",
@@ -59,12 +81,19 @@ const Footer = () => {
           ))}
         </Grid>
 
-        {/* Register With Us */}
-        <Grid item xs={12} md={4}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={{
+            justifyItems: isAlignCenter ? "center" : "",
+            alignItems: isAlignCenter ? "center" : "",
+          }}
+        >
           <Typography
             sx={{
               color: "var(--Project-Sandbox-White)",
-              fontSize: "32px",
+              fontSize: { xs: "24px", md: "32px" },
               fontWeight: "700",
               lineHeight: "48px",
               paddingBottom: "24px",
@@ -115,12 +144,19 @@ const Footer = () => {
           </Button>
         </Grid>
 
-        {/* Customer Services */}
-        <Grid item xs={12} md={4}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          sx={{
+            justifyItems: isAlignCenter ? "center" : "",
+            alignItems: isAlignCenter ? "center" : "",
+          }}
+        >
           <Typography
             sx={{
               color: "var(--Project-Sandbox-White)",
-              fontSize: "32px",
+              fontSize: { xs: "24px", md: "32px" },
               fontWeight: "700",
               lineHeight: "48px",
               paddingBottom: "24px",
@@ -155,7 +191,14 @@ const Footer = () => {
             Email: jane.doe@realmail.com
           </Typography>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "24px",
+              alignItems: isAlignCenter ? "center" : "",
+            }}
+          >
             <Input
               type="email"
               placeholder="Enter your email"
@@ -190,13 +233,15 @@ const Footer = () => {
         </Grid>
       </Grid>
 
-      {/* Footer Bottom */}
       <Box
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
+          alignItems: { xs: "center", md: "flex-start" },
           width: "100%",
           mt: 4,
+          gap: { xs: 2, md: 0 },
         }}
       >
         <Typography
@@ -205,6 +250,7 @@ const Footer = () => {
             fontSize: "12px",
             fontWeight: "400",
             lineHeight: "16px",
+            textAlign: { xs: "center", md: "left" },
           }}
         >
           Copyright © 2024 All rights reserved for all contents.

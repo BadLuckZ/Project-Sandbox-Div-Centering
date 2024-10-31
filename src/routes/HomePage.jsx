@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import "../css/HomePage.css";
@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard";
 import { getRandomItems } from "../js/utils";
 import { Skeleton } from "@mui/material";
 import CollectionCard from "../components/CollectionCard";
+import { CategoryContext } from "../contexts/CategoryContext";
 
 const contentPermalink = "new-arrivals";
 const contentLimit = 4;
@@ -34,6 +35,7 @@ const collectionCardContent = [
 const HomePage = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { setActiveCategory } = useContext(CategoryContext);
   useEffect(() => {
     let isMounted = false;
     async function fetchFeaturedItems() {
@@ -159,7 +161,12 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <div className="homepage-banner">
+      <div
+        className="homepage-banner"
+        onClick={() => {
+          setActiveCategory(null);
+        }}
+      >
         <img src="https://picsum.photos/2000/600" />
       </div>
       <div className="homepage-container">
