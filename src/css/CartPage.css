@@ -6,6 +6,12 @@
   gap: 48px;
 }
 
+@media screen and (max-width: 1142px) {
+  .cartpage-container {
+    padding: 64px 40px 80px 40px;
+  }
+}
+
 .cartpage-header {
   color: var(--Project-Sandbox-Secondary-Black-900);
   font-size: 32px;
@@ -178,8 +184,10 @@
 }
 
 .cartpage-content-empty-background {
+  min-width: 200px;
   width: 100%;
   max-width: 403px;
+  min-height: 200px;
   height: 100%;
   max-height: 403px;
   padding-bottom: 24px;
@@ -247,6 +255,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media screen and (max-width: 425px) {
+  .cartpage-content-summary-header {
+    flex-direction: column;
+  }
 }
 
 .cartpage-content-summary-header > h2 {

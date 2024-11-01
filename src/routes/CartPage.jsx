@@ -268,8 +268,8 @@ const CartPage = () => {
             color: hasItemInCart
               ? isFinal
                 ? "var(--Project-Sandbox-Secondary-Black-900)"
-                : ""
-              : "var(--Project-Sandbox-Secondary-Black-500)",
+                : "var(--Project-Sandbox-Secondary-Black-900)"
+              : "var(--Project-Sandbox-Secondary-Black-700)",
             fontSize: isFinal ? "18px" : "16px",
             fontWeight: isFinal ? "600" : "400",
           }}
@@ -281,8 +281,8 @@ const CartPage = () => {
             color: hasItemInCart
               ? isFinal
                 ? "var(--Project-Sandbox-Secondary-Black-900)"
-                : ""
-              : "var(--Project-Sandbox-Secondary-Black-500)",
+                : "var(--Project-Sandbox-Secondary-Black-700)"
+              : "var(--Project-Sandbox-Secondary-Black-700)",
             fontSize: isFinal ? "18px" : "16px",
             fontWeight: isFinal ? "600" : "400",
           }}
@@ -362,8 +362,8 @@ const CartPage = () => {
                     <SummaryItem
                       key={c.id}
                       hasItemInCart={hasItemInCart}
-                      leftValue={`${c.name}${
-                        c.quantity <= 1 ? "" : ` : x${c.quantity}`
+                      leftValue={`${c.name} ${
+                        c.quantity <= 1 ? "" : `x${c.quantity}`
                       }`}
                       rightValue={c.promotionalPrice * c.quantity}
                     />
