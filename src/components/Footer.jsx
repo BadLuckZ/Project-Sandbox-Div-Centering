@@ -17,7 +17,7 @@ const Footer = () => {
 
   const handleCategoryClick = (categoryType) => {
     setActiveCategory(categoryType);
-    setSidebarOpen(!isMobile);
+    setSidebarOpen(true);
     handleScrollToTop();
   };
 
