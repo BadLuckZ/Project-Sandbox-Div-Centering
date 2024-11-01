@@ -236,7 +236,7 @@ const CartPage = () => {
             </div>
           </div>
         </div>
-        <hr></hr>
+        <hr className="cartpage-content-item-endline"></hr>
       </>
     );
   };
