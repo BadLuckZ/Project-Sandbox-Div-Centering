@@ -68,38 +68,44 @@ const HomePage = () => {
 
   if (loading || !featuredItems) {
     return (
-      <div className="homepage-container">
-        <Skeleton variant="rectangular" width="100%" height={420} />
+      <>
+        <Skeleton
+          variant="rectangular"
+          width={"100%"}
+          height={420}
+          sx={{
+            marginBottom: "80px",
+          }}
+        />
+        <div className="homepage-container">
+          <div className="homepage-collection">
+            <div className="homepage-collection-grid">
+              {[1, 2, 3].map((item) => (
+                <Skeleton
+                  key={item}
+                  variant="rectangular"
+                  width={"100%"}
+                  height={430}
+                />
+              ))}
+            </div>
+          </div>
 
-        {/* Collection Section */}
-        <div className="homepage-collection">
-          <div className="homepage-collection-grid">
-            {[1, 2, 3].map((item) => (
-              <Skeleton
-                key={item}
-                variant="rectangular"
-                width={isMobile ? "100%" : isTablet ? "45%" : "30%"}
-                height={430}
-              />
-            ))}
+          <div className="homepage-featured-items">
+            <Skeleton variant="text" width={"100%"} height={48} />
+            <div className="homepage-featured-items-grid">
+              {[...Array(4)].map((item) => (
+                <Skeleton
+                  key={item}
+                  variant="rectangular"
+                  width={"100%"}
+                  height={425}
+                />
+              ))}
+            </div>
           </div>
         </div>
-
-        {/* Featured Items Section */}
-        <div className="homepage-featured-items">
-          <Skeleton variant="text" width={200} height={48} />
-          <div className="homepage-featured-items-grid">
-            {[1, 2, 3, 4].map((item) => (
-              <Skeleton
-                key={item}
-                variant="rectangular"
-                width={isMobile ? "100%" : isTablet ? "45%" : "22%"}
-                height={425}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      </>
     );
   }
 

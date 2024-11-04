@@ -94,20 +94,19 @@ export default function ItemsPage() {
       <div className="itemspage-container">
         {!isMobile && (
           <div className="itemspage-selector">
-            <Skeleton variant="rectangular" width={268} height={400} />
+            <Skeleton variant="rectangular" width={200} height={500} />
           </div>
         )}
         <div className="itemspage-content">
           <div className="itemspage-content-header">
-            <Skeleton variant="text" width={200} height={40} />
-            <Skeleton variant="rectangular" width={180} height={54} />
+            <Skeleton variant="text" width={"100%"} height={100} />
           </div>
           <div className="itemspage-content-grid">
             {[1, 2, 3, 4, 5, 6].map((item) => (
               <Skeleton
                 key={item}
                 variant="rectangular"
-                width={isMobile ? "100%" : isTablet ? "45%" : "30%"}
+                width={"100%"}
                 height={425}
               />
             ))}

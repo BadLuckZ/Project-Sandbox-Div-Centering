@@ -1,5 +1,4 @@
 .homepage-container {
-  background-color: var(--Project-Sandbox-Secondary-Black-50);
   width: 100%;
   padding: 0 124px;
 }
@@ -17,7 +16,7 @@
 }
 
 .homepage-banner {
-  margin-bottom: 97px;
+  margin-bottom: 80px;
   width: 100%;
 }
 
