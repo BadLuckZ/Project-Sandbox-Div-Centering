@@ -19,13 +19,13 @@ const collectionCardContent = [
       "Step into a world of winter elegance and style with our latest Winter Collection. As temperatures drop, our curated selection of clothing is designed to keep you fashionably warm. From luxurious knitwear to trend-setting outerwear, each piece in our collection is a celebration of seasonal sophistication. Explore the blend of comfort and fashion, as we present you with the must-have ensembles to make a statement in the chilly months ahead. Welcome to a winter wardrobe that seamlessly combines coziness with chic aesthetics.",
   },
   {
-    imgUrl: "https://picsum.photos/900/1200",
+    imgUrl: "/img/catalogue1.jpg",
     title: "Cozy Breeze",
     content:
       "Embrace the season with our carefully curated selection of garments, each piece thoughtfully designed to blend fashion and functionality. From cozy knits to elegant outerwear, our collection invites you to indulge in the allure of winter fashion. ",
   },
   {
-    imgUrl: "https://picsum.photos/400/600",
+    imgUrl: "/img/catalogue2.jpg",
     title: "Flexi Move",
     content:
       "Step into a world where fashion meets functionality with our latest Sneaker Collection. Designed for those who appreciate the perfect fusion of style and comfort, our curated selection of sneakers is a celebration of urban chic.",
@@ -112,7 +112,7 @@ const HomePage = () => {
           setActiveCategory(null);
         }}
       >
-        <img src="https://picsum.photos/2000/600" />
+        <img src="/img/banner.jpg" />
       </div>
       <div className="homepage-container">
         <section className="homepage-collection">
