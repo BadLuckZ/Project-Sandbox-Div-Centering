@@ -15,7 +15,6 @@ import { Button, MenuItem, Select, Skeleton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const contentLimit = 4;
-const randomFees = [0, 1, 20];
 
 const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
@@ -23,7 +22,6 @@ const CartPage = () => {
   const navigator = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setActiveCategory } = useContext(CategoryContext);
-  const [fee, setFee] = useState(0);
 
   useEffect(() => {
     let isMounted = false;
@@ -49,19 +47,8 @@ const CartPage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const feeChance = Math.floor(Math.random() * 10);
-    if (feeChance < 6) {
-      setFee(randomFees[0]);
-    } else if (feeChance < 9) {
-      setFee(randomFees[1]);
-    } else {
-      setFee(randomFees[2]);
-    }
-  }, []);
-
   const handleRemoveItem = (item) => {
-    const newCart = cart.filter((cartItem) => cartItem.id != item.id);
+    const newCart = cart.filter((cartItem) => cartItem.id !== item.id);
     setCart(newCart);
   };
 
@@ -425,7 +412,7 @@ const CartPage = () => {
                 <SummaryItem
                   hasItemInCart={hasItemInCart}
                   leftValue={"Shipping Fee"}
-                  rightValue={hasItemInCart ? fee * totalPriceInCart : 0}
+                  rightValue={0}
                 />
               </div>
               <hr />
@@ -434,11 +421,7 @@ const CartPage = () => {
                   hasItemInCart={hasItemInCart}
                   leftValue={"Total"}
                   isFinal={true}
-                  rightValue={
-                    hasItemInCart
-                      ? fee * totalPriceInCart + totalPriceInCart
-                      : 0
-                  }
+                  rightValue={0}
                 />
               </div>
               <div className="cartpage-content-summary-buttons">

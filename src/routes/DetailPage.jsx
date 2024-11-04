@@ -112,7 +112,7 @@ const DetailPage = () => {
           <div className="detailpage-slider-container">
             <Skeleton variant="rectangular" width="100%" height={400} />
             <div className="detailpage-sub-image-section">
-              {[...Array(4)].map((_, index) => (
+              {[...Array(5)].map((_, index) => (
                 <Skeleton
                   key={index}
                   variant="rectangular"
@@ -185,8 +185,6 @@ const DetailPage = () => {
   const allColors = getAllColors(currentItem.variants);
 
   const getAvailableQuantities = () => {
-    // console.log(currentItem.variants);
-    // console.log(currentVariant);
     if (currentVariant) {
       return Array.from({ length: currentVariant.remains }, (_, i) => i + 1);
     } else {
@@ -332,31 +330,33 @@ const DetailPage = () => {
               )}
             </div>
             <div className="detailpage-sub-image-section">
-              {currentItem.imageUrls.map((imageUrl, index) =>
-                currentImageIndex === index ? null : (
-                  <img
-                    src={imageUrl}
-                    className={`detailpage-sub-image ${
-                      (!allColors.length || color) && (!allSizes.length || size)
-                        ? haveStock
-                          ? ""
-                          : " disabled"
-                        : ""
-                    }`}
-                    key={index}
-                    onClick={() => {
-                      if (
-                        (!allColors.length || color) &&
-                        (!allSizes.length || size) &&
-                        !haveStock
-                      ) {
-                      } else {
-                        handleSubImageClick(index);
-                      }
-                    }}
-                  />
-                )
-              )}
+              {currentItem.imageUrls.map((imageUrl, index) => (
+                <img
+                  src={imageUrl}
+                  className={`detailpage-sub-image ${
+                    (!allColors.length || color) && (!allSizes.length || size)
+                      ? haveStock
+                        ? ""
+                        : " disabled"
+                      : ""
+                  } ${
+                    index == currentImageIndex
+                      ? "detailpage-sub-image-current"
+                      : ""
+                  }`}
+                  key={index}
+                  onClick={() => {
+                    if (
+                      (!allColors.length || color) &&
+                      (!allSizes.length || size) &&
+                      !haveStock
+                    ) {
+                    } else {
+                      handleSubImageClick(index);
+                    }
+                  }}
+                />
+              ))}
             </div>
           </div>
 
