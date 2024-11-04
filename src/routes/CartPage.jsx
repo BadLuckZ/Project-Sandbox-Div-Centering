@@ -11,7 +11,7 @@ import {
   getRandomItems,
 } from "../js/utils";
 import ProductCard from "../components/ProductCard";
-import { Button, MenuItem, Select } from "@mui/material";
+import { Button, MenuItem, Select, Skeleton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const contentLimit = 4;
@@ -294,7 +294,46 @@ const CartPage = () => {
   };
 
   if (loading || !moreItems) {
-    return <h1>Loading</h1>;
+    return (
+      <>
+        <Skeleton variant="text" height={100} />
+        <div className="cartpage-container">
+          <div className="cartpage-cart">
+            <Skeleton variant="text" width={40} height={40} />
+            <div className="cartpage-content">
+              <div className="cartpage-content-items">
+                <Skeleton variant="text" width={200} height={30} />
+                {[...Array(contentLimit)].map((_, idx) => (
+                  <Skeleton
+                    key={idx}
+                    variant="rectangular"
+                    height={150}
+                    style={{ marginBottom: "20px" }}
+                  />
+                ))}
+              </div>
+              <div className="cartpage-content-summary">
+                <Skeleton variant="text" width={100} height={30} />
+                {[...Array(3)].map((_, idx) => (
+                  <Skeleton key={idx} variant="text" width={150} height={20} />
+                ))}
+                <Skeleton variant="text" width={150} height={40} />
+                <div className="cartpage-content-summary-buttons">
+                  <Skeleton
+                    variant="rectangular"
+                    height={40}
+                    width={150}
+                    style={{ marginBottom: "10px" }}
+                  />
+                  <Skeleton variant="rectangular" height={40} width={150} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <Skeleton variant="text" height={100} />
+        </div>
+      </>
+    );
   }
 
   const totalItemsInCart = cart.reduce(
