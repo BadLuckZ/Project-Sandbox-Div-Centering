@@ -26,6 +26,97 @@
   gap: 40px;
 }
 
+/* ============================================================= */
+/* ====================== CSS for Popup ======================== */
+.cartpage-popup-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.cartpage-popup-container {
+  position: relative;
+  border-radius: 16px;
+  background: var(--Project-Sandbox-Primary-Red-900);
+  z-index: 1000;
+  display: flex;
+  width: 600px;
+  height: fit-content;
+  flex-direction: column;
+}
+
+.cartpage-popup-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.5);
+  overflow: hidden; 
+}
+
+.cartpage-popup-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--Project-Sandbox-White);
+  transition: width 3s linear;
+}
+
+
+.cartpage-popup-content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.cartpage-popup-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  background-color: var(--Project-Sandbox-White);
+  margin-bottom: 16px;
+}
+
+.cartpage-popup-logo > i{
+  font-size: 60px;
+  color: var(--Project-Sandbox-Secondary-Black-900);
+}
+
+
+.cartpage-popup-title1{
+  font-size: 72px;
+  font-weight: bold;
+  color: var(--Project-Sandbox-White);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.cartpage-popup-title2{
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--Project-Sandbox-White);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================= */
+/* ============================================================= */
+
+/* ================= CSS for items ============================= */
+/* ============================================================= */
 .cartpage-content-items {
   background-color: var(--Project-Sandbox-White);
   width: calc(100% - 440px);
@@ -242,6 +333,12 @@
   line-height: 20px;
 }
 
+/* ============================================================= */
+/* ============================================================= */
+
+/* ================= CSS for summary =========================== */
+/* ============================================================= */
+
 .cartpage-content-summary {
   background-color: var(--Project-Sandbox-White);
   width: 440px;
@@ -304,6 +401,11 @@
   line-height: 20px;
 }
 
+/* ============================================================= */
+/* ============================================================= */
+
+/* ================== CSS for more ============================= */
+/* ============================================================= */
 .cartpage-more {
   display: flex;
   width: 100%;
@@ -359,3 +461,6 @@
     width: 100%;
   }
 }
+
+/* ============================================================= */
+/* ============================================================= */

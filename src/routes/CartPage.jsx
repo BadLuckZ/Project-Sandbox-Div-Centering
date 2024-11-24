@@ -19,6 +19,7 @@ const contentLimit = 4;
 const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
   const [moreItems, setMoreItems] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false);
   const navigator = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setActiveCategory } = useContext(CategoryContext);
@@ -47,6 +48,29 @@ const CartPage = () => {
     };
   }, []);
 
+  const handleCheckout = () => {
+    setShowPopUp(true);
+
+    const id = setTimeout(() => {
+      const progressBar = document.querySelector(
+        ".cartpage-popup-progress-bar"
+      );
+      if (progressBar) {
+        progressBar.style.width = "100%";
+      }
+    }, 0);
+
+    setTimeout(() => {
+      navigator("/");
+      setCart([]);
+      setShowPopUp(false);
+    }, 3000);
+
+    return () => {
+      clearInterval(id);
+    };
+  };
+
   const handleRemoveItem = (item) => {
     const newCart = cart.filter((cartItem) => cartItem.id !== item.id);
     setCart(newCart);
@@ -73,8 +97,6 @@ const CartPage = () => {
       price,
       promotionalPrice,
     } = item;
-
-    console.log(variants);
 
     const [selectedColor, setSelectedColor] = useState(currentVariant.color);
     const [selectedSize, setSelectedSize] = useState(currentVariant.size);
@@ -139,6 +161,24 @@ const CartPage = () => {
 
     return (
       <>
+        {/* Popup Content */}
+        {showPopUp && (
+          <div className="cartpage-popup-overlay">
+            <div className="cartpage-popup-container">
+              <div className="cartpage-popup-progress">
+                <div className="cartpage-popup-progress-bar"></div>
+              </div>
+              <div className="cartpage-popup-content">
+                <div className="cartpage-popup-logo">
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </div>
+                <div className="cartpage-popup-title1">THANK YOU</div>
+                <div className="cartpage-popup-title2">FOR YOUR PURCHASE</div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="cartpage-content-item">
           <img
             className="cartpage-content-item-image"
@@ -429,7 +469,8 @@ const CartPage = () => {
                   className="cartpage-content-summary-checkout"
                   disabled={!hasItemInCart}
                   onClick={() => {
-                    window.open("https://popdeng.click/", "_blank");
+                    setShowPopUp(true);
+                    handleCheckout();
                   }}
                   sx={{
                     background: hasItemInCart
@@ -494,7 +535,6 @@ const CartPage = () => {
                 return (
                   <ProductCard
                     key={item + idx}
-                    id={item.id}
                     permalink={item.permalink}
                     name={item.name}
                     description={item.description}

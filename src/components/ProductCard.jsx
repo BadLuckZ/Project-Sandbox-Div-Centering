@@ -3,7 +3,6 @@ import { formatInteger, handleScrollToTop } from "../js/utils";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({
-  id,
   permalink,
   name,
   description,

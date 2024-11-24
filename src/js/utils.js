@@ -132,3 +132,7 @@ export const getRandomItems = (arr, num) => {
   }
   return result;
 };
+
+export const updateCart = (cart) => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+};

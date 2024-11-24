@@ -36,8 +36,6 @@ const HomePage = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const { setActiveCategory } = useContext(CategoryContext);
-  const isMobile = useMediaQuery("(max-width:425px)");
-  const isTablet = useMediaQuery("(min-width:426px) and (max-width:768px)");
 
   useEffect(() => {
     let isMounted = false;
@@ -94,9 +92,9 @@ const HomePage = () => {
           <div className="homepage-featured-items">
             <Skeleton variant="text" width={"100%"} height={48} />
             <div className="homepage-featured-items-grid">
-              {[...Array(4)].map((item) => (
+              {[...Array(4)].map((item, idx) => (
                 <Skeleton
-                  key={item}
+                  key={`${item}-${idx}`}
                   variant="rectangular"
                   width={"100%"}
                   height={425}
@@ -143,7 +141,6 @@ const HomePage = () => {
             {featuredItems.map((item) => (
               <ProductCard
                 key={item.id}
-                id={item.id}
                 permalink={item.permalink}
                 name={item.name}
                 description={item.description}
