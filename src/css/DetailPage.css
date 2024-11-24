@@ -49,6 +49,7 @@
   width: 900px;
   height: fit-content;
   padding: 24px;
+  margin: 16px;
   flex-direction: column;
 }
 
@@ -177,6 +178,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    gap: 20px;
   }
 
   .detailpage-popup-info > div {

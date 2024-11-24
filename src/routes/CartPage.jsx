@@ -371,6 +371,9 @@ const CartPage = () => {
     (price, item) => price + item.quantity * item.promotionalPrice,
     0
   );
+  const shippingPriceInCart = 0;
+  const totalPrice = totalPriceInCart + shippingPriceInCart;
+
   const hasItemInCart = totalItemsInCart !== 0;
 
   return (
@@ -407,7 +410,7 @@ const CartPage = () => {
                   <div
                     className="cartpage-content-empty-continue"
                     onClick={() => {
-                      navigator(-1);
+                      navigator("/");
                     }}
                   >
                     <p>Continue Shopping</p>
@@ -452,7 +455,7 @@ const CartPage = () => {
                 <SummaryItem
                   hasItemInCart={hasItemInCart}
                   leftValue={"Shipping Fee"}
-                  rightValue={0}
+                  rightValue={shippingPriceInCart}
                 />
               </div>
               <hr />
@@ -461,7 +464,7 @@ const CartPage = () => {
                   hasItemInCart={hasItemInCart}
                   leftValue={"Total"}
                   isFinal={true}
-                  rightValue={0}
+                  rightValue={totalPrice}
                 />
               </div>
               <div className="cartpage-content-summary-buttons">
